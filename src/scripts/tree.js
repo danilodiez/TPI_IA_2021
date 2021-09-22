@@ -47,5 +47,8 @@ const getCSV = async () => {
   return parsedData
 }
 
-
-getCSV().then(data => console.log(data))
+var dataToProcess
+getCSV().then(data => {
+  dataToProcess = data
+  console.log(dataToProcess.map(a => a.Age))
+})
