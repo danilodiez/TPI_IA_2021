@@ -23,32 +23,22 @@ TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 const fs = require('fs');
-const Papa = require('papaparse');
-const csvFilePath = '../data/drug200.csv'
+const dfd = require("danfojs-node")
+const csvFilePath = "src/scripts/drug200.csv"
 
 // Function to read csv which returns a promise so you can do async / await.
 
-const readCSVfromLocal = async (filePath) => {
-  const csvFile = fs.readFileSync(filePath)
-  const csvData = csvFile.toString()
-  return new Promise(resolve => {
-    Papa.parse(csvData, {
-      header: true,
-      complete: results => {
-        console.log('Complete', results.data.length, 'records.');
-        resolve(results.data);
-      }
-    });
-  });
-};
 
-const getCSV = async () => {
-  let parsedData = await readCSVfromLocal(csvFilePath);
-  return parsedData
-}
+// const csvFile = fs.readFileSync(csvFilePath)
+// const csvData = csvFile.toString()
 
-var dataToProcess
-getCSV().then(data => {
-  dataToProcess = data
-  console.log(dataToProcess.map(a => a.Age))
-})
+dfd.read_csv(csvFilePath)
+  .then(df => {
+    //prints the first five columns
+    df.head().print()
+    //prints all column names
+    console.log(df.column_names);
+  })
+  .catch(err => {
+    console.log(err)
+  })
