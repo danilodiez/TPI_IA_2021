@@ -26,26 +26,6 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 const dfd = require("danfojs-node")
 const csvFilePath = "src/data/drug200.csv"
 
-
-// dfd.read_csv(csvFilePath)
-//   .then(df => {
-//     //prints the first five columns
-//     df.head().print()
-
-//     //prints all column names
-//     columnNames = df.column_names
-
-//     //decision column
-//     decisionColumn = df[df.column_names[df.column_names.length-1]]
-//     //the data is stored in decisionColumn.col_data
-//     attributesWithoutDecisionLen = df.column_names.length - 2
-
-//     return df
-//   })
-//   .catch(err => {
-//     console.log(err)
-//   })
-
 var dataFrame
 
 const getData = async (csvUrl) => {
@@ -55,6 +35,14 @@ const getData = async (csvUrl) => {
 
 const decisionTree = (data, attr, tree) => {
   console.log(data)
+}
+
+const dataFrameEntropy = (data) => {
+  console.log('*Calculando la entropia*')
+}
+
+const atrributeEntropy = (data, atrr) => {
+  console.log('*Calculando la entropia del atributo*')
 }
 
 const uniqueClass = (data) => {
@@ -70,7 +58,6 @@ const uniqueClass = (data) => {
 const main = async () => {
   dataFrame = await getData(csvFilePath)
   console.log(uniqueClass(dataFrame))
-
 
 }
 
