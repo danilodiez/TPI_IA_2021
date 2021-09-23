@@ -22,23 +22,56 @@ TODO:        creamos una rama con nodo decision para Tj como hijo de T
 TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
-const fs = require('fs');
+
 const dfd = require("danfojs-node")
 const csvFilePath = "src/data/drug200.csv"
 
-// Function to read csv which returns a promise so you can do async / await.
+
+// dfd.read_csv(csvFilePath)
+//   .then(df => {
+//     //prints the first five columns
+//     df.head().print()
+
+//     //prints all column names
+//     columnNames = df.column_names
+
+//     //decision column
+//     decisionColumn = df[df.column_names[df.column_names.length-1]]
+//     //the data is stored in decisionColumn.col_data
+//     attributesWithoutDecisionLen = df.column_names.length - 2
+
+//     return df
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+
+var dataFrame
+
+const getData = async (csvUrl) => {
+  let dataFrame = await dfd.read_csv(csvUrl)
+  return dataFrame
+}
+
+const decisionTree = (data, attr, tree) => {
+  console.log(data)
+}
+
+const uniqueClass = (data) => {
+  //La ultima columna siempre sera la de decision
+  let decisionColumn = data[data.column_names[data.column_names.length-1]]
+  let decisionValues = decisionColumn.values
+  //! DANFOS tiene una funcion para comprobar por unicos, hay que preguntar si podemos usar
+  // si contiene una sola clase retornar true
+  return decisionColumn.nunique() === 1;
+
+}
+
+const main = async () => {
+  dataFrame = await getData(csvFilePath)
+  console.log(uniqueClass(dataFrame))
 
 
-// const csvFile = fs.readFileSync(csvFilePath)
-// const csvData = csvFile.toString()
+}
 
-dfd.read_csv(csvFilePath)
-  .then(df => {
-    //prints the first five columns
-    df.head().print()
-    //prints all column names
-    console.log(df.column_names);
-  })
-  .catch(err => {
-    console.log(err)
-  })
+main()
