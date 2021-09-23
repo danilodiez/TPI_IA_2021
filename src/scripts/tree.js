@@ -24,7 +24,7 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 const fs = require('fs');
 const dfd = require("danfojs-node")
-const csvFilePath = "src/scripts/drug200.csv"
+const csvFilePath = "src/data/drug200.csv"
 
 // Function to read csv which returns a promise so you can do async / await.
 
