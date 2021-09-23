@@ -33,10 +33,6 @@ const getData = async (csvUrl) => {
   return dataFrame
 }
 
-const decisionTree = (data, attr, tree) => {
-  console.log(data)
-}
-
 const dataFrameEntropy = (data) => {
   console.log('*Calculando la entropia*')
 }
@@ -53,6 +49,24 @@ const uniqueClass = (data) => {
   // si contiene una sola clase retornar true
   return decisionColumn.nunique() === 1;
 
+}
+
+const atrributesEmpty = (attributes) => {
+  return attributes == null
+}
+
+const selectAttrWithBestGain = (attr, gain) => {
+  console.log('Seleccionando atributo MAS OPTIMO ndea')
+}
+
+const decisionTree = (data, attr, tree) => {
+  if (uniqueClass(data)) {
+    console.log("Hacer hoja")
+  } else if (atrributesEmpty(attr)) {
+    console.log("Hacer hoja por atributos vacio")
+  } else {
+    console.log("Empieza la magia del abrolito")
+  }
 }
 
 const main = async () => {
