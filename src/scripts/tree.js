@@ -24,7 +24,8 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
 const dfd = require("danfojs-node")
-const csvFilePath = "src/data/drug200.csv"
+const csvFilePath = "../data/drug200.csv"
+const lodash = require("lodash")
 
 var dataFrame
 
@@ -33,8 +34,28 @@ const getData = async (csvUrl) => {
   return dataFrame
 }
 
+log2 = function(x) {
+  return Math.log(x) / Math.log(2);
+};
+
 const dataFrameEntropy = (data) => {
-  console.log('*Calculando la entropia*')
+  
+  var entropy = 0 ;
+
+  /* devuelve todas las clases con la cantidad de valores*/
+  var uniqueValues = lodash.countBy(data.data,(data) => {
+    return  data[data.length - 1 ]
+  });
+  
+  let classesNames = Object.keys(uniqueValues);
+  
+  classesNames.forEach(eachClass => {
+    let className = eachClass;
+    let probability = uniqueValues[className] / data.data.length;
+    entropy += probability * log2(probability);
+  });
+
+  return -entropy
 }
 
 const atrributeEntropy = (data, atrr) => {
@@ -71,8 +92,10 @@ const decisionTree = (data, attr, tree) => {
 
 const main = async () => {
   dataFrame = await getData(csvFilePath)
-  console.log(uniqueClass(dataFrame))
 
+  var entropyD = dataFrameEntropy(dataFrame)
+
+  console.log("Entropia del conjunto",entropyD)
 }
 
 main()
