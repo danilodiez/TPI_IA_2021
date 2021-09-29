@@ -140,11 +140,14 @@ const impurityEval2 = (attr, data) => {
 
     entropy += (occurrences / n) * subsetEntropy;
   });
-
-  console.log('entropia del atributo', attr);
-  console.log(entropy);
-  // return entropy
+  
+  return entropy
 };
+
+// dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
+
+const gain = (entropyD,entropyOfAttr) =>  entropyD - entropyOfAttr;
+
 
 const uniqueClass = (data) => {
   //La ultima columna siempre sera la de decision
@@ -172,15 +175,17 @@ const decisionTree = (data, attr, tree) => {
     console.log('Empieza la magia del abrolito');
   }
 };
-
+//TO DO Tratar atributos continuos ???
 const main = async () => {
   dataFrame = await getData(csvFilePath);
   // console.log(uniqueClass(dataFrame))
-  console.log("ImpurityEval",ImpurityEval1(dataFrame))
+  //Entropia del conjunto
+  let entropyD = ImpurityEval1(dataFrame);
   const { columns: attributes } = dataFrame;
   // en c4.5, linea 8 sería
   attributes.forEach((attribute) => {
-    impurityEval2(attribute, dataFrame);
+    const entropyAttribute = impurityEval2(attribute, dataFrame);
+    console.log("ganancia",gain(entropyD,entropyAttribute)) 
   });
 };
 
