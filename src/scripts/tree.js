@@ -24,7 +24,8 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
 const dfd = require("danfojs-node")
-const csvFilePath = "src/data/drug200.csv"
+const csvFilePath = "../data/drug200.csv";
+const threshold = 3;
 
 var dataFrame
 
@@ -57,6 +58,16 @@ const atrributesEmpty = (attributes) => {
 
 const selectAttrWithBestGain = (attr, gain) => {
   console.log('Seleccionando atributo MAS OPTIMO ndea')
+  bestGain = 0;
+
+  gain.forEach((eachGain, index) => {
+    if (eachGain > bestGain) {
+      bestGain = eachGain;
+      attrWithBestGain = attr[index];
+    }
+  });
+
+  return attrWithBestGain;
 }
 
 const decisionTree = (data, attr, tree) => {
@@ -66,6 +77,12 @@ const decisionTree = (data, attr, tree) => {
     console.log("Hacer hoja por atributos vacio")
   } else {
     console.log("Empieza la magia del abrolito")
+
+    if (bestGain < threshold) {
+      console.log("Genero una hoja de T rotulada con Cj")
+    } else {
+      console.log("Genero un nodo decision rotulado con Cj")
+    }
   }
 }
 
