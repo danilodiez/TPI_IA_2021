@@ -27,6 +27,7 @@ const dfd = require("danfojs-node")
 const csvFilePath = "../data/drug200.csv";
 const threshold = 3;
 const lodash = require("lodash")
+const gains = [];
 var dataFrame;
 
 const getData = async (csvUrl) => {
@@ -145,9 +146,9 @@ const impurityEval2 = (attr, data) => {
 };
 
 // dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
-
-const gain = (entropyD,entropyOfAttr) =>  entropyD - entropyOfAttr;
-
+const gain = (entropyD,entropyOfAttr) =>  {
+  return (entropyD - entropyOfAttr)
+};
 
 const uniqueClass = (data) => {
   //La ultima columna siempre sera la de decision
@@ -162,11 +163,11 @@ const atrributesEmpty = (attributes) => {
   return attributes == null;
 };
 
-const selectAttrWithBestGain = (attr, gain) => {
+/* const selectAttrWithBestGain = (attributes, gains) => {
   console.log('Seleccionando atributo MAS OPTIMO ndea')
   bestGain = 0;
 
-  gain.forEach((eachGain, index) => {
+  gains.forEach((eachGain, index) => {
     if (eachGain > bestGain) {
       bestGain = eachGain;
       attrWithBestGain = attr[index];
@@ -174,19 +175,7 @@ const selectAttrWithBestGain = (attr, gain) => {
   });
 
   return attrWithBestGain;
-};
-
-const decisionTree = (data, attr, tree) => {
-  if (uniqueClass(data)) {
-    console.log('Hacer hoja');
-  } else if (atrributesEmpty(attr)) {
-    console.log('Hacer hoja por atributos vacio');
-  } else {
-    console.log('Empieza la magia del abrolito');
-  }
-
-
-};
+}; */
 
 const decisionTree = (data, attr, tree) => {
   if (uniqueClass(data)) {
@@ -196,26 +185,43 @@ const decisionTree = (data, attr, tree) => {
     } else {
       console.log("Empieza la magia del abrolito");
     }
-
-  if (bestGain < threshold) {
-    console.log("Genero una hoja de T rotulada con Cj")
-  } else {
-    console.log("Genero un nodo decision rotulado con Cj")
-  }
 };
 
 //TO DO Tratar atributos continuos ???
 const main = async () => {
+  const gains = [];
+  var bestGain = {};
+
   dataFrame = await getData(csvFilePath);
-  // console.log(uniqueClass(dataFrame))
+
   //Entropia del conjunto
   let entropyD = ImpurityEval1(dataFrame);
   const { columns: attributes } = dataFrame;
+
   // en c4.5, linea 8 sería
   attributes.forEach((attribute) => {
     const entropyAttribute = impurityEval2(attribute, dataFrame);
-    console.log("ganancia",gain(entropyD,entropyAttribute)) 
+    gains.push({
+      attribute: attribute, 
+      gain: gain(entropyD,entropyAttribute)
+    })
   });
+  
+  // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
+  gains.sort(function(a,b){
+    return b.gain - a.gain
+  })
+
+  // obtengo el atributo con la mejor ganancia
+  bestGain = gains[0];
+  console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
+
+  if (bestGain.gain < threshold) {
+    console.log("Genero una hoja de T rotulada con Cj")
+  } else {
+    console.log("Genero un nodo decision rotulado con Cj");
+    /* fala el ultimo for */
+  }
 };
 
 main();
