@@ -23,9 +23,9 @@ TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
-const dfd = require("danfojs-node")
-const csvFilePath = "../data/drug200.csv"
-const lodash = require("lodash")
+const dfd = require('danfojs-node');
+const csvFilePath = 'src/data/drug200.csv';
+const lodash = require('lodash');
 
 var dataFrame;
 
@@ -38,29 +38,29 @@ const log2 = (x) => {
   return Math.log(x) / Math.log(2);
 };
 
-const countValuesOcurrences = function(data,index){
-  var countValuesOcurrences = lodash.countBy(data,(data) => {
-    return  data[index]
+const countValuesOcurrences = function (data, index) {
+  var countValuesOcurrences = lodash.countBy(data, (data) => {
+    return data[index];
   });
-  return countValuesOcurrences
-}
+  return countValuesOcurrences;
+};
 
 const ImpurityEval1 = (dataframe) => {
-  var entropy = 0 ;
-  var classIndex = dataframe.data[0].length - 1
+  var entropy = 0;
+  var classIndex = dataframe.data[0].length - 1;
   /* devuelve todas las clases con la cantidad de valores*/
-  var occurrencesOfClasses = countValuesOcurrences(dataframe.data,classIndex)
-  
+  var occurrencesOfClasses = countValuesOcurrences(dataframe.data, classIndex);
+
   let classesNames = Object.keys(occurrencesOfClasses);
-  
-  classesNames.forEach(eachClass => {
+
+  classesNames.forEach((eachClass) => {
     let className = eachClass;
     let probability = occurrencesOfClasses[className] / dataframe.data.length;
     entropy += probability * log2(probability);
   });
-  
-  return -entropy
-}
+
+  return -entropy;
+};
 
 // dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
 const countOccurrences = (array) =>
@@ -140,14 +140,13 @@ const impurityEval2 = (attr, data) => {
 
     entropy += (occurrences / n) * subsetEntropy;
   });
-  
-  return entropy
+
+  return entropy;
 };
 
 // dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
 
-const gain = (entropyD,entropyOfAttr) =>  entropyD - entropyOfAttr;
-
+const gain = (entropyD, entropyOfAttr) => entropyD - entropyOfAttr;
 
 const uniqueClass = (data) => {
   //La ultima columna siempre sera la de decision
@@ -175,17 +174,41 @@ const decisionTree = (data, attr, tree) => {
     console.log('Empieza la magia del abrolito');
   }
 };
-//TO DO Tratar atributos continuos ???
+
+const isFloat = (n) => {
+  return Number(n) === n && n % 1 !== 0;
+};
+
+const checkForContinuesValues = (allAttributeValues) => {
+  const newDataFrame = [];
+
+  allAttributeValues.forEach((attributeValues) => {
+    const hasContinuesValues = attributeValues.some((value) => isFloat(value));
+
+    if (!hasContinuesValues) {
+      newDataFrame.push(attributeValues);
+    }
+  });
+
+  console.log('newDataFrame');
+  console.log(newDataFrame);
+  // return newDataFrame
+};
+
 const main = async () => {
   dataFrame = await getData(csvFilePath);
-  // console.log(uniqueClass(dataFrame))
-  //Entropia del conjunto
+
+  checkForContinuesValues(dataFrame.col_data);
+
+  // console.log(uniqueClass(dataFrame));
+
+  // Entropia del conjunto
   let entropyD = ImpurityEval1(dataFrame);
   const { columns: attributes } = dataFrame;
   // en c4.5, linea 8 sería
   attributes.forEach((attribute) => {
     const entropyAttribute = impurityEval2(attribute, dataFrame);
-    console.log("ganancia",gain(entropyD,entropyAttribute)) 
+    console.log('ganancia', gain(entropyD, entropyAttribute));
   });
 };
 
