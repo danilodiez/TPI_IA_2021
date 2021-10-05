@@ -27,7 +27,6 @@ const dfd = require("danfojs-node")
 const csvFilePath = "../data/drug200.csv";
 const threshold = 3;
 const lodash = require("lodash")
-const gains = [];
 var dataFrame;
 
 const getData = async (csvUrl) => {
@@ -48,7 +47,7 @@ const countValuesOcurrences = function(data,index){
 
 const ImpurityEval1 = (dataframe) => {
   var entropy = 0 ;
-  var classIndex = dataframe.data[0].length - 1
+  var classIndex = dataframe.data[0].length - 1;
   /* devuelve todas las clases con la cantidad de valores*/
   var occurrencesOfClasses = countValuesOcurrences(dataframe.data,classIndex)
   
@@ -163,22 +162,8 @@ const atrributesEmpty = (attributes) => {
   return attributes == null;
 };
 
-/* const selectAttrWithBestGain = (attributes, gains) => {
-  console.log('Seleccionando atributo MAS OPTIMO ndea')
-  bestGain = 0;
-
-  gains.forEach((eachGain, index) => {
-    if (eachGain > bestGain) {
-      bestGain = eachGain;
-      attrWithBestGain = attr[index];
-    }
-  });
-
-  return attrWithBestGain;
-}; */
-
-const decisionTree = (data, attr, tree) => {
-  if (uniqueClass(data)) {
+const decisionTree = (dataFrame, attr, tree) => {
+  if (uniqueClass(dataFrame)) {
     console.log('Hacer hoja');
   } else if (atrributesEmpty(attr)) {
     console.log('Hacer hoja por atributos vacio');
@@ -186,6 +171,15 @@ const decisionTree = (data, attr, tree) => {
       console.log("Empieza la magia del abrolito");
     }
 };
+
+const recursion = (data, attr) => {
+  array.forEach(element => {
+    if ('distinto de vacio') {
+      console.log('creo una rama desde el nodo origen a cada nodo hijo')
+      decisionTree(dataFrame, attr, tree)
+    }
+  });
+}
 
 //TO DO Tratar atributos continuos ???
 const main = async () => {
@@ -220,7 +214,7 @@ const main = async () => {
     console.log("Genero una hoja de T rotulada con Cj")
   } else {
     console.log("Genero un nodo decision rotulado con Cj");
-    /* fala el ultimo for */
+    recursion(dataFrame, attributes);
   }
 };
 
