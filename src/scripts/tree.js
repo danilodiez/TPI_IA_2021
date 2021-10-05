@@ -23,10 +23,13 @@ TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
-const dfd = require("danfojs-node")
-const csvFilePath = "../data/drug200.csv"
-const lodash = require("lodash")
+//! quizá conviene poner el algoritmo anterior en otro archivo, como un .md :)
 
+const dfd = require('danfojs-node');
+const csvFilePath = '../data/drug200.csv';
+const lodash = require('lodash');
+
+//! no usemos var, siempre const y si no es constante usemos let
 var dataFrame;
 
 const getData = async (csvUrl) => {
@@ -38,30 +41,40 @@ const log2 = (x) => {
   return Math.log(x) / Math.log(2);
 };
 
-const countValuesOcurrences = function(data,index){
-  var countValuesOcurrences = lodash.countBy(data,(data) => {
-    return  data[index]
+//! usemos arrow functions! =>
+//! capaz aca nos conviene devolver un array, lo cual es mas adecuado para iterar
+// retorna 1 objeto del tipo: { class1: 12, class2: 43, class3: 4}
+const countValuesOcurrences = function (data, index) {
+  //! no usemos var, siempre const y si no es constante usemos let
+  var countValuesOcurrences = lodash.countBy(data, (data) => {
+    return data[index];
   });
-  return countValuesOcurrences
-}
+  return countValuesOcurrences;
+};
 
+//! cambiar nombre a impurityEval1, seamos consistentes con las convenciones para las funciones :D
 const ImpurityEval1 = (dataframe) => {
-  var entropy = 0 ;
-  var classIndex = dataframe.data[0].length - 1
-  /* devuelve todas las clases con la cantidad de valores*/
-  var occurrencesOfClasses = countValuesOcurrences(dataframe.data,classIndex)
-  
+  //! no usemos var, siempre const y si no es constante usemos let
+  var entropy = 0;
+  var classIndex = dataframe.data[0].length - 1;
+
+  // devuelve todas las clases con la cantidad de valores
+  var occurrencesOfClasses = countValuesOcurrences(dataframe.data, classIndex);
+
   let classesNames = Object.keys(occurrencesOfClasses);
-  
-  classesNames.forEach(eachClass => {
+
+  classesNames.forEach((eachClass) => {
+    //! por que hacemos esa asinacion? usemos className directamente en el parametro del callback del forEach
     let className = eachClass;
+    //! pongamos: dataframe.data.length en una variable aparte mas descriptiva
     let probability = occurrencesOfClasses[className] / dataframe.data.length;
     entropy += probability * log2(probability);
   });
-  
-  return -entropy
-}
 
+  return -entropy;
+};
+
+//! countOccurrences no hace lo mismo que countValuesOcurrences ? (linea 47)
 // dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
 const countOccurrences = (array) =>
   array.reduce(
@@ -72,7 +85,7 @@ const countOccurrences = (array) =>
   );
 
 // dado un arreglo de 2 dimensiones, retorna un nuevo arreglo con todos los valores de una columna
-// hasta ahora lo uso unicamente para obtener los valores de una clase de un subset
+// hasta ahora se usa unicamente para obtener los valores de una clase de un subset
 const getValuesOfColumn = (array, index) =>
   array.map((element) => element[index]);
 
@@ -140,24 +153,25 @@ const impurityEval2 = (attr, data) => {
 
     entropy += (occurrences / n) * subsetEntropy;
   });
-  
-  return entropy
+
+  return entropy;
 };
 
 // dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
+const gain = (entropyD, entropyOfAttr) => entropyD - entropyOfAttr;
 
-const gain = (entropyD,entropyOfAttr) =>  entropyD - entropyOfAttr;
-
-
+//! cambiar nombre a isUniqueClass, porque retorna un booleano
 const uniqueClass = (data) => {
+  //! usar mas variables para esto: data[data.column_names[data.column_names.length - 1]], asi no queda un one line tan grande y complejo
   //La ultima columna siempre sera la de decision
   let decisionColumn = data[data.column_names[data.column_names.length - 1]];
-  let decisionValues = decisionColumn.values;
+
   //! DANFOS tiene una funcion para comprobar por unicos, hay que preguntar si podemos usar
   // si contiene una sola clase retornar true
   return decisionColumn.nunique() === 1;
 };
 
+//! cambiar nombre a isAttributesEmpty, porque retorna un booleano
 const atrributesEmpty = (attributes) => {
   return attributes == null;
 };
@@ -175,7 +189,7 @@ const decisionTree = (data, attr, tree) => {
     console.log('Empieza la magia del abrolito');
   }
 };
-//TO DO Tratar atributos continuos ???
+
 const main = async () => {
   dataFrame = await getData(csvFilePath);
   // console.log(uniqueClass(dataFrame))
@@ -185,7 +199,7 @@ const main = async () => {
   // en c4.5, linea 8 sería
   attributes.forEach((attribute) => {
     const entropyAttribute = impurityEval2(attribute, dataFrame);
-    console.log("ganancia",gain(entropyD,entropyAttribute)) 
+    console.log('ganancia', gain(entropyD, entropyAttribute));
   });
 };
 
