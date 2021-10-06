@@ -25,7 +25,7 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 
 const dfd = require("danfojs-node")
 const csvFilePath = "../data/drug200.csv";
-const threshold = 3;
+const threshold = 0.1;
 const lodash = require("lodash")
 var dataFrame;
 
@@ -45,7 +45,7 @@ const countValuesOcurrences = function(data,index){
   return countValuesOcurrences
 }
 
-const ImpurityEval1 = (dataframe) => {
+const impurityEval1 = (dataframe) => {
   var entropy = 0 ;
   var classIndex = dataframe.data[0].length - 1;
   /* devuelve todas las clases con la cantidad de valores*/
@@ -62,6 +62,24 @@ const ImpurityEval1 = (dataframe) => {
   return -entropy
 }
 
+const partition = (indexOfSelectedAttr, dataframe) => {
+  let valuesOfAttr = Object.keys(countValuesOcurrences(dataframe.data,indexOfSelectedAttr))  
+  let subsets = [];
+  //Comparo el valor del atributo con cada fila del dataframe y pusheo en un nuevo dataset las filas que tienen ese valor ( seria lo que hace en la linea 16 del algoritmo)
+  valuesOfAttr.forEach( value => {
+    
+    let newSubset = [];
+    
+    dataframe.data.forEach ( row => {
+      if (row[indexOfSelectedAttr] == value ){
+        row.splice(indexOfSelectedAttr,1); //elimina el valor de ese atributo que al llamar recursivamente no se utiliza mas 
+        newSubset.push(row)
+      };
+    });
+    subsets.push(newSubset);
+  });
+  return {subsets,valuesOfAttr};
+};
 // dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
 const countOccurrences = (array) =>
   array.reduce(
@@ -76,6 +94,7 @@ const countOccurrences = (array) =>
 const getValuesOfColumn = (array, index) =>
   array.map((element) => element[index]);
 
+//? Aca se deberia cambiar data por dataframe como hacemos en todas las funciones
 const impurityEval2 = (attr, data) => {
   const { columns: attributes } = data;
 
@@ -172,16 +191,6 @@ const decisionTree = (dataFrame, attr, tree) => {
     }
 };
 
-const recursion = (data, attr) => {
-  array.forEach(element => {
-    if ('distinto de vacio') {
-      console.log('creo una rama desde el nodo origen a cada nodo hijo')
-      decisionTree(dataFrame, attr, tree)
-    }
-  });
-}
-
-//TO DO Tratar atributos continuos ???
 const main = async () => {
   const gains = [];
   var bestGain = {};
@@ -189,16 +198,21 @@ const main = async () => {
   dataFrame = await getData(csvFilePath);
 
   //Entropia del conjunto
-  let entropyD = ImpurityEval1(dataFrame);
+  let entropyD = impurityEval1(dataFrame);
+  
   const { columns: attributes } = dataFrame;
+  const indexOfClass = attributes.length - 1;
 
   // en c4.5, linea 8 sería
-  attributes.forEach((attribute) => {
-    const entropyAttribute = impurityEval2(attribute, dataFrame);
-    gains.push({
-      attribute: attribute, 
-      gain: gain(entropyD,entropyAttribute)
-    })
+  attributes.forEach( (attribute, index) => {
+    if (index != indexOfClass){
+      const entropyAttribute = impurityEval2(attribute, dataFrame);
+      gains.push({
+        attribute: attribute, 
+        gain: gain(entropyD,entropyAttribute),
+        index: index
+      })
+    };
   });
   
   // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
@@ -207,15 +221,30 @@ const main = async () => {
   })
 
   // obtengo el atributo con la mejor ganancia
-  bestGain = gains[0];
+  bestGain = gains[1]; // Esto cambie solo para probar con atributos discretos 
   console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
   if (bestGain.gain < threshold) {
     console.log("Genero una hoja de T rotulada con Cj")
   } else {
     console.log("Genero un nodo decision rotulado con Cj");
-    recursion(dataFrame, attributes);
-  }
+    
+    //valuesOfattr servira para la recursion 
+    const {subsets,valuesOfAttr} = partition(bestGain.index, dataFrame);
+
+    attributes.splice(bestGain.index,1); // elimina el atributo elegido ( A - {Ag})
+
+    let attributesWithoutSelected = attributes;
+
+    //linea 17 del algoritmo
+    subsets.forEach(subset => {
+      if (subset != [] ){
+        //CREAR RAMA
+        console.log("Aca tenemos el nuevo subconjunto de datos : ", subset );
+        console.log("Aca tenemos los atributos sin el atributo elegido : ", attributesWithoutSelected );
+      };
+    });
+  };
 };
 
 main();
