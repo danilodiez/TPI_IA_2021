@@ -24,7 +24,7 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
 const dfd = require('danfojs-node');
-const csvFilePath = 'src/data/drug200.csv';
+const csvFilePath = '../data/drug200.csv';
 const lodash = require('lodash');
 
 var dataFrame;
@@ -175,39 +175,37 @@ const decisionTree = (data, attr, tree) => {
   }
 };
 
-const isFloat = (n) => {
-  return Number(n) === n && n % 1 !== 0;
-};
+const checkForContinuesValues = (dataFrame) => {
+  const columnTypes = dataFrame.col_types;
+  const columnNames = dataFrame.columns;
 
-const checkForContinuesValues = (allAttributeValues) => {
-  const newDataFrame = [];
+  /* Danfo tiene 3 tipos de datos (string, int32 o float32),
+  nos interesa eliminar aquellos del tipo float32 */
 
-  allAttributeValues.forEach((attributeValues) => {
-    const hasContinuesValues = attributeValues.some((value) => isFloat(value));
-
-    if (!hasContinuesValues) {
-      newDataFrame.push(attributeValues);
+  columnTypes.forEach( (type, index) => {
+    if(type === 'float32') {
+      dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
     }
-  });
+  })
 
-  console.log('newDataFrame');
-  console.log(newDataFrame);
-  // return newDataFrame
+  //Retornamos el dataFrame sin valores continuos
+  return dataFrame;
+
 };
 
 const main = async () => {
   dataFrame = await getData(csvFilePath);
 
-  checkForContinuesValues(dataFrame.col_data);
+  const dataFrameWithoutContinuousAttributes = checkForContinuesValues(dataFrame);
 
   // console.log(uniqueClass(dataFrame));
 
   // Entropia del conjunto
-  let entropyD = ImpurityEval1(dataFrame);
-  const { columns: attributes } = dataFrame;
+  let entropyD = ImpurityEval1(dataFrameWithoutContinuousAttributes);
+  const { columns: attributes } = dataFrameWithoutContinuousAttributes;
   // en c4.5, linea 8 sería
   attributes.forEach((attribute) => {
-    const entropyAttribute = impurityEval2(attribute, dataFrame);
+    const entropyAttribute = impurityEval2(attribute, dataFrameWithoutContinuousAttributes);
     console.log('ganancia', gain(entropyD, entropyAttribute));
   });
 };
