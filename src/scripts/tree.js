@@ -168,6 +168,20 @@ const impurityEval2 = (attr, data) => {
 
 const gain = (entropyD, entropyOfAttr) => entropyD - entropyOfAttr;
 
+const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
+  let splitInfo = 0;
+  let occurrencesOfValues = countValuesOcurrences(dataframe.data, indexOfAttribute);
+  let valuesNames = Object.keys(occurrencesOfValues);
+
+  valuesNames.forEach((eachValue) => {
+    let valueName = eachValue;
+    let probability = occurrencesOfValues[valueName] / dataframe.data.length;
+    splitInfo += probability * log2(probability);
+  });
+
+  return gainValue / Math.abs(splitInfo); 
+};
+
 const uniqueClass = (data) => {
   //La ultima columna siempre sera la de decision
   let decisionColumn = data[data.column_names[data.column_names.length - 1]];
@@ -211,6 +225,7 @@ const checkForContinuesValues = (dataFrame) => {
 
 const main = async () => {
   const gains = [];
+  const gainsRatio = [];
   var bestGain = {};
 
   let dataFrame = await getData(csvFilePath);
@@ -226,11 +241,21 @@ const main = async () => {
   attributes.forEach( (attribute, index) => {
     if (index != indexOfClass){
       const entropyAttribute = impurityEval2(attribute, dataFrame);
+      
+      //todas las ganancias
       gains.push({
         attribute: attribute, 
         gain: gain(entropyD,entropyAttribute),
         index: index
       })
+
+      //todas las tasas de ganancia
+      gainsRatio.push({
+        index: index,
+        attribute: attribute,
+        gainRatio: gainRatio(gains[index].gain, dataFrame, index)
+      });
+      console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
     };
   });
   
@@ -249,7 +274,7 @@ const main = async () => {
     console.log("Genero un nodo decision rotulado con Cj");
     
     //valuesOfattr servira para la recursion 
-    const {subsets,valuesOfAttr} = partition(bestGain.index, dataFrame);
+    const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
 
     attributes.splice(bestGain.index,1); // elimina el atributo elegido ( A - {Ag})
 
