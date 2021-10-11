@@ -173,9 +173,10 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
   let occurrencesOfValues = countValuesOcurrences(dataframe.data, indexOfAttribute);
   let valuesNames = Object.keys(occurrencesOfValues);
 
-  valuesNames.forEach((eachValue) => {
+  valuesNames.forEach( eachValue => {
     let valueName = eachValue;
-    let probability = occurrencesOfValues[valueName] / dataframe.data.length;
+    let allExamples = dataframe.data.length;
+    let probability = occurrencesOfValues[valueName] / allExamples;
     splitInfo += probability * log2(probability);
   });
 
@@ -249,11 +250,13 @@ const main = async () => {
         index: index
       })
 
+      let attributeGain = gains[index].gain;
+      
       //todas las tasas de ganancia
       gainsRatio.push({
         index: index,
         attribute: attribute,
-        gainRatio: gainRatio(gains[index].gain, dataFrame, index)
+        gainRatio: gainRatio(attributeGain, dataFrame, index)
       });
       console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
     };
