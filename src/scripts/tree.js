@@ -23,10 +23,11 @@ TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
-const dfd = require("danfojs-node")
+import dfd from "danfojs-node"
 const threshold = 0.1;
-const lodash = require("lodash")
+import lodash from "lodash"
 const csvFilePath = '../data/drug200.csv';
+import Tree from '../classes/Tree.js'
 
 var dataFrame;
 
@@ -64,16 +65,16 @@ const impurityEval1 = (dataframe) => {
 };
 
 const partition = (indexOfSelectedAttr, dataframe) => {
-  let valuesOfAttr = Object.keys(countValuesOcurrences(dataframe.data,indexOfSelectedAttr))  
+  let valuesOfAttr = Object.keys(countValuesOcurrences(dataframe.data,indexOfSelectedAttr))
   let subsets = [];
   //Comparo el valor del atributo con cada fila del dataframe y pusheo en un nuevo dataset las filas que tienen ese valor ( seria lo que hace en la linea 16 del algoritmo)
   valuesOfAttr.forEach( value => {
-    
+
     let newSubset = [];
-    
+
     dataframe.data.forEach ( row => {
       if (row[indexOfSelectedAttr] == value ){
-        row.splice(indexOfSelectedAttr,1); //elimina el valor de ese atributo que al llamar recursivamente no se utiliza mas 
+        row.splice(indexOfSelectedAttr,1); //elimina el valor de ese atributo que al llamar recursivamente no se utiliza mas
         newSubset.push(row)
       };
     });
@@ -83,6 +84,7 @@ const partition = (indexOfSelectedAttr, dataframe) => {
 };
 // dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
 const countOccurrences = (array) =>
+
   array.reduce(
     (previous, current) => (
       (previous[current] = ++previous[current] || 1), previous
@@ -108,6 +110,7 @@ const impurityEval2 = (attr, data) => {
 
   // obtener la cantidad de ejemplos de cada subcojunto
   // retorna algo asi: { HIGH: 90, LOW: 81 }
+
   const occurrences = countOccurrences(AllValuesOfAttribute);
 
   const { data: allExamples } = data;
@@ -180,14 +183,16 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
     splitInfo += probability * log2(probability);
   });
 
-  return gainValue / Math.abs(splitInfo); 
+  return gainValue / Math.abs(splitInfo);
 };
 
 const uniqueClass = (data) => {
+
   //La ultima columna siempre sera la de decision
-  let decisionColumn = data[data.column_names[data.column_names.length - 1]];
+  let decisionColumn = data[data.columns[data.columns.length - 1]];
+
   let decisionValues = decisionColumn.values;
-  //! DANFOS tiene una funcion para comprobar por unicos, hay que preguntar si podemos usar
+
   // si contiene una sola clase retornar true
   return decisionColumn.nunique() === 1;
 };
@@ -196,15 +201,7 @@ const atrributesEmpty = (attributes) => {
   return attributes == null;
 };
 
-const decisionTree = (dataFrame, attr, tree) => {
-  if (uniqueClass(dataFrame)) {
-    console.log('Hacer hoja');
-  } else if (atrributesEmpty(attr)) {
-    console.log('Hacer hoja por atributos vacio');
-    } else {
-      console.log("Empieza la magia del abrolito");
-    }
-};
+
 
 const checkForContinuesValues = (dataFrame) => {
   const columnTypes = dataFrame.col_types;
@@ -224,75 +221,105 @@ const checkForContinuesValues = (dataFrame) => {
 
 };
 
-const main = async () => {
+const decisionTree = (dataFrame, attributes = [], tree) => {
+  var bestGain = {};
   const gains = [];
   const gainsRatio = [];
-  var bestGain = {};
 
-  let dataFrame = await getData(csvFilePath);
+  if (uniqueClass(dataFrame)) {
+    //todo Hacer una leaf en treee
+    console.log('Hacer hoja');
+    return
+  } else if (atrributesEmpty(attributes)) {
+    //TODO Hacer una leaf en tree
+    console.log('Hacer hoja por atributos vacio');
+    return
+    } else {
+        //Entropia del conjunto
+      let entropyD = impurityEval1(dataFrame);
 
-  dataFrame = checkForContinuesValues(dataFrame);
-  
-  //Entropia del conjunto
-  let entropyD = impurityEval1(dataFrame);
-  
-  const { columns: attributes } = dataFrame;
-  const indexOfClass = attributes.length - 1;
-  // en c4.5, linea 8 sería
-  attributes.forEach( (attribute, index) => {
-    if (index != indexOfClass){
-      const entropyAttribute = impurityEval2(attribute, dataFrame);
-      
-      //todas las ganancias
-      gains.push({
-        attribute: attribute, 
-        gain: gain(entropyD,entropyAttribute),
-        index: index
+
+      const indexOfClass = attributes.length - 1;
+      // en c4.5, linea 8 sería
+      attributes.forEach( (attribute, index) => {
+        if (index != indexOfClass){
+          const entropyAttribute = impurityEval2(attribute, dataFrame);
+          tree.entropy = entropyAttribute
+          //todas las ganancias
+          gains.push({
+            attribute: attribute,
+            gain: gain(entropyD,entropyAttribute),
+            index: index
+          })
+
+          let attributeGain = gains[index].gain;
+
+          //todas las tasas de ganancia
+          gainsRatio.push({
+            index: index,
+            attribute: attribute,
+            gainRatio: gainRatio(attributeGain, dataFrame, index)
+          });
+          console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
+        };
+      });
+
+      // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
+      gains.sort(function(a,b){
+        return b.gain - a.gain
       })
 
-      let attributeGain = gains[index].gain;
-      
-      //todas las tasas de ganancia
-      gainsRatio.push({
-        index: index,
-        attribute: attribute,
-        gainRatio: gainRatio(attributeGain, dataFrame, index)
-      });
-      console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
-    };
-  });
-  
-  // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
-  gains.sort(function(a,b){
-    return b.gain - a.gain
-  })
+      // obtengo el atributo con la mejor ganancia
+      bestGain = gains[0]; // Esto cambie solo para probar con atributos discretos
+      console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
-  // obtengo el atributo con la mejor ganancia
-  bestGain = gains[1]; // Esto cambie solo para probar con atributos discretos 
-  console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
-  if (bestGain.gain < threshold) {
-    console.log("Genero una hoja de T rotulada con Cj")
-  } else {
-    console.log("Genero un nodo decision rotulado con Cj");
-    
-    //valuesOfattr servira para la recursion 
-    const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
 
-    attributes.splice(bestGain.index,1); // elimina el atributo elegido ( A - {Ag})
+      if (bestGain.gain < threshold) {
+        console.log("Genero una hoja de T rotulada con Cj")
+        return
+      } else {
+        tree.gain = bestGain.gain
 
-    let attributesWithoutSelected = attributes;
+        console.log("Genero un nodo decision rotulado con Cj");
 
-    //linea 17 del algoritmo
-    subsets.forEach(subset => {
-      if (subset != [] ){
-        //CREAR RAMA
-        /*
-        console.log("Aca tenemos el nuevo subconjunto de datos : ", subset );
-        console.log("Aca tenemos los atributos sin el atributo elegido : ", attributesWithoutSelected );*/
+        //valuesOfattr servira para la recursion
+        const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
+
+        attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
+
+        let attributesWithoutSelected = attributes;
+
+        tree.node = bestGain.attribute
+        tree.branches = valuesOfAttr
+
+        //linea 17 del algoritmo
+        subsets.forEach(subset => {
+          if (subset != [] ){
+            let df = new dfd.DataFrame(subset)
+            df.columns = attributesWithoutSelected
+
+            return decisionTree(df, attributesWithoutSelected, tree)
+          };
+        });
+        console.log(tree)
       };
-    });
-  };
+        }
+    };
+
+const main = async () => {
+
+  //Ya estan seteados los valores por defecto en la primer instanciacion
+  var tree = new Tree()
+
+  let dataFrame = await getData(csvFilePath);
+  dataFrame = checkForContinuesValues(dataFrame);
+  const { columns: attributes } = dataFrame;
+  decisionTree(dataFrame, attributes, tree)
+
+
+
 };
+
 
 main();
