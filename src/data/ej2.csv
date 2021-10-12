@@ -1,0 +1,7 @@
+ID,FormacionSecundaria,Programa,Menosde3inasistencias,CondicionCursoProgramacion
+1,Tecnica,SI,SI,Regular
+2,Tecnica,SI,SI,Regular
+3,NoTecnica,SI,SI,Regular
+4,NoTecnica,NO,NO,Libre
+5,Tecnica,SI,NO,Regular
+6,Tecnica,NO,NO,Libre
