@@ -105,6 +105,8 @@ const impurityEval2 = (attr, data) => {
   const indexOfAttribute = attributes.indexOf(attr);
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
+  console.log(AllValuesOfAttribute)
+
 
   const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)].sort();
 
@@ -187,19 +189,17 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
 };
 
 const uniqueClass = (data) => {
-
+  data.every( (val, i, arr) => val === arr[0] )
   //La ultima columna siempre sera la de decision
-  let decisionColumn = data[data.columns[data.columns.length - 1]];
-
-  let decisionValues = decisionColumn.values;
-
+  // let decisionColumn = data[data.columns[data.columns.length - 1]];
   // si contiene una sola clase retornar true
-  return decisionColumn.nunique() === 1;
+  // return data.nunique() === 1;
 };
 
-const atrributesEmpty = (attributes) => {
-  return attributes == null;
-};
+const attributesEmpty = (attributes) => {
+
+  return attributes.length === 1
+}
 
 
 
@@ -226,11 +226,12 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   const gains = [];
   const gainsRatio = [];
 
-  if (uniqueClass(dataFrame)) {
+  let indexOfClasses = dataFrame.col_data.length - 1
+  if (uniqueClass(dataFrame.col_data[indexOfClasses])) {
     //todo Hacer una leaf en treee
     console.log('Hacer hoja');
     return
-  } else if (atrributesEmpty(attributes)) {
+  } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
     console.log('Hacer hoja por atributos vacio');
     return
