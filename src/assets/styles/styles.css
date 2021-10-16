@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("../fonts/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "Roboto-Black";
+  src: url("../fonts/Roboto-Black.ttf");
+}
+@font-face {
+  font-family: "Roboto-Bold";
+  src: url("../fonts/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "Roboto-Italic";
+  src: url("../fonts/Roboto-Black.ttf");
+}
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --aqua: #06bcc1;
+  --blue-dark: #12263a;
+  --roboto-regular: "Roboto-Regular";
+  --roboto-black: "Roboto-Black";
+  --roboto-bold: "Roboto-Bold";
+  --roboto-italic: "Roboto-Italic";
+}
