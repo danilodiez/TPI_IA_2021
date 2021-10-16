@@ -24,7 +24,7 @@ function App() {
             text="test text"
             type="success"
             size="lg"
-            onClick={handleClick}
+            style={{ color: 'lightGray' }}
           />
         </div>
         <div className="col-9 p-0">
