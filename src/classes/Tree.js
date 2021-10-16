@@ -1,8 +1,8 @@
 export default class Tree {
-  constructor(node = '',leafConfidence = '', className = '', entropy = null, gain = null, gainRatio = null, branches = [], isLeaf = false, descendants=[]) {
+  constructor(node = '',leafConfidence = '', classValue = '', entropy = null, gain = null, gainRatio = null, branches = [], isLeaf = false, descendants=[]) {
     this.node = node
     this.leafConfidence = leafConfidence
-    this.className = className
+    this.classValue = classValue
     this.gainRatio = gainRatio
     this.entropy = entropy
     this.gain = gain

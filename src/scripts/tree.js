@@ -26,7 +26,7 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 import dfd from "danfojs-node"
 const threshold = 0.1;
 import lodash from "lodash"
-const csvFilePath = '../data/drug200.csv';
+const csvFilePath = '../data/ej1.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
@@ -105,8 +105,6 @@ const impurityEval2 = (attr, data) => {
   const indexOfAttribute = attributes.indexOf(attr);
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
-  console.log(AllValuesOfAttribute)
-
 
   const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)].sort();
 
@@ -189,11 +187,11 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
 };
 
 const uniqueClass = (data) => {
-  data.every( (val, i, arr) => val === arr[0] )
   //La ultima columna siempre sera la de decision
   // let decisionColumn = data[data.columns[data.columns.length - 1]];
   // si contiene una sola clase retornar true
   // return data.nunique() === 1;
+  return data.every( (val, i, arr) => val === arr[0] )
 };
 
 const attributesEmpty = (attributes) => {
@@ -225,13 +223,22 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
+  var tree = new Tree();
 
   let indexOfClasses = dataFrame.col_data.length - 1
   if (uniqueClass(dataFrame.col_data[indexOfClasses])) {
     //todo Hacer una leaf en treee
-    console.log('Hacer hoja');
+    let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+    tree.classValue= Object.keys(classes[0])[0];
+    tree.leafConfidence = 1;
+    tree.isLeaf = true;
+
+    console.log("Hoja en condicion de salida 1",tree);
     
-    return tree.isLeaf = true
+    return 
   } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
     let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
@@ -244,6 +251,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     
     let mostCommonClass =Object.values(classes[0])[0]; 
     let totalOcurrences = 0
+
     classes.map( eachClass => {
       totalOcurrences += Object.values(eachClass)[0]
       
@@ -251,14 +259,16 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
 
     let confidence = `${mostCommonClass} / ${totalOcurrences}`;
 
-    tree.className = Object.keys(classes[0])[0];
+    tree.classValue = Object.keys(classes[0])[0];
     tree.leafConfidence = confidence;
+    tree.isLeaf = true;
+    
+    console.log("Hoja en condicion de salida 2",tree);
     /*console.log('Hacer hoja por atributos vacio');*/
-    return tree.isLeaf = true
+    return 
     } else {
         //Entropia del conjunto
       let entropyD = impurityEval1(dataFrame);
-
 
       const indexOfClass = attributes.length - 1;
       // en c4.5, linea 8 sería
@@ -294,14 +304,11 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       bestGain = gains[0]; // Esto cambie solo para probar con atributos discretos
       console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
-
-
       if (bestGain.gain < threshold) {
         console.log("Genero una hoja de T rotulada con Cj")
         return
       } else {
         tree.gain = bestGain.gain
-
         console.log("Genero un nodo decision rotulado con Cj");
 
         //valuesOfattr servira para la recursion
@@ -314,6 +321,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         tree.node = bestGain.attribute
         tree.branches = valuesOfAttr
 
+        console.log("Nodo",tree)
         //linea 17 del algoritmo
         subsets.forEach(subset => {
           if (subset != [] ){
@@ -323,7 +331,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             return decisionTree(df, attributesWithoutSelected, tree)
           };
         });
-        console.log(tree)
+        
       };
         }
     };
