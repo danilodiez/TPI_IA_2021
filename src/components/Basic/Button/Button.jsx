@@ -1,8 +1,20 @@
 import React from 'react';
 
-function Button({ text = 'press me', type = 'primary' }) {
+// TODO: Add styles
+function Button({
+  text = 'default button text',
+  type = 'primary',
+  size = 'lg',
+  disabled = false,
+  handleClick = () => console.log('Default onClick action'),
+}) {
   return (
-    <button type="button" class={`btn btn-${type}`}>
+    <button
+      type="button"
+      className={`btn btn-${type} btn-${size}`}
+      disabled={disabled}
+      onClick={handleClick}
+    >
       {text}
     </button>
   );
