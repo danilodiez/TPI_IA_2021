@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Button() {
+function Button({ text = 'press me', type = 'primary' }) {
   return (
-    <div>
-      <h1>Button</h1>
-    </div>
-  )
+    <button type="button" class={`btn btn-${type}`}>
+      {text}
+    </button>
+  );
 }
 
 export default Button;
