@@ -230,11 +230,31 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   if (uniqueClass(dataFrame.col_data[indexOfClasses])) {
     //todo Hacer una leaf en treee
     console.log('Hacer hoja');
-    return
+    
+    return tree.isLeaf = true
   } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
-    console.log('Hacer hoja por atributos vacio');
-    return
+    let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+    
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+    
+    classes.sort(function(a,b){
+      return b.gain - a.gain
+    })
+    
+    let mostCommonClass =Object.values(classes[0])[0]; 
+    let totalOcurrences = 0
+    classes.map( eachClass => {
+      totalOcurrences += Object.values(eachClass)[0]
+      
+    });
+
+    let confidence = `${mostCommonClass} / ${totalOcurrences}`;
+
+    tree.className = Object.keys(classes[0])[0];
+    tree.leafConfidence = confidence;
+    /*console.log('Hacer hoja por atributos vacio');*/
+    return tree.isLeaf = true
     } else {
         //Entropia del conjunto
       let entropyD = impurityEval1(dataFrame);
