@@ -1,11 +1,25 @@
 import React from 'react';
 
-function Button() {
+const Button = ({
+  text = 'default button text',
+  type = 'primary',
+  size = 'lg',
+  disabled = false,
+  handleClick = () => console.log('Default onClick action'),
+  // TODO: validate this way of passing styles
+  style = {},
+}) => {
   return (
-    <div>
-      <h1>Button</h1>
-    </div>
-  )
-}
+    <button
+      type="button"
+      className={`btn btn-${type} btn-${size}`}
+      disabled={disabled}
+      onClick={handleClick}
+      style={style}
+    >
+      {text}
+    </button>
+  );
+};
 
 export default Button;
