@@ -20,12 +20,6 @@ function App() {
       <div className="container-fluid m-0 p-0 row">
         <div className="col-3 p-0">
           <Menu />
-          <Button
-            text="test text"
-            type="success"
-            size="lg"
-            style={{ color: 'lightGray' }}
-          />
         </div>
         <div className="col-9 p-0 bg-light">
           <Switch>
