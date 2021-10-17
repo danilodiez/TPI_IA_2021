@@ -1,11 +1,13 @@
 import React from 'react';
 
-const Button = ({
+const Button = (
+  {
   text = 'default button text',
   type = 'primary',
   size = 'lg',
+  route = 'index',
   disabled = false,
-  handleClick = () => console.log('Default onClick action'),
+  onClick = () => {},
   // TODO: validate this way of passing styles
   style = {},
 }) => {
@@ -14,7 +16,7 @@ const Button = ({
       type="button"
       className={`btn btn-${type} btn-${size}`}
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       style={style}
     >
       {text}

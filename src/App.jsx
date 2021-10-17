@@ -11,8 +11,8 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import Tree from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
-
 import Button from './components/Basic/Button/Button';
+import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
 
 function App() {
   return (
@@ -27,10 +27,13 @@ function App() {
             style={{ color: 'lightGray' }}
           />
         </div>
-        <div className="col-9 p-0">
+        <div className="col-9 p-0 bg-light">
           <Switch>
             <Route path="/index">
               <Inicio />
+            </Route>
+            <Route path="/load">
+              <LoadScreen />
             </Route>
             <Route path="/tutorial">
               <Tutorial />
