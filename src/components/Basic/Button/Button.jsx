@@ -5,7 +5,6 @@ const Button = (
   text = 'default button text',
   type = 'primary',
   size = 'lg',
-  route = 'index',
   disabled = false,
   onClick = () => {},
   // TODO: validate this way of passing styles

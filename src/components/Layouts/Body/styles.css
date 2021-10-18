@@ -6,10 +6,11 @@
   font-family: var(--roboto-black);
 }
 .container-index li.nav-item {
+  color: black;
   padding: 20px;
   font-size: 18px;
   font-weight: bold;
-  font-family: var(--roboto-italic);
+  font-family: var(--roboto-regular);
 }
 .container-index li.nav-item:hover {
   text-decoration: underline;

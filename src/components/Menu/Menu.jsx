@@ -1,7 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import "./styles.css";
 
 const Menu = () => {
+
+  const history = useHistory();
  
   return (
     <div className="container-menu">
