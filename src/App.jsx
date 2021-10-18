@@ -6,6 +6,7 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import Tree from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
+import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
         <div className="col-9 p-0">
           <Switch>
             <Route path="/index">
-              <Inicio />
+              {/* <Inicio /> */}
+              <DragAndDrop />
             </Route>
             <Route path="/tutorial">
               <Tutorial />
@@ -36,7 +38,7 @@ function App() {
         </div>
       </div>
     </Router>
-  )
+  );
 }
 
 export default App;
