@@ -1,0 +1,27 @@
+.container-menu {
+  background-color: var(--blue-dark);
+  height: 100vh;
+  font-family: var(--roboto-regular);
+}
+
+h4 {
+  font-family: var(--roboto-bold);
+}
+li {
+  color: white;
+  font-size: 18px;
+}
+li:hover {
+  color: var(--aqua);
+}
+.container-menu button {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+.container-menu button:hover {
+  color: var(--aqua);
+}
+.container-menu ul {
+  list-style-type: square;
+}

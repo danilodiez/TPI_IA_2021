@@ -11,9 +11,9 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import Tree from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
-
 import Button from './components/Basic/Button/Button';
 import Modal from './components/Basic/Modal/Modal';
+import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
 
 function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -39,10 +39,13 @@ function App() {
             showButtons
           />
         </div>
-        <div className="col-9 p-0">
+        <div className="col-9 p-0 bg-light">
           <Switch>
             <Route path="/index">
               <Inicio />
+            </Route>
+            <Route path="/load">
+              <LoadScreen />
             </Route>
             <Route path="/tutorial">
               <Tutorial />

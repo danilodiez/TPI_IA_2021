@@ -1,0 +1,17 @@
+.container-index {
+  height: 100vh;
+}
+.container-index h1 {
+  color: var(--aqua);
+  font-family: var(--roboto-black);
+}
+.container-index li.nav-item {
+  color: black;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: var(--roboto-regular);
+}
+.container-index li.nav-item:hover {
+  text-decoration: underline;
+}

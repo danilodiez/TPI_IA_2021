@@ -5,7 +5,7 @@ const Button = ({
   type = 'primary',
   size = 'lg',
   disabled = false,
-  onClick = () => console.log('Default onClick action'),
+  onClick = () => {},
   // TODO: validate this way of passing styles
   style = {},
 }) => {

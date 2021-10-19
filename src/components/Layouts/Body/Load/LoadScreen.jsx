@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Load = () => {
+const LoadScreen = () => {
  
   return (
     <div>
@@ -9,4 +9,4 @@ const Load = () => {
   );
 };
 
-export default Load;
+export default LoadScreen;
