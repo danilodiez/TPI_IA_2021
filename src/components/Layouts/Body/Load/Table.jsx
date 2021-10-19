@@ -3,7 +3,7 @@ import './styles-table.css';
 
 const Table = () => {
 
-  const dataset = [
+  const TEMP_DATASET = [
     ['Age', 'Sex', 'BP', 'Cholesterol', 'Drug'],
     [ 23, 'F', 'HIGH', 'HIGH', 'drugY' ],
     [ 47, 'M', 'LOW', 'HIGH', 'drugC' ],
@@ -38,13 +38,14 @@ const Table = () => {
       <table className="table table-striped">
         <thead>
           <tr>
-            {dataset[0].map((element, i) => {
+            {TEMP_DATASET[0].map((element, i) => {
               return <th key={`thead_${i}`}>{element}</th>
             })}
           </tr>
         </thead>
         <tbody>
-          {(dataset.splice(1)).map((row, i) => {
+          {(TEMP_DATASET.splice(1)).map((row, i) => {
+            console.log(row)
             return <tr key={`tbody_${i}`}>
               {row.map((element, i) => {
                 return <td key={`element_${i}`}>{element}</td>
