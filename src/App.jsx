@@ -32,7 +32,11 @@ function App() {
         <div className="col-3 p-0">
           <Menu />
           <Button text="open modal" onClick={openModal} />
-          <Modal isOpen={modalIsOpen} closeModal={closeModal} />
+          <Modal
+            isOpen={modalIsOpen}
+            closeModal={closeModal}
+            message="ERROR AL INTENTAR SUBIR EL ARCHIVO"
+          />
         </div>
         <div className="col-9 p-0">
           <Switch>
