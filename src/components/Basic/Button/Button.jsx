@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Button = (
-  {
+const Button = ({
   text = 'default button text',
   type = 'primary',
   size = 'lg',

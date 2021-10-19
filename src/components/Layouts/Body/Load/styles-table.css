@@ -1,0 +1,19 @@
+.container-table {
+  width: 85%;
+  height: 400px;
+  text-align: center;
+  line-height: 1em;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-family: var(--roboto-regular);
+}
+thead {
+  background-color: lightgrey;
+  border-color: white;
+}
+tr {
+  border-color: transparent;
+}
+th {
+  text-transform: uppercase;
+}
