@@ -35,7 +35,8 @@ function App() {
           <Modal
             isOpen={modalIsOpen}
             closeModal={closeModal}
-            message="ERROR AL INTENTAR SUBIR EL ARCHIVO"
+            message="Error al intentar subir el archivo"
+            showButtons
           />
         </div>
         <div className="col-9 p-0">
