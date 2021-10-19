@@ -8,3 +8,5 @@ const theme = {
     black: [],
   },
 };
+
+export default theme;

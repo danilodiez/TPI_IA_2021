@@ -1,53 +1,16 @@
 import React from 'react';
 import Modal from 'react-modal';
-import Button from '../Button/Button';
+import './styles.css';
 
-const styles = {
-  modal: {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '18rem',
-      fontFamily: 'Roboto-Black',
-    },
-  },
-  messageWrapper: {
-    padding: '2rem 1rem',
-    textAlign: 'center',
-    fontSize: '1.4rem',
-    fontWeight: 'bold',
-    color: 'red',
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-};
-
-const BaseModal = ({
-  isOpen,
-  closeModal,
-  message = 'message',
-  showButtons = false,
-}) => {
+const BaseModal = ({ isOpen, closeModal, message = 'message' }) => {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Example Modal"
-      style={styles.modal}
       ariaHideApp={false}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'end',
-        }}
-      >
+      <div className="d-flex justify-content-end">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -62,7 +25,7 @@ const BaseModal = ({
         </svg>
       </div>
       <div>
-        <div style={styles.messageWrapper}>{message}</div>
+        <div className="message-wrapper text-danger">{message}</div>
       </div>
     </Modal>
   );

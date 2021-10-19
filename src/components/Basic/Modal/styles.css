@@ -1,0 +1,17 @@
+.ReactModal__Content {
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  width: 18rem;
+  bottom: auto !important;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Roboto-Regular';
+}
+
+.message-wrapper {
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
