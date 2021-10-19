@@ -25,17 +25,17 @@ const Inicio = () => {
         </div>
         <div className="pt-5">
           <h5 className="text-center m-0">INTEGRANTES:</h5>
-          <ul class="nav justify-content-center">
-            <li class="nav-item">
+          <ul className="nav justify-content-center">
+            <li className="nav-item">
               Dias Duarte, Nicolas
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               Diez, Danilo
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               Rouvier, Selene
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               Troncoso, Mariano
             </li>
           </ul>
