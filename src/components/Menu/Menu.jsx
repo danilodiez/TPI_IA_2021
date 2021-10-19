@@ -1,7 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import "./styles.css";
 
 const Menu = () => {
+
+  const history = useHistory();
  
   return (
     <div className="container-menu">
@@ -14,17 +17,17 @@ const Menu = () => {
       </div>
       <div className="p-4">
         <ul className="list-menu">
-          <li class="m-2 color-white">
+          <li className="m-2 color-white">
           <button onClick={() => {history.push("/tutorial")}}>
               Tutorial
             </button>
           </li>
-          <li class="m-2">
+          <li className="m-2">
           <button onClick={() => {history.push("/tree")}}>
               Arbol de decisión
             </button>
           </li>
-          <li class="m-2">
+          <li className="m-2">
           <button onClick={() => {history.push("/samples")}}>
               Muestras
             </button>
