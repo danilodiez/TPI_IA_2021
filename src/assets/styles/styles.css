@@ -18,10 +18,17 @@
 :root {
   --white: #fff;
   --black: #000;
-  --aqua: #06bcc1;
+  --aqua: #28c7cc;
   --blue-dark: #12263a;
   --roboto-regular: "Roboto-Regular";
   --roboto-black: "Roboto-Black";
   --roboto-bold: "Roboto-Bold";
   --roboto-italic: "Roboto-Italic";
+}
+
+.btn-info {
+  background-color: var(--aqua) !important;
+}
+.btn-info:hover {
+  background-color: #21b6bb !important;
 }
