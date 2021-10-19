@@ -26,7 +26,7 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 import dfd from "danfojs-node"
 const threshold = 0.1;
 import lodash from "lodash"
-const csvFilePath = '../data/ej1.csv';
+const csvFilePath = '../data/mushrooms.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
@@ -223,12 +223,19 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
+  let fatherNode = tree.node || '';
+  
   var tree = new Tree();
+  
+  tree.father = fatherNode;
 
-  let indexOfClasses = dataFrame.col_data.length - 1
-  if (uniqueClass(dataFrame.col_data[indexOfClasses])) {
+  let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
+  
+  const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
+ 
+  if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
-    let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+    let classes = countOccurrences(dataArray);
 
     classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
 
@@ -291,7 +298,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             attribute: attribute,
             gainRatio: gainRatio(attributeGain, dataFrame, index)
           });
-          console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
+          /*console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);*/
         };
       });
 
@@ -305,6 +312,14 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
       if (bestGain.gain < threshold) {
+        let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+
+        classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+        tree.classValue= Object.keys(classes[0])[0];
+        tree.leafConfidence = 1;
+        tree.isLeaf = true;
+        console.log("threshold",tree);
         console.log("Genero una hoja de T rotulada con Cj")
         return
       } else {
@@ -314,9 +329,9 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         //valuesOfattr servira para la recursion
         const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
 
-        attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
-
-        let attributesWithoutSelected = attributes;
+        //attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
+       
+        let attributesWithoutSelected = attributes.filter( (att,index) => index != bestGain.index);
 
         tree.node = bestGain.attribute
         tree.branches = valuesOfAttr
