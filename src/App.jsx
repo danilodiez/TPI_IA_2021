@@ -11,10 +11,6 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import Tree from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
-import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
-
-import Button from './components/Basic/Button/Button';
-import Modal from './components/Basic/Modal/Modal';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
 
 function App() {
@@ -29,8 +25,7 @@ function App() {
         <div className="col-9 p-0 bg-light">
           <Switch>
             <Route path="/index">
-              {/* <Inicio /> */}
-              <DragAndDrop />
+              <Inicio />
             </Route>
             <Route path="/load">
               <LoadScreen />
