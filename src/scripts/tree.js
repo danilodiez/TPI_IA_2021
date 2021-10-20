@@ -26,7 +26,8 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 import dfd from "danfojs-node"
 const threshold = 0.1;
 import lodash from "lodash"
-const csvFilePath = '../data/drug200.csv';
+
+const csvFilePath = '../data/ej1.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
@@ -105,8 +106,6 @@ const impurityEval2 = (attr, data) => {
   const indexOfAttribute = attributes.indexOf(attr);
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
-  console.log(AllValuesOfAttribute)
-
 
   const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)].sort();
 
@@ -189,11 +188,11 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
 };
 
 const uniqueClass = (data) => {
-  data.every( (val, i, arr) => val === arr[0] )
   //La ultima columna siempre sera la de decision
   // let decisionColumn = data[data.columns[data.columns.length - 1]];
   // si contiene una sola clase retornar true
   // return data.nunique() === 1;
+  return data.every( (val, i, arr) => val === arr[0] )
 };
 
 const attributesEmpty = (attributes) => {
@@ -220,25 +219,66 @@ const checkForContinuesValues = (dataFrame) => {
   return dataFrame;
 
 };
+var currentNodes = [];
 
 const decisionTree = (dataFrame, attributes = [], tree) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
+  let fatherNode = tree.node || '';
+  
+  var tree = new Tree();
+  
+  tree.father = fatherNode;
 
-  let indexOfClasses = dataFrame.col_data.length - 1
-  if (uniqueClass(dataFrame.col_data[indexOfClasses])) {
+  let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
+  
+  const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
+ 
+  if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
-    console.log('Hacer hoja');
-    return
+    let classes = countOccurrences(dataArray);
+
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+    tree.classValue= Object.keys(classes[0])[0];
+    tree.leafConfidence = 1;
+    tree.isLeaf = true;
+
+    console.log("Hoja en condicion de salida 1",tree);
+    currentNodes.push(tree);
+    return 
   } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
-    console.log('Hacer hoja por atributos vacio');
-    return
+    let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+    
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+    
+    classes.sort(function(a,b){
+      return b.gain - a.gain
+    })
+    
+    let mostCommonClass =Object.values(classes[0])[0]; 
+    let totalOcurrences = 0
+
+    classes.map( eachClass => {
+      totalOcurrences += Object.values(eachClass)[0]
+      
+    });
+
+    let confidence = `${mostCommonClass} / ${totalOcurrences}`;
+
+    tree.classValue = Object.keys(classes[0])[0];
+    tree.leafConfidence = confidence;
+    tree.isLeaf = true;
+    
+    console.log("Hoja en condicion de salida 2",tree);
+    /*console.log('Hacer hoja por atributos vacio');*/
+    currentNodes.push(tree);
+    return 
     } else {
         //Entropia del conjunto
       let entropyD = impurityEval1(dataFrame);
-
 
       const indexOfClass = attributes.length - 1;
       // en c4.5, linea 8 sería
@@ -261,7 +301,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             attribute: attribute,
             gainRatio: gainRatio(attributeGain, dataFrame, index)
           });
-          console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);
+          /*console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);*/
         };
       });
 
@@ -274,26 +314,33 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       bestGain = gains[0]; // Esto cambie solo para probar con atributos discretos
       console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
 
-
-
       if (bestGain.gain < threshold) {
+        let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+
+        classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+        tree.classValue= Object.keys(classes[0])[0];
+        tree.leafConfidence = 1;
+        tree.isLeaf = true;
+        console.log("threshold",tree);
         console.log("Genero una hoja de T rotulada con Cj")
-        return
+        currentNodes.push(tree);
+        return 
       } else {
         tree.gain = bestGain.gain
-
         console.log("Genero un nodo decision rotulado con Cj");
 
         //valuesOfattr servira para la recursion
         const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
 
-        attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
-
-        let attributesWithoutSelected = attributes;
+        //attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
+       
+        let attributesWithoutSelected = attributes.filter( (att,index) => index != bestGain.index);
 
         tree.node = bestGain.attribute
         tree.branches = valuesOfAttr
-
+        currentNodes.push(tree);
+        console.log("Nodo",tree)
         //linea 17 del algoritmo
         subsets.forEach(subset => {
           if (subset != [] ){
@@ -303,24 +350,22 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             return decisionTree(df, attributesWithoutSelected, tree)
           };
         });
-        console.log(tree)
+        
       };
         }
+        return currentNodes
     };
 
 const main = async () => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
-
+  
   let dataFrame = await getData(csvFilePath);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
-  decisionTree(dataFrame, attributes, tree)
-
-
-
+  return decisionTree(dataFrame, attributes, tree);
+   
 };
 
-
-main();
+main()
