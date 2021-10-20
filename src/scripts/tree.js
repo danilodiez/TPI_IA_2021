@@ -26,7 +26,8 @@ TODO:        return decisiontree(Dj, A sin Ag, Tj)
 import dfd from "danfojs-node"
 const threshold = 0.1;
 import lodash from "lodash"
-const csvFilePath = '../data/mushrooms.csv';
+
+const csvFilePath = '../data/ej1.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
@@ -218,6 +219,7 @@ const checkForContinuesValues = (dataFrame) => {
   return dataFrame;
 
 };
+var currentNodes = [];
 
 const decisionTree = (dataFrame, attributes = [], tree) => {
   var bestGain = {};
@@ -244,7 +246,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     tree.isLeaf = true;
 
     console.log("Hoja en condicion de salida 1",tree);
-    
+    currentNodes.push(tree);
     return 
   } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
@@ -272,6 +274,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     
     console.log("Hoja en condicion de salida 2",tree);
     /*console.log('Hacer hoja por atributos vacio');*/
+    currentNodes.push(tree);
     return 
     } else {
         //Entropia del conjunto
@@ -321,7 +324,8 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         tree.isLeaf = true;
         console.log("threshold",tree);
         console.log("Genero una hoja de T rotulada con Cj")
-        return
+        currentNodes.push(tree);
+        return 
       } else {
         tree.gain = bestGain.gain
         console.log("Genero un nodo decision rotulado con Cj");
@@ -335,7 +339,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
 
         tree.node = bestGain.attribute
         tree.branches = valuesOfAttr
-
+        currentNodes.push(tree);
         console.log("Nodo",tree)
         //linea 17 del algoritmo
         subsets.forEach(subset => {
@@ -349,21 +353,19 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         
       };
         }
+        return currentNodes
     };
 
 const main = async () => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
-
+  
   let dataFrame = await getData(csvFilePath);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
-  decisionTree(dataFrame, attributes, tree)
-
-
-
+  return decisionTree(dataFrame, attributes, tree);
+   
 };
 
-
-main();
+main()
