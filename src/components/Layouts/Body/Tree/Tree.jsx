@@ -87,8 +87,14 @@ const TreeScreen = () => {
       reader.readAsBinaryString(file);
     };
     let resultTree
-    file!==undefined ? resultTree = main(file) : undefined
-    console.log(resultTree)
+    
+    useEffect(() => {
+      if (file !== undefined){
+        resultTree = main(file)
+        console.log(resultTree)
+      };
+    }, [file]);
+
   return (
     <div>
       <h1>Tree</h1>
