@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,6 +11,7 @@ import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import Tree from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 

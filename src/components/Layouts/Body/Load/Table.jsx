@@ -45,7 +45,6 @@ const Table = () => {
         </thead>
         <tbody>
           {(TEMP_DATASET.splice(1)).map((row, i) => {
-            console.log(row)
             return <tr key={`tbody_${i}`}>
               {row.map((element, i) => {
                 return <td key={`element_${i}`}>{element}</td>

@@ -18,17 +18,17 @@ const Menu = () => {
       <div className="p-4">
         <ul className="list-menu">
           <li className="m-2 color-white">
-          <button onClick={() => {history.push("/tutorial")}}>
+            <button onClick={() => {history.push("/tutorial")}}>
               Tutorial
             </button>
           </li>
           <li className="m-2">
-          <button onClick={() => {history.push("/tree")}}>
+            <button onClick={() => {history.push("/tree")}}>
               Arbol de decisión
             </button>
           </li>
           <li className="m-2">
-          <button onClick={() => {history.push("/samples")}}>
+            <button onClick={() => {history.push("/samples")}}>
               Muestras
             </button>
           </li>

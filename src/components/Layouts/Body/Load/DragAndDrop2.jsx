@@ -1,16 +1,25 @@
+import React, { useState } from "react";
+
 const DragAndDrop2 = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  if (selectedFile != null) {
+    console.log('sadasd', selectedFile)
+  }
+  
   return (
     <div>
        <form>
         <div class="form-group">
-          <label for="exampleFormControlFile1">
+          <label for="inputFile">
             Example file input
           </label>
           <input 
             type="file" 
-            class="form-control-file" 
-            id="exampleFormControlFile1" 
+            id="inputFile"
+            className="input-file" 
             accept=".txt, .csv"
+            onChange={(e) => setSelectedFile(e.dataTransfer.files[0])}
           />
         </div>
       </form>
