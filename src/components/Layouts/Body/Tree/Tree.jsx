@@ -1,30 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import * as XLSX from "xlsx";
 import main from '../../../../scripts/tree.js'
-/*
-TODO: FUNCION decisiontree(data, atributos, arbol)
-TODO:  si data contiene un solo Cj, una sola clase a predecir
-*:      hacer una hoja en T rotulada con Cj
-TODO:  sino si atributos=vacio
-*:      hacer una hoja en T rotulada con Cj
-TODO:  sino si data tiene muestras de varias clases, seleccionamos un solo atributo para particionar data en subsets
-TODO:
-TODO:    po = evaluamos impureza de todo el conjunto (data)
-TODO:    for cada atributo Ai de A
-TODO:      pi = evaluar impureza de cada Ai (Ai, data)
-TODO:
-TODO:    seleccionamos Ag con la mejor ganancia
-TODO:    if ganancia < threshold
-*:        hacer una hoja en T rotulada con Cj
-TODO:    sino
-TODO:      Ag va a ser un nodo decision en T
-TODO:      por cada valor de Ag particionamos D en m conjuntos
-TODO:
-TODO:      for each Dj particiones de data
-TODO:        creamos una rama con nodo decision para Tj como hijo de T
-TODO:
-TODO:        return decisiontree(Dj, A sin Ag, Tj)
-*/
+// import Graph from "react-graph-vis";
+import VisNetwork from '../../../TreeGraph.jsx';
+
 
 
 const TreeScreen = () => {
@@ -87,7 +66,7 @@ const TreeScreen = () => {
       reader.readAsBinaryString(file);
     };
     let resultTree
-    
+
     useEffect(() => {
       if (file !== undefined){
         resultTree = main(file)
@@ -96,10 +75,19 @@ const TreeScreen = () => {
     }, [file]);
 
   return (
-    <div>
-      <h1>Tree</h1>
-      <input type="file" accept=".csv,.xlsx,.xls, .txt" onChange={handleFileUpload} />
-    </div>
+    <>
+      <div>
+        <h1>Tree</h1>
+        <input
+          type="file"
+          accept=".csv,.xlsx,.xls, .txt"
+          onChange={handleFileUpload}
+        />
+      </div>
+      <div style={{border: '2px solid red', height:'80vh'}}>
+        <VisNetwork />
+      </div>
+    </>
   );
 };
 
