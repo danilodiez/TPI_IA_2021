@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import main from '../../../../scripts/tree.js'
+import main from "../../../../scripts/tree.js";
 // import Graph from "react-graph-vis";
-import VisNetwork from '../../../TreeGraph.jsx';
-
-
+import VisNetwork from "../../../TreeGraph.jsx";
 
 const TreeScreen = () => {
   const [file, setFile] = useState(undefined);
-  const [csvFile, setCsvFile] = useState(undefined)
+  const [csvFile, setCsvFile] = useState(undefined);
   // process CSV data
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -49,30 +47,40 @@ const TreeScreen = () => {
 
     setFile(list);
   };
-    const handleFileUpload = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        processData(data);
-      };
-      reader.readAsBinaryString(file);
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      /* Parse data */
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      /* Get first worksheet */
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      /* Convert array of arrays */
+      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+      processData(data);
     };
-    let resultTree
+    reader.readAsBinaryString(file);
+  };
+  const generateNodes = (tree) => {
+    const nodes = [];
+    tree.map((node) => {
+      nodes.push({
+        id: node.id,
+        label: node.node === "" ? node.classValue : node.node,
+      });
+    });
+      console.log(nodes);
 
-    useEffect(() => {
-      if (file !== undefined){
-        resultTree = main(file)
-        console.log(resultTree)
-      };
-    }, [file]);
+  };
+  useEffect(() => {
+    if (file !== undefined) {
+      const resultTree = main(file);
+      console.log(resultTree);
+      generateNodes(resultTree);
+    }
+  }, [file]);
 
   return (
     <>
@@ -84,8 +92,8 @@ const TreeScreen = () => {
           onChange={handleFileUpload}
         />
       </div>
-      <div style={{border: '2px solid red', height:'80vh'}}>
-        <VisNetwork />
+      <div style={{ border: "2px solid red", height: "80vh" }}>
+        {/* <VisNetwork /> */}
       </div>
     </>
   );
