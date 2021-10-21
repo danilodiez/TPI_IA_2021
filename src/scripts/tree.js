@@ -27,7 +27,7 @@ import dfd from "danfojs-node"
 const threshold = 0.1;
 import lodash from "lodash"
 
-const csvFilePath = '../data/ej1.csv';
+const csvFilePath = '../data/drug200.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
@@ -226,15 +226,15 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   const gains = [];
   const gainsRatio = [];
   let fatherNode = tree.node || '';
-  
+
   var tree = new Tree();
-  
+
   tree.father = fatherNode;
 
   let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
-  
+
   const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
- 
+
   if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
     let classes = countOccurrences(dataArray);
@@ -247,23 +247,23 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
 
     console.log("Hoja en condicion de salida 1",tree);
     currentNodes.push(tree);
-    return 
+    return
   } else if (attributesEmpty(attributes)) {
     //TODO Hacer una leaf en tree
     let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
-    
+
     classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
-    
+
     classes.sort(function(a,b){
       return b.gain - a.gain
     })
-    
-    let mostCommonClass =Object.values(classes[0])[0]; 
+
+    let mostCommonClass =Object.values(classes[0])[0];
     let totalOcurrences = 0
 
     classes.map( eachClass => {
       totalOcurrences += Object.values(eachClass)[0]
-      
+
     });
 
     let confidence = `${mostCommonClass} / ${totalOcurrences}`;
@@ -271,11 +271,11 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     tree.classValue = Object.keys(classes[0])[0];
     tree.leafConfidence = confidence;
     tree.isLeaf = true;
-    
+
     console.log("Hoja en condicion de salida 2",tree);
     /*console.log('Hacer hoja por atributos vacio');*/
     currentNodes.push(tree);
-    return 
+    return
     } else {
         //Entropia del conjunto
       let entropyD = impurityEval1(dataFrame);
@@ -325,7 +325,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         console.log("threshold",tree);
         console.log("Genero una hoja de T rotulada con Cj")
         currentNodes.push(tree);
-        return 
+        return
       } else {
         tree.gain = bestGain.gain
         console.log("Genero un nodo decision rotulado con Cj");
@@ -334,7 +334,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
 
         //attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
-       
+
         let attributesWithoutSelected = attributes.filter( (att,index) => index != bestGain.index);
 
         tree.node = bestGain.attribute
@@ -350,7 +350,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             return decisionTree(df, attributesWithoutSelected, tree)
           };
         });
-        
+
       };
         }
         return currentNodes
@@ -360,12 +360,12 @@ const main = async () => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
-  
+
   let dataFrame = await getData(csvFilePath);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
   return decisionTree(dataFrame, attributes, tree);
-   
+
 };
 
 main()

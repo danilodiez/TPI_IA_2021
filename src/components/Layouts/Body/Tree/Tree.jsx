@@ -1,12 +1,445 @@
-import React from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
+import * as XLSX from "xlsx";
+/*
+TODO: FUNCION decisiontree(data, atributos, arbol)
+TODO:  si data contiene un solo Cj, una sola clase a predecir
+*:      hacer una hoja en T rotulada con Cj
+TODO:  sino si atributos=vacio
+*:      hacer una hoja en T rotulada con Cj
+TODO:  sino si data tiene muestras de varias clases, seleccionamos un solo atributo para particionar data en subsets
+TODO:
+TODO:    po = evaluamos impureza de todo el conjunto (data)
+TODO:    for cada atributo Ai de A
+TODO:      pi = evaluar impureza de cada Ai (Ai, data)
+TODO:
+TODO:    seleccionamos Ag con la mejor ganancia
+TODO:    if ganancia < threshold
+*:        hacer una hoja en T rotulada con Cj
+TODO:    sino
+TODO:      Ag va a ser un nodo decision en T
+TODO:      por cada valor de Ag particionamos D en m conjuntos
+TODO:
+TODO:      for each Dj particiones de data
+TODO:        creamos una rama con nodo decision para Tj como hijo de T
+TODO:
+TODO:        return decisiontree(Dj, A sin Ag, Tj)
+*/
 
-const Tree = () => {
- 
+import * as dfd from "danfojs/src/index";
+const threshold = 0.1;
+import lodash from "lodash"
+
+// const csvFilePath = '../../../../data/ej1.csv';
+import TreeObject from "../../../../classes/Tree.js";
+
+var dataFrame;
+
+// const getData = async (csvUrl) => {
+//   let dataFrame = await dfd.read_csv(csvUrl);
+//   return dataFrame;
+// };
+
+const log2 = (x) => {
+  return Math.log(x) / Math.log(2);
+};
+
+const countValuesOcurrences = function (data, index) {
+  var countValuesOcurrences = lodash.countBy(data, (data) => {
+    return data[index];
+  });
+  return countValuesOcurrences;
+};
+
+const impurityEval1 = (dataframe) => {
+  var entropy = 0;
+  var classIndex = dataframe.data[0].length - 1;
+  /* devuelve todas las clases con la cantidad de valores*/
+  var occurrencesOfClasses = countValuesOcurrences(dataframe.data, classIndex);
+
+  let classesNames = Object.keys(occurrencesOfClasses);
+
+  classesNames.forEach((eachClass) => {
+    let className = eachClass;
+    let probability = occurrencesOfClasses[className] / dataframe.data.length;
+    entropy += probability * log2(probability);
+  });
+
+  return -entropy;
+};
+
+const partition = (indexOfSelectedAttr, dataframe) => {
+  let valuesOfAttr = Object.keys(countValuesOcurrences(dataframe.data,indexOfSelectedAttr))
+  let subsets = [];
+  //Comparo el valor del atributo con cada fila del dataframe y pusheo en un nuevo dataset las filas que tienen ese valor ( seria lo que hace en la linea 16 del algoritmo)
+  valuesOfAttr.forEach( value => {
+
+    let newSubset = [];
+
+    dataframe.data.forEach ( row => {
+      if (row[indexOfSelectedAttr] == value ){
+        row.splice(indexOfSelectedAttr,1); //elimina el valor de ese atributo que al llamar recursivamente no se utiliza mas
+        newSubset.push(row)
+      };
+    });
+    subsets.push(newSubset);
+  });
+  return {subsets,valuesOfAttr};
+};
+// dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
+const countOccurrences = (array) =>
+
+  array.reduce(
+    (previous, current) => (
+      (previous[current] = ++previous[current] || 1), previous
+    ),
+    {}
+  );
+
+// dado un arreglo de 2 dimensiones, retorna un nuevo arreglo con todos los valores de una columna
+// hasta ahora lo uso unicamente para obtener los valores de una clase de un subset
+const getValuesOfColumn = (array, index) =>
+  array.map((element) => element[index]);
+
+//? Aca se deberia cambiar data por dataframe como hacemos en todas las funciones
+const impurityEval2 = (attr, data) => {
+  const { columns: attributes } = data;
+
+  const indexOfClass = attributes.length - 1;
+  const indexOfAttribute = attributes.indexOf(attr);
+  // TODO: remove class attribute for this
+  const AllValuesOfAttribute = data.col_data[indexOfAttribute];
+
+  const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)].sort();
+
+  // obtener la cantidad de ejemplos de cada subcojunto
+  // retorna algo asi: { HIGH: 90, LOW: 81 }
+
+  const occurrences = countOccurrences(AllValuesOfAttribute);
+
+  const { data: allExamples } = data;
+
+  const n = allExamples.length;
+
+  // formar los subconjuntos
+  const subsets = [];
+
+  possibleValuesOfAttr.forEach((value) => {
+    subsets.push({
+      value,
+      // cantidad de elementos del subconjunto
+      occurrences: occurrences[value],
+      examples: allExamples.filter(
+        (example) => example[indexOfAttribute] === value
+      ),
+      entropy: 0,
+    });
+  });
+
+  // para cada subset calculo la entropia
+  subsets.forEach((subset) => {
+    // arreglo, cuyos elementos son todos los valores de la clase de cada ejemplo en el subset
+    const classValuesOfSubset = getValuesOfColumn(
+      subset.examples,
+      indexOfClass
+    );
+
+    // mismo metodo que uso antes
+    const occurrencesOfClassesForSubset = countOccurrences(classValuesOfSubset);
+
+    let subsetEntropy = 0;
+
+    Object.values(occurrencesOfClassesForSubset).forEach(
+      (occurrencesOfClass) => {
+        // TODO: replace for entropy() function
+        // Pcj: misma "nomenclatura" que usa c4.5
+        const Pcj = occurrencesOfClass / subset.occurrences;
+        subsetEntropy += -(Pcj * log2(Pcj));
+      }
+    );
+    subset.entropy = subsetEntropy;
+  });
+
+  // entropia de data, si tomamos el atributo attr (data y attr son parametros)
+  let entropy = 0;
+  subsets.forEach((subset) => {
+    const { entropy: subsetEntropy, occurrences } = subset;
+
+    entropy += (occurrences / n) * subsetEntropy;
+  });
+
+  return entropy;
+};
+
+// dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
+
+const gain = (entropyD, entropyOfAttr) => entropyD - entropyOfAttr;
+
+const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
+  let splitInfo = 0;
+  let occurrencesOfValues = countValuesOcurrences(dataframe.data, indexOfAttribute);
+  let valuesNames = Object.keys(occurrencesOfValues);
+
+  valuesNames.forEach( eachValue => {
+    let valueName = eachValue;
+    let allExamples = dataframe.data.length;
+    let probability = occurrencesOfValues[valueName] / allExamples;
+    splitInfo += probability * log2(probability);
+  });
+
+  return gainValue / Math.abs(splitInfo);
+};
+
+const uniqueClass = (data) => {
+  //La ultima columna siempre sera la de decision
+  // let decisionColumn = data[data.columns[data.columns.length - 1]];
+  // si contiene una sola clase retornar true
+  return data.every( (val, i, arr) => val === arr[0] )
+};
+
+const attributesEmpty = (attributes) => {
+
+  return attributes.length === 1
+}
+
+
+
+const checkForContinuesValues = (dataFrame) => {
+  const columnTypes = dataFrame.col_types;
+  const columnNames = dataFrame.columns;
+
+  /* Danfo tiene 3 tipos de datos (string, int32 o float32),
+  nos interesa eliminar aquellos del tipo float32 */
+
+  columnTypes.forEach( (type, index) => {
+    if(type === 'float32') {
+      dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
+    }
+  })
+
+  //Retornamos el dataFrame sin valores continuos
+  return dataFrame;
+
+};
+var currentNodes = [];
+
+const decisionTree = (dataFrame, attributes = [], tree) => {
+  var bestGain = {};
+  const gains = [];
+  const gainsRatio = [];
+  let fatherNode = tree.node || '';
+
+  var tree = new TreeObject();
+
+  tree.father = fatherNode;
+
+  let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
+
+  const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
+
+  if (uniqueClass(dataArray)) {
+    //todo Hacer una leaf en treee
+    let classes = countOccurrences(dataArray);
+
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+    tree.classValue= Object.keys(classes[0])[0];
+    tree.leafConfidence = 1;
+    tree.isLeaf = true;
+
+    console.log("Hoja en condicion de salida 1",tree);
+    currentNodes.push(tree);
+    return
+  } else if (attributesEmpty(attributes)) {
+    //TODO Hacer una leaf en tree
+    let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+
+    classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+    classes.sort(function(a,b){
+      return b.gain - a.gain
+    })
+
+    let mostCommonClass =Object.values(classes[0])[0];
+    let totalOcurrences = 0
+
+    classes.map( eachClass => {
+      totalOcurrences += Object.values(eachClass)[0]
+
+    });
+
+    let confidence = `${mostCommonClass} / ${totalOcurrences}`;
+
+    tree.classValue = Object.keys(classes[0])[0];
+    tree.leafConfidence = confidence;
+    tree.isLeaf = true;
+
+    console.log("Hoja en condicion de salida 2",tree);
+    /*console.log('Hacer hoja por atributos vacio');*/
+    currentNodes.push(tree);
+    return
+    } else {
+        //Entropia del conjunto
+      let entropyD = impurityEval1(dataFrame);
+
+      const indexOfClass = attributes.length - 1;
+      // en c4.5, linea 8 sería
+      attributes.forEach( (attribute, index) => {
+        if (index != indexOfClass){
+          const entropyAttribute = impurityEval2(attribute, dataFrame);
+          tree.entropy = entropyAttribute
+          //todas las ganancias
+          gains.push({
+            attribute: attribute,
+            gain: gain(entropyD,entropyAttribute),
+            index: index
+          })
+
+          let attributeGain = gains[index].gain;
+
+          //todas las tasas de ganancia
+          gainsRatio.push({
+            index: index,
+            attribute: attribute,
+            gainRatio: gainRatio(attributeGain, dataFrame, index)
+          });
+          /*console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);*/
+        };
+      });
+
+      // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
+      gains.sort(function(a,b){
+        return b.gain - a.gain
+      })
+
+      // obtengo el atributo con la mejor ganancia
+      bestGain = gains[0]; // Esto cambie solo para probar con atributos discretos
+      console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
+
+      if (bestGain.gain < threshold) {
+        let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
+
+        classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
+
+        tree.classValue= Object.keys(classes[0])[0];
+        tree.leafConfidence = 1;
+        tree.isLeaf = true;
+        console.log("threshold",tree);
+        console.log("Genero una hoja de T rotulada con Cj")
+        currentNodes.push(tree);
+        return
+      } else {
+        tree.gain = bestGain.gain
+        console.log("Genero un nodo decision rotulado con Cj");
+
+        //valuesOfattr servira para la recursion
+        const {subsets, valuesOfAttr} = partition(bestGain.index, dataFrame);
+
+        //attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
+
+        let attributesWithoutSelected = attributes.filter( (att,index) => index != bestGain.index);
+
+        tree.node = bestGain.attribute
+        tree.branches = valuesOfAttr
+        currentNodes.push(tree);
+        console.log("Nodo",tree)
+        //linea 17 del algoritmo
+        subsets.forEach(subset => {
+          if (subset != [] ){
+            let df = new dfd.DataFrame(subset)
+            df.columns = attributesWithoutSelected
+
+            return decisionTree(df, attributesWithoutSelected, tree)
+          };
+        });
+
+      };
+        }
+        return currentNodes
+    };
+
+const main = async (data) => {
+  "Entreeee"
+  //Ya estan seteados los valores por defecto en la primer instanciacion
+  var tree = new TreeObject()
+
+  // let dataFrame = await getData(csv);
+  dataFrame = checkForContinuesValues(data);
+  const { columns: attributes } = dataFrame;
+  return decisionTree(dataFrame, attributes, tree);
+
+};
+
+const TreeScreen = () => {
+  const [file, setFile] = useState(undefined);
+  const [csvFile, setCsvFile] = useState(undefined)
+  // process CSV data
+  const processData = (dataString) => {
+    const dataStringLines = dataString.split(/\r\n|\n/);
+    const headers = dataStringLines[0].split(
+      /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+    );
+
+    const list = [];
+    for (let i = 1; i < dataStringLines.length; i++) {
+      const row = dataStringLines[i].split(
+        /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+      );
+      if (headers && row.length == headers.length) {
+        const obj = {};
+        for (let j = 0; j < headers.length; j++) {
+          let d = row[j];
+          if (d.length > 0) {
+            if (d[0] == '"') d = d.substring(1, d.length - 1);
+            if (d[d.length - 1] == '"') d = d.substring(d.length - 2, 1);
+          }
+          if (headers[j]) {
+            obj[headers[j]] = d;
+          }
+        }
+
+        // remove the blank rows
+        if (Object.values(obj).filter((x) => x).length > 0) {
+          list.push(obj);
+        }
+      }
+    }
+
+    // prepare columns list from headers
+    const columns = headers.map((c) => ({
+      name: c,
+      selector: c,
+    }));
+
+    setFile(list);
+  };
+    const handleFileUpload = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: "binary" });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        processData(data);
+      };
+      reader.readAsBinaryString(file);
+    };
+    file ? setCsvFile(new dfd.DataFrame(file)) : undefined;
+    var treeResult
+    useEffect(()=>{
+      console.log("entre?")
+      csvFile === undefined ? undefined : treeResult = main(csvFile)
+    },[csvFile])
   return (
     <div>
       <h1>Tree</h1>
+      <input type="file" accept=".csv,.xlsx,.xls" onChange={handleFileUpload} />
     </div>
   );
 };
 
-export default Tree;
+export default TreeScreen;
