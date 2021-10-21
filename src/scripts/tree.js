@@ -220,12 +220,12 @@ const checkForContinuesValues = (dataFrame) => {
 
 };
 var currentNodes = [];
-
+var contId = 0;
 const decisionTree = (dataFrame, attributes = [], tree) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
-  let fatherNode = tree.node || '';
+  let fatherNode = tree.id;
 
   var tree = new Tree();
 
@@ -240,16 +240,15 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     let classes = countOccurrences(dataArray);
 
     classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
-
     tree.classValue= Object.keys(classes[0])[0];
     tree.leafConfidence = 1;
     tree.isLeaf = true;
-
+    tree.id = contId;
+    contId += 1;
     console.log("Hoja en condicion de salida 1",tree);
     currentNodes.push(tree);
     return
   } else if (attributesEmpty(attributes)) {
-    //TODO Hacer una leaf en tree
     let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
 
     classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
@@ -271,6 +270,8 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     tree.classValue = Object.keys(classes[0])[0];
     tree.leafConfidence = confidence;
     tree.isLeaf = true;
+    tree.id = contId;
+    contId += 1;
 
     console.log("Hoja en condicion de salida 2",tree);
     /*console.log('Hacer hoja por atributos vacio');*/
@@ -322,7 +323,8 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         tree.classValue= Object.keys(classes[0])[0];
         tree.leafConfidence = 1;
         tree.isLeaf = true;
-        console.log("threshold",tree);
+        tree.id = contId;
+        contId += 1;
         console.log("Genero una hoja de T rotulada con Cj")
         currentNodes.push(tree);
         return
@@ -339,6 +341,8 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
 
         tree.node = bestGain.attribute
         tree.branches = valuesOfAttr
+        tree.id = contId;
+        contId += 1;
         currentNodes.push(tree);
         console.log("Nodo",tree)
         //linea 17 del algoritmo
@@ -360,7 +364,6 @@ const main = (csvData) => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
-
   let dataFrame = new dfd.DataFrame(csvData);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
