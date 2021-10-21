@@ -23,19 +23,19 @@ TODO:
 TODO:        return decisiontree(Dj, A sin Ag, Tj)
 */
 
-import dfd from "danfojs-node"
+import * as dfd from "danfojs/src/index"
 const threshold = 0.1;
 import lodash from "lodash"
 
-const csvFilePath = '../data/drug200.csv';
+// const csvFilePath = '../data/drug200.csv';
 import Tree from '../classes/Tree.js'
 
 var dataFrame;
 
-const getData = async (csvUrl) => {
-  let dataFrame = await dfd.read_csv(csvUrl);
-  return dataFrame;
-};
+// const getData = async (csvUrl) => {
+//   let dataFrame = await dfd.read_csv(csvUrl);
+//   return dataFrame;
+// };
 
 const log2 = (x) => {
   return Math.log(x) / Math.log(2);
@@ -356,16 +356,16 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         return currentNodes
     };
 
-const main = async () => {
+const main = (csvData) => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
 
-  let dataFrame = await getData(csvFilePath);
+  let dataFrame = new dfd.DataFrame(csvData);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
   return decisionTree(dataFrame, attributes, tree);
 
 };
 
-main()
+export default main
