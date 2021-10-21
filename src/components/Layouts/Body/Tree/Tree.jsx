@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import * as XLSX from "xlsx";
+import main from '../../../../scripts/tree.js'
 /*
 TODO: FUNCION decisiontree(data, atributos, arbol)
 TODO:  si data contiene un solo Cj, una sola clase a predecir
@@ -85,11 +86,9 @@ const TreeScreen = () => {
       };
       reader.readAsBinaryString(file);
     };
-    file ? setCsvFile(file) : undefined;
-    var treeResult
-    useEffect(()=>{
-      csvFile === undefined ? undefined : treeResult = main(csvFile)
-    },[csvFile])
+    let resultTree
+    file!==undefined ? resultTree = main(file) : undefined
+    console.log(resultTree)
   return (
     <div>
       <h1>Tree</h1>
