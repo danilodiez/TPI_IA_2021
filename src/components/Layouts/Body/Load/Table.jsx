@@ -1,8 +1,8 @@
 import React from 'react';
 import './styles-table.css';
 
-const Table = () => {
-
+const Table = ({columns,data}) => {
+  /*
   const TEMP_DATASET = [
     ['Age', 'Sex', 'BP', 'Cholesterol', 'Drug'],
     [ 23, 'F', 'HIGH', 'HIGH', 'drugY' ],
@@ -31,21 +31,20 @@ const Table = () => {
     [ 48, 'F', 'LOW', 'HIGH', 'drugY' ],
     [ 33, 'F', 'LOW', 'HIGH', 'drugY' ],
     [ 28, 'F', 'HIGH', 'NORMAL', 'drugY' ],
-  ];  
-
+  ];  */
   return (
     <div className="container-table">
       <table className="table table-striped">
         <thead>
           <tr>
-            {TEMP_DATASET[0].map((element, i) => {
+            {columns && columns.map((element, i) => {
               return <th key={`thead_${i}`}>{element}</th>
             })}
           </tr>
         </thead>
         <tbody>
-          {(TEMP_DATASET.splice(1)).map((row, i) => {
-            console.log(row)
+          {data && data.map((row, i) => {
+            
             return <tr key={`tbody_${i}`}>
               {row.map((element, i) => {
                 return <td key={`element_${i}`}>{element}</td>
