@@ -1,0 +1,23 @@
+.container-tutorial h1 {
+    color: var(--aqua);
+    font-family: var(--roboto-black);
+}
+.container-items {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.items {
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 15px;
+    width: 45%;
+}
+h6 {
+    color: var(--aqua);
+    font-size: 22px;
+}
+p {
+    text-align: center;
+}
