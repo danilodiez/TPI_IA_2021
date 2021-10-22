@@ -8,6 +8,9 @@ import * as dfd from "danfojs/src/index"
 const LoadScreen = () => {
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null)
+  const [dataFrameHasIds, setDataFrameHasIds] = useState(false)
+  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false)
+  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false)
 
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -65,14 +68,51 @@ const LoadScreen = () => {
     };
     reader.readAsBinaryString(file);
   };
+
+  const removeContinuesValues = (dataFrame) => {
+    const columnTypes = dataFrame.col_types;
+    const columnNames = dataFrame.columns;
+  
+    /* Danfo tiene 3 tipos de datos (string, int32 o float32),
+    nos interesa eliminar aquellos del tipo float32 */
+  
+    columnTypes.forEach( (type, index) => {
+      if(type === 'float32') {
+        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
+        setDataFrameHasContinuesValues(true)
+      }
+    })
+    return dataFrame
+  };
+  
+  const removeIds = () => {
+    const columnNames = dataFrame.columns;
+  
+    columnNames.forEach( (column, index) => {
+      console.log(column.toLowerCase())
+      const posibleIdsCases = ['id','ids','"id"','"ids"']
+      if(posibleIdsCases.includes(column.toLowerCase().trim())) {
+        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
+        setDataFrameHasIds(true)
+      }
+    })
+    return dataFrame
+  }
+  //const removeSpecialCharacters = () => {}
+
+  const validDataFrame = (dataFrame) => {
+    let validDataFrame = removeContinuesValues(dataFrame);
+    validDataFrame = removeIds(validDataFrame)
+    setDataFrame(validDataFrame);
+  }
   
   useEffect(() => {
-    if (file !== undefined) {
+    if (file !== undefined ) {
       setDataFrame(new dfd.DataFrame(file))
-
+      dataFrame && validDataFrame(dataFrame)
     }
-  }, [file]);
-  console.log(dataFrame)
+  }, [file,dataFrame]);
+
   return (
     <div className="container-load">
       <h1 className="text-center p-4 mt-4">
