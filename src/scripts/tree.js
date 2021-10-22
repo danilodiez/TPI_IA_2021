@@ -283,7 +283,11 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
               attribute: attribute,
               gain: gainRatio(attributeGain, dataFrame, index)
             });
+              gainsRatio.sort(function(a,b){
+                return b.gain - a.gain
+              })
               bestGain = gainsRatio[0];
+              console.log("gainsRatio", gainsRatio)
           }
           else {
             console.log("Metodo de calculo incorrecto")

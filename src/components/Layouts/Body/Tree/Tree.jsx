@@ -84,7 +84,6 @@ const TreeScreen = () => {
       if (node.father !== '' ) {
         let father = tree.filter((n, index) => n.id === node.father)
         const label = father[0]?.branches.shift()
-        console.log("father", label)
         branches.push({
           from: node.father,
           to: node.id,
@@ -97,7 +96,6 @@ const TreeScreen = () => {
   useEffect(() => {
     if (file !== undefined) {
       const resultTree = main(file);
-      console.log(resultTree);
       setTreeNodes(generateNodes(resultTree));
       setTreeBranches(generateBranches(resultTree));
     }
