@@ -9,7 +9,7 @@ import {
 import Menu from './components/Menu/Menu';
 import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
-import Tree from './components/Layouts/Body/Tree/Tree';
+import TreeScreen from './components/Layouts/Body/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
 import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
 
@@ -39,7 +39,7 @@ function App() {
               <Tutorial />
             </Route>
             <Route path="/tree">
-              <Tree />
+              <TreeScreen />
             </Route>
             <Route path="/samples">
               <Samples />
