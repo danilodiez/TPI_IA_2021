@@ -1,28 +1,3 @@
-/*
-TODO: FUNCION decisiontree(data, atributos, arbol)
-TODO:  si data contiene un solo Cj, una sola clase a predecir
-*:      hacer una hoja en T rotulada con Cj
-TODO:  sino si atributos=vacio
-*:      hacer una hoja en T rotulada con Cj
-TODO:  sino si data tiene muestras de varias clases, seleccionamos un solo atributo para particionar data en subsets
-TODO:
-TODO:    po = evaluamos impureza de todo el conjunto (data)
-TODO:    for cada atributo Ai de A
-TODO:      pi = evaluar impureza de cada Ai (Ai, data)
-TODO:
-TODO:    seleccionamos Ag con la mejor ganancia
-TODO:    if ganancia < threshold
-*:        hacer una hoja en T rotulada con Cj
-TODO:    sino
-TODO:      Ag va a ser un nodo decision en T
-TODO:      por cada valor de Ag particionamos D en m conjuntos
-TODO:
-TODO:      for each Dj particiones de data
-TODO:        creamos una rama con nodo decision para Tj como hijo de T
-TODO:
-TODO:        return decisiontree(Dj, A sin Ag, Tj)
-*/
-
 import * as dfd from "danfojs/src/index"
 const threshold = 0.1;
 import lodash from "lodash"
@@ -226,11 +201,11 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   const gains = [];
   const gainsRatio = [];
   let fatherNode = tree.id;
-
+  let calcMethod = tree.calcMethod
   var tree = new Tree();
-
+  tree.calcMethod = calcMethod
   tree.father = fatherNode;
-
+  console.log("calcMethod", calcMethod)
   let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
 
   const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
@@ -289,31 +264,37 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
           tree.entropy = entropyAttribute
           //todas las ganancias
           gains.push({
-            attribute: attribute,
-            gain: gain(entropyD,entropyAttribute),
-            index: index
-          })
+              attribute: attribute,
+              gain: gain(entropyD,entropyAttribute),
+              index: index
+            })
 
           let attributeGain = gains[index].gain;
+          if(tree.calcMethod === "gain"){
 
+              gains.sort(function(a,b){
+                return b.gain - a.gain
+              })
+              bestGain = gains[0];
+          } else if (tree.calcMethod === "gainRatio"){
           //todas las tasas de ganancia
-          gainsRatio.push({
-            index: index,
-            attribute: attribute,
-            gainRatio: gainRatio(attributeGain, dataFrame, index)
-          });
-          /*console.log("a ver las tasas de gananacia", gainsRatio[index].gainRatio, dataFrame.columns[index]);*/
+            gainsRatio.push({
+              index: index,
+              attribute: attribute,
+              gain: gainRatio(attributeGain, dataFrame, index)
+            });
+              bestGain = gainsRatio[0];
+          }
+          else {
+            console.log("Metodo de calculo incorrecto")
+          }
         };
       });
 
       // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
-      gains.sort(function(a,b){
-        return b.gain - a.gain
-      })
 
       // obtengo el atributo con la mejor ganancia
-      bestGain = gains[0]; // Esto cambie solo para probar con atributos discretos
-      console.log('el atributo', bestGain.attribute, 'tiene la mejor ganancia', bestGain.gain)
+       // Esto cambie solo para probar con atributos discretos
 
       if (bestGain.gain < threshold) {
         let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
@@ -360,10 +341,11 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         return currentNodes
     };
 
-const main = (csvData) => {
+const main = (csvData, method="gainRatio") => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
+  tree.calcMethod = method
   let dataFrame = new dfd.DataFrame(csvData);
   dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
