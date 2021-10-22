@@ -7,6 +7,8 @@ import VisNetwork from "../../../TreeGraph.jsx";
 const TreeScreen = () => {
   const [file, setFile] = useState(undefined);
   const [csvFile, setCsvFile] = useState(undefined);
+  const [treeNodes, setTreeNodes] = useState(undefined);
+  const [treeBranches, setTreeBranches] = useState(undefined);
   // process CSV data
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -71,14 +73,33 @@ const TreeScreen = () => {
         label: node.node === "" ? node.classValue : node.node,
       });
     });
-      console.log(nodes);
+    return nodes;
+  };
 
+  // { from: 1, to: 2, label: "arrow1-2" },
+
+  const generateBranches = (tree) => {
+    const branches = [];
+    (tree.reverse()).map((node) => {
+      if (node.father !== '' ) {
+        let father = tree.filter((n, index) => n.id === node.father)
+        const label = father[0]?.branches.shift()
+        console.log("father", label)
+        branches.push({
+          from: node.father,
+          to: node.id,
+          label,
+        })
+      }
+    });
+    return branches;
   };
   useEffect(() => {
     if (file !== undefined) {
       const resultTree = main(file);
       console.log(resultTree);
-      generateNodes(resultTree);
+      setTreeNodes(generateNodes(resultTree));
+      setTreeBranches(generateBranches(resultTree));
     }
   }, [file]);
 
@@ -93,7 +114,7 @@ const TreeScreen = () => {
         />
       </div>
       <div style={{ border: "2px solid red", height: "80vh" }}>
-        {/* <VisNetwork /> */}
+        {treeNodes && <VisNetwork nodes={treeNodes} edges={treeBranches} />}
       </div>
     </>
   );
