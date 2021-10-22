@@ -21,7 +21,6 @@ const VisNetwork = ({nodes, edges}) => {
             shakeTowards: "roots" //esto es para que cada nodo se ubique en el nivel correcto
           },
         },
-        // randomSeed: undefined, // esto le da la forma redonda
         nodes: {
           shape: "dot",
           size: 10,
