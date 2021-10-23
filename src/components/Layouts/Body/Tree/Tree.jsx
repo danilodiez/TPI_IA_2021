@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
-import * as XLSX from "xlsx";
-import main from "../../../../scripts/tree.js";
+import React, { useEffect, useState } from 'react';
+import * as XLSX from 'xlsx';
+import main from '../../../../scripts/tree.js';
 // import Graph from "react-graph-vis";
-import VisNetwork from "../../../TreeGraph.jsx";
+import VisNetwork from '../../../TreeGraph.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Button from '../../../Basic/Button/Button';
 
 const TreeScreen = () => {
   const [file, setFile] = useState(undefined);
@@ -55,7 +58,7 @@ const TreeScreen = () => {
     reader.onload = (evt) => {
       /* Parse data */
       const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, { type: "binary" });
+      const wb = XLSX.read(bstr, { type: 'binary' });
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
@@ -70,25 +73,22 @@ const TreeScreen = () => {
     tree.map((node) => {
       nodes.push({
         id: node.id,
-        label: node.node === "" ? node.classValue : node.node,
+        label: node.node === '' ? node.classValue : node.node,
       });
     });
     return nodes;
   };
-
-  // { from: 1, to: 2, label: "arrow1-2" },
-
   const generateBranches = (tree) => {
     const branches = [];
-    (tree.reverse()).map((node) => {
-      if (node.father !== '' ) {
-        let father = tree.filter((n, index) => n.id === node.father)
-        const label = father[0]?.branches.shift()
+    tree.reverse().map((node) => {
+      if (node.father !== '') {
+        let father = tree.filter((n, index) => n.id === node.father);
+        const label = father[0]?.branches.shift();
         branches.push({
           from: node.father,
           to: node.id,
           label,
-        })
+        });
       }
     });
     return branches;
@@ -101,17 +101,26 @@ const TreeScreen = () => {
     }
   }, [file]);
 
+  const notify = () => toast.warn('Custom error message');
+
   return (
     <>
       <div>
         <h1>Tree</h1>
+        <Button onClick={notify}>Notify !</Button>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={true}
+          closeOnClick={false}
+        />
         <input
           type="file"
           accept=".csv,.xlsx,.xls, .txt"
           onChange={handleFileUpload}
         />
       </div>
-      <div style={{ border: "2px solid red", height: "80vh" }}>
+      <div style={{ border: '2px solid red', height: '80vh' }}>
         {treeNodes && <VisNetwork nodes={treeNodes} edges={treeBranches} />}
       </div>
     </>
