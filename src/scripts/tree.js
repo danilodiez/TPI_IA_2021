@@ -351,7 +351,6 @@ const main = (csvData, method="gainRatio") => {
   var tree = new Tree()
   tree.calcMethod = method
   let dataFrame = new dfd.DataFrame(csvData);
-  dataFrame = checkForContinuesValues(dataFrame);
   const { columns: attributes } = dataFrame;
   return decisionTree(dataFrame, attributes, tree);
 
