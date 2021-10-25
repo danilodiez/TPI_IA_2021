@@ -1,16 +1,20 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
-import './styles-load.css';
-import Table from './Table';
-import * as dfd from "danfojs/src/index"
-
+import "./styles-load.css";
+import Table from "./Table";
+import * as dfd from "danfojs/src/index";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const LoadScreen = () => {
   const [file, setFile] = useState(undefined);
-  const [dataFrame, setDataFrame] = useState(null)
-  const [dataFrameHasIds, setDataFrameHasIds] = useState(false)
-  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false)
-  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false)
+  const [dataFrame, setDataFrame] = useState(null);
+  const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
+  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] =
+    useState(false);
+  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] =
+    useState(false);
+
+  const validTypes = ["text/plain", "text/csv"];
 
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -53,78 +57,96 @@ const LoadScreen = () => {
   };
 
   const handleFileUpload = (e) => {
+    setDataFrame(null)
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      /* Parse data */
-      const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, { type: "binary" });
-      /* Get first worksheet */
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-      processData(data);
-    };
-    reader.readAsBinaryString(file);
+    if (validTypes.includes(file.type)) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: "binary" });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        processData(data);
+      };
+      reader.readAsBinaryString(file);
+    } else {
+      console.log("Tipo de archivo incorrecto");
+    }
   };
 
   const removeContinuesValues = (dataFrame) => {
     const columnTypes = dataFrame.col_types;
     const columnNames = dataFrame.columns;
-  
+
     /* Danfo tiene 3 tipos de datos (string, int32 o float32),
     nos interesa eliminar aquellos del tipo float32 */
-  
-    columnTypes.forEach( (type, index) => {
-      if(type === 'float32') {
-        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
-        setDataFrameHasContinuesValues(true)
+
+    columnTypes.forEach((type, index) => {
+      if (type === "float32") {
+        dataFrame.drop({
+          columns: [columnNames[index]],
+          axis: 1,
+          inplace: true,
+        });
+        setDataFrameHasContinuesValues(true);
       }
-    })
-    return dataFrame
+    });
+    return dataFrame;
   };
-  
+
   const removeIds = () => {
     const columnNames = dataFrame.columns;
-  
-    columnNames.forEach( (column, index) => {
-      console.log(column.toLowerCase())
-      const posibleIdsCases = ['id','ids','"id"','"ids"']
-      if(posibleIdsCases.includes(column.toLowerCase().trim())) {
-        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
-        setDataFrameHasIds(true)
+
+    columnNames.forEach((column, index) => {
+      console.log(column.toLowerCase());
+      const posibleIdsCases = ["id", "ids", '"id"', '"ids"'];
+      if (posibleIdsCases.includes(column.toLowerCase().trim())) {
+        dataFrame.drop({
+          columns: [columnNames[index]],
+          axis: 1,
+          inplace: true,
+        });
+        setDataFrameHasIds(true);
       }
-    })
-    return dataFrame
-  }
+    });
+    return dataFrame;
+  };
   //const removeSpecialCharacters = () => {}
 
   const validDataFrame = (dataFrame) => {
     let validDataFrame = removeContinuesValues(dataFrame);
-    validDataFrame = removeIds(validDataFrame)
+    validDataFrame = removeIds(validDataFrame);
     setDataFrame(validDataFrame);
-  }
-  
+  };
+
   useEffect(() => {
-    if (file !== undefined ) {
-      setDataFrame(new dfd.DataFrame(file))
-      dataFrame && validDataFrame(dataFrame)
+    if (file !== undefined) {
+      setDataFrame(new dfd.DataFrame(file));
+      dataFrame && validDataFrame(dataFrame);
     }
-  }, [file,dataFrame]);
+  }, [file, dataFrame]);
 
   return (
     <div className="container-load">
-      <h1 className="text-center p-4 mt-4">
-        Decision Tree
-      </h1>
-      <input
+      <h1 className="text-center p-4 mt-4">Decision Tree</h1>
+      <div className="input-group">
+        <input
           type="file"
+          className="form-control bg-info bg-opacity-25"
+          aria-describedby="inputGroupFileAddon04"
           accept=".csv,.xlsx,.xls, .txt"
+          aria-label="Upload"
           onChange={handleFileUpload}
         />
+      </div>
       <div className="d-flex justify-content-center">
-        {dataFrame && <Table columns={dataFrame.columns} data={dataFrame.data} />}
+        {dataFrame && (
+          <Table columns={dataFrame.columns} data={dataFrame.data} />
+        )}
       </div>
     </div>
   );

@@ -34,8 +34,8 @@ const Table = ({columns,data}) => {
   ];  */
   return (
     <div className="container-table">
-      <table className="table table-striped">
-        <thead>
+      <table className="table table-striped table-layout">
+        <thead className="table-head">
           <tr>
             {columns && columns.map((element, i) => {
               return <th key={`thead_${i}`}>{element}</th>
@@ -44,7 +44,7 @@ const Table = ({columns,data}) => {
         </thead>
         <tbody>
           {data && data.map((row, i) => {
-            
+
             return <tr key={`tbody_${i}`}>
               {row.map((element, i) => {
                 return <td key={`element_${i}`}>{element}</td>

@@ -3,13 +3,20 @@
   height: 400px;
   text-align: center;
   line-height: 1em;
-  overflow-x: hidden;
+  overflow-x: scroll;
   overflow-y: scroll;
   font-family: var(--roboto-regular);
+  position: relative;
 }
-thead {
+.table-head {
   background-color: lightgrey;
   border-color: white;
+  position: sticky;
+  top: 0;
+}
+.table-layout {
+  position: relative;
+
 }
 tr {
   border-color: transparent;
