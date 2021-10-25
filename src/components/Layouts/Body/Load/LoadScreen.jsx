@@ -1,16 +1,19 @@
-import React,{useState,useEffect} from 'react';
-import * as XLSX from "xlsx";
+import React, { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 import './styles-load.css';
 import Table from './Table';
-import * as dfd from "danfojs/src/index"
-
+import * as dfd from 'danfojs/src/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoadScreen = () => {
   const [file, setFile] = useState(undefined);
-  const [dataFrame, setDataFrame] = useState(null)
-  const [dataFrameHasIds, setDataFrameHasIds] = useState(false)
-  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false)
-  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false)
+  const [dataFrame, setDataFrame] = useState(null);
+  const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
+  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] =
+    useState(false);
+  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] =
+    useState(false);
 
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -58,7 +61,7 @@ const LoadScreen = () => {
     reader.onload = (evt) => {
       /* Parse data */
       const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, { type: "binary" });
+      const wb = XLSX.read(bstr, { type: 'binary' });
       /* Get first worksheet */
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
@@ -69,62 +72,84 @@ const LoadScreen = () => {
     reader.readAsBinaryString(file);
   };
 
+  const showToast = (message) => toast.warn(message);
+
   const removeContinuesValues = (dataFrame) => {
     const columnTypes = dataFrame.col_types;
     const columnNames = dataFrame.columns;
-  
+
     /* Danfo tiene 3 tipos de datos (string, int32 o float32),
     nos interesa eliminar aquellos del tipo float32 */
-  
-    columnTypes.forEach( (type, index) => {
-      if(type === 'float32') {
-        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
-        setDataFrameHasContinuesValues(true)
+
+    columnTypes.forEach((type, index) => {
+      if (type === 'float32') {
+        dataFrame.drop({
+          columns: [columnNames[index]],
+          axis: 1,
+          inplace: true,
+        });
+        setDataFrameHasContinuesValues(true);
+        showToast(
+          'El Dataset seleccionado posee un campo con atributos continuos, el mismo no se tendrá en cuenta en el proceso'
+        );
       }
-    })
-    return dataFrame
+    });
+    return dataFrame;
   };
-  
+
   const removeIds = () => {
     const columnNames = dataFrame.columns;
-  
-    columnNames.forEach( (column, index) => {
-      console.log(column.toLowerCase())
-      const posibleIdsCases = ['id','ids','"id"','"ids"']
-      if(posibleIdsCases.includes(column.toLowerCase().trim())) {
-        dataFrame.drop({columns: [columnNames[index]], axis: 1, inplace: true})
-        setDataFrameHasIds(true)
+
+    columnNames.forEach((column, index) => {
+      console.log(column.toLowerCase());
+      const posibleIdsCases = ['id', 'ids', '"id"', '"ids"'];
+      if (posibleIdsCases.includes(column.toLowerCase().trim())) {
+        dataFrame.drop({
+          columns: [columnNames[index]],
+          axis: 1,
+          inplace: true,
+        });
+        setDataFrameHasIds(true);
+        showToast(
+          'El Dataset seleccionado posee un campo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
+        );
       }
-    })
-    return dataFrame
-  }
+    });
+    return dataFrame;
+  };
   //const removeSpecialCharacters = () => {}
 
   const validDataFrame = (dataFrame) => {
     let validDataFrame = removeContinuesValues(dataFrame);
-    validDataFrame = removeIds(validDataFrame)
+    validDataFrame = removeIds(validDataFrame);
     setDataFrame(validDataFrame);
-  }
-  
+  };
+
   useEffect(() => {
-    if (file !== undefined ) {
-      setDataFrame(new dfd.DataFrame(file))
-      dataFrame && validDataFrame(dataFrame)
+    if (file !== undefined) {
+      setDataFrame(new dfd.DataFrame(file));
+      dataFrame && validDataFrame(dataFrame);
     }
-  }, [file,dataFrame]);
+  }, [file, dataFrame]);
 
   return (
     <div className="container-load">
-      <h1 className="text-center p-4 mt-4">
-        Decision Tree
-      </h1>
+      <ToastContainer
+        position="top-right"
+        autoClose={10000}
+        hideProgressBar={true}
+        closeOnClick={false}
+      />
+      <h1 className="text-center p-4 mt-4">Decision Tree</h1>
       <input
-          type="file"
-          accept=".csv,.xlsx,.xls, .txt"
-          onChange={handleFileUpload}
-        />
+        type="file"
+        accept=".csv,.xlsx,.xls, .txt"
+        onChange={handleFileUpload}
+      />
       <div className="d-flex justify-content-center">
-        {dataFrame && <Table columns={dataFrame.columns} data={dataFrame.data} />}
+        {dataFrame && (
+          <Table columns={dataFrame.columns} data={dataFrame.data} />
+        )}
       </div>
     </div>
   );
