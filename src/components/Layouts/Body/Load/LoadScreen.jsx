@@ -117,11 +117,37 @@ const LoadScreen = () => {
     });
     return dataFrame;
   };
-  //const removeSpecialCharacters = () => {}
+
+  const removeSpecialCharacters = () => {
+    const data = dataFrame.data;
+
+    // los caracteres con los cuales no trabajamos son: ` ! @ # $ % ^ & * ( ) _ + \ = [ ] { } ; ' : " | , . / ? ~
+    const specialCharacterRegex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.\/?~]/;
+
+    const indexesToRemove = [];
+
+    data.forEach((row, rowIndex) => {
+      let rowHasSpecialCharacter = row.some((value) =>
+        specialCharacterRegex.test(value)
+      );
+      if (rowHasSpecialCharacter) {
+        indexesToRemove.push(rowIndex);
+      }
+    });
+
+    dataFrame.drop({
+      index: indexesToRemove,
+      axis: 0,
+      inplace: true,
+    });
+
+    return dataFrame;
+  };
 
   const validDataFrame = (dataFrame) => {
     let validDataFrame = removeContinuesValues(dataFrame);
     validDataFrame = removeIds(validDataFrame);
+    validDataFrame = removeSpecialCharacters(validDataFrame);
     setDataFrame(validDataFrame);
   };
 

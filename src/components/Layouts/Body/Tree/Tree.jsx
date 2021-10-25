@@ -34,8 +34,6 @@ const TreeScreen = ({ dataframe }) => {
     return branches;
   };
 
-  
-
   return (
     <>
       <div>
