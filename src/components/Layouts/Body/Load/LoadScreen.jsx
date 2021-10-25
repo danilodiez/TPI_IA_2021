@@ -121,6 +121,7 @@ const LoadScreen = () => {
   const removeSpecialCharacters = () => {
     const data = dataFrame.data;
 
+    // los caracteres con los cuales no trabajamos son: ` ! @ # $ % ^ & * ( ) _ + \ = [ ] { } ; ' : " | , . / ? ~
     const specialCharacterRegex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.\/?~]/;
 
     const indexesToRemove = [];
