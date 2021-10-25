@@ -16,6 +16,7 @@
     "react-drag-drop-files": "^2.1.14",
     "react-modal": "^3.14.3",
     "react-router-dom": "^5.3.0",
+    "react-toastify": "^8.0.3",
     "seedrandom": "^2.4.4",
     "vis-network": "^9.1.0",
     "xlsx": "^0.17.3"

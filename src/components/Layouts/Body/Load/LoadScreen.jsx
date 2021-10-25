@@ -3,6 +3,8 @@ import * as XLSX from 'xlsx';
 import './styles-load.css';
 import Table from './Table';
 import * as dfd from 'danfojs/src/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoadScreen = () => {
   const [file, setFile] = useState(undefined);
@@ -70,6 +72,8 @@ const LoadScreen = () => {
     reader.readAsBinaryString(file);
   };
 
+  const showToast = (message) => toast.warn(message);
+
   const removeContinuesValues = (dataFrame) => {
     const columnTypes = dataFrame.col_types;
     const columnNames = dataFrame.columns;
@@ -85,6 +89,9 @@ const LoadScreen = () => {
           inplace: true,
         });
         setDataFrameHasContinuesValues(true);
+        showToast(
+          'El Dataset seleccionado posee un campo con atributos continuos, el mismo no se tendrá en cuenta en el proceso'
+        );
       }
     });
     return dataFrame;
@@ -103,6 +110,9 @@ const LoadScreen = () => {
           inplace: true,
         });
         setDataFrameHasIds(true);
+        showToast(
+          'El Dataset seleccionado posee un campo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
+        );
       }
     });
     return dataFrame;
@@ -149,6 +159,12 @@ const LoadScreen = () => {
 
   return (
     <div className="container-load">
+      <ToastContainer
+        position="top-right"
+        autoClose={10000}
+        hideProgressBar={true}
+        closeOnClick={false}
+      />
       <h1 className="text-center p-4 mt-4">Decision Tree</h1>
       <input
         type="file"
