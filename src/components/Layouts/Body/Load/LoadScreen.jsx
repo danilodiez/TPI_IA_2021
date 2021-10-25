@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import * as XLSX from 'xlsx';
-import './styles-load.css';
-import Table from './Table';
-import * as dfd from 'danfojs/src/index';
+import TreeScreen from '../Tree/Tree';
+import Table from './Table/Table';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './styles-load.css';
+import * as XLSX from 'xlsx';
+import * as dfd from 'danfojs/src/index';
+
 
 const LoadScreen = () => {
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null);
   const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
-  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] =
-    useState(false);
-  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] =
-    useState(false);
+  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false);
+  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false);
 
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -141,15 +141,22 @@ const LoadScreen = () => {
         closeOnClick={false}
       />
       <h1 className="text-center p-4 mt-4">Decision Tree</h1>
-      <input
-        type="file"
-        accept=".csv,.xlsx,.xls, .txt"
-        onChange={handleFileUpload}
-      />
-      <div className="d-flex justify-content-center">
-        {dataFrame && (
+      <div className="p-2 d-flex justify-content-center">
+        <input
+          type="file"
+          accept=".csv, .xlsx, .xls, .txt"
+          onChange={handleFileUpload}
+        />
+      </div>
+      <div className="p-4 d-flex justify-content-center">
+        {dataFrame &&
           <Table columns={dataFrame.columns} data={dataFrame.data} />
-        )}
+        }
+      </div>
+      <div className="p-4 d-flex justify-content-center">
+        {dataFrame && 
+          <TreeScreen dataFrame={file} />
+        }
       </div>
     </div>
   );

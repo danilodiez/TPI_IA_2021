@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import main from '../../../../scripts/tree.js';
 // import Graph from "react-graph-vis";
 import VisNetwork from '../../../TreeGraph.jsx';
+import Spinner from '../Load/Spinner/Spinner.jsx';
+import './styles.css';
 
-const TreeScreen = ({ dataframe }) => {
+const TreeScreen = ({ dataFrame }) => {
+  console.log('esto recibeee', dataFrame)
   const [treeNodes, setTreeNodes] = useState(undefined);
   const [treeBranches, setTreeBranches] = useState(undefined);
-  // process CSV data
 
   const generateNodes = (tree) => {
     const nodes = [];
@@ -34,19 +36,24 @@ const TreeScreen = ({ dataframe }) => {
     return branches;
   };
 
-  
+  useEffect(() => {
+    if (dataFrame !== undefined) {
+      const resultTree = main(dataFrame);
+      setTreeNodes(generateNodes(resultTree));
+      setTreeBranches(generateBranches(resultTree));
+    }
+  }, [dataFrame]);
 
   return (
-    <>
-      <div>
-        <h1>Tree</h1>
-
-        <input type="file" accept=".csv,.xlsx,.xls, .txt" />
-      </div>
-      <div style={{ border: '2px solid red', height: '80vh' }}>
-        {treeNodes && <VisNetwork nodes={treeNodes} edges={treeBranches} />}
-      </div>
-    </>
+    <div className="container-tree">
+      {(treeNodes && treeBranches) ? 
+        <VisNetwork nodes={treeNodes} edges={treeBranches}/>
+        :
+        <div className="d-flex justify-content-center">
+          <Spinner />
+        </div>
+      } 
+    </div>
   );
 };
 

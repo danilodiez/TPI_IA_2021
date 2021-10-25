@@ -29,8 +29,7 @@ function App() {
         <div className="col-9 p-0 bg-light">
           <Switch>
             <Route path="/index">
-              {/* <Inicio /> */}
-              <DragAndDrop />
+              <Inicio />
             </Route>
             <Route path="/load">
               <LoadScreen />
