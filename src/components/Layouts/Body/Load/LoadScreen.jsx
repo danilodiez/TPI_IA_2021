@@ -57,22 +57,27 @@ const LoadScreen = () => {
 
     setFile(list);
   };
-
+  const accceptedFileTypes = ['text/csv', 'text/plain'];
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      /* Parse data */
-      const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, { type: 'binary' });
-      /* Get first worksheet */
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-      processData(data);
-    };
-    reader.readAsBinaryString(file);
+    if(accceptedFileTypes.includes(file.type)){
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        processData(data);
+      };
+      reader.readAsBinaryString(file);
+    } else {
+      //TODO DESPLEGAR MODAL
+      console.log("TIPO DE ARCHIVO INCORRECTO")
+    }
   };
 
   const showToast = (message) => toast.warn(message);
@@ -193,7 +198,7 @@ const LoadScreen = () => {
       <div className="p-4 d-flex justify-content-center">
         {(dataFrame?.columns && dataFrame?.data) ?
           <Table columns={dataFrame.columns} data={dataFrame.data} />
-          : 
+          :
           file && <Spinner />
         }
       </div>
