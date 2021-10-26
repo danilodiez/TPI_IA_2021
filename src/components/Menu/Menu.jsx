@@ -23,7 +23,7 @@ const Menu = () => {
             </button>
           </li>
           <li className="m-2">
-          <button onClick={() => {history.push("/tree")}}>
+          <button onClick={() => {history.push("/load")}}>
               Arbol de decisión
             </button>
           </li>

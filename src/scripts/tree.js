@@ -349,7 +349,7 @@ const main = (csvData, method="gainRatio") => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()
-  tree.calcMethod = method
+  tree.calcMethod = method;
   let dataFrame = new dfd.DataFrame(csvData);
   const { columns: attributes } = dataFrame;
   return decisionTree(dataFrame, attributes, tree);

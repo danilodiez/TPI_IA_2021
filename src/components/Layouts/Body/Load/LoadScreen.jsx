@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import * as XLSX from 'xlsx';
-import './styles-load.css';
-import Table from './Table';
-import * as dfd from 'danfojs/src/index';
+import { useHistory } from 'react-router';
+import Table from './Table/Table';
 import { ToastContainer, toast } from 'react-toastify';
+import Button from '../../../Basic/Button/Button';
+import Spinner from './Spinner/Spinner';
 import 'react-toastify/dist/ReactToastify.css';
+import './styles-load.css';
+import * as XLSX from 'xlsx';
+import * as dfd from 'danfojs/src/index';
+
 
 const LoadScreen = () => {
+  const history = useHistory();
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null);
   const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
-  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] =
-    useState(false);
-  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] =
-    useState(false);
+  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false);
+  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false);
 
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
@@ -101,7 +104,6 @@ const LoadScreen = () => {
     const columnNames = dataFrame.columns;
 
     columnNames.forEach((column, index) => {
-      console.log(column.toLowerCase());
       const posibleIdsCases = ['id', 'ids', '"id"', '"ids"'];
       if (posibleIdsCases.includes(column.toLowerCase().trim())) {
         dataFrame.drop({
@@ -158,6 +160,13 @@ const LoadScreen = () => {
     }
   }, [file, dataFrame]);
 
+  const redirect = () => {
+    history.push({
+      pathname: "/tree",
+      state: { dataFrame: file}
+    })
+  }
+
   return (
     <div className="container-load">
       <ToastContainer
@@ -167,15 +176,37 @@ const LoadScreen = () => {
         closeOnClick={false}
       />
       <h1 className="text-center p-4 mt-4">Decision Tree</h1>
-      <input
-        type="file"
-        accept=".csv,.xlsx,.xls, .txt"
-        onChange={handleFileUpload}
-      />
       <div className="d-flex justify-content-center">
-        {dataFrame && (
+        <h5>Haga click en el recuadro y seleccione su archivo</h5>
+      </div>
+      <div className="p-2 d-flex justify-content-center">
+        <div className="container-input-file d-flex justify-content-center">
+          <input
+            id="input-file"
+            type="file"
+            accept=".csv, .xlsx, .xls, .txt"
+            onChange={handleFileUpload}
+          />
+          <label htmlFor="input-file" className="input-file"></label>
+        </div>
+      </div>
+      <div className="p-4 d-flex justify-content-center">
+        {(dataFrame?.columns && dataFrame?.data) ?
           <Table columns={dataFrame.columns} data={dataFrame.data} />
-        )}
+          : 
+          file && <Spinner />
+        }
+      </div>
+      <div className="p-4 d-flex justify-content-center">
+        {(dataFrame?.columns && dataFrame?.data) &&
+          <Button
+            text="Generar árbol"
+            type="info"
+            size="lg"
+            style={{ color: 'black' }}
+            onClick={redirect}
+          />
+        }
       </div>
     </div>
   );
