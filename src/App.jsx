@@ -9,7 +9,7 @@ import {
 import Menu from './components/Menu/Menu';
 import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
-import TreeScreen from './components/Layouts/Body/Tree/Tree';
+import TreeScreen from './components/Layouts/Body/Load/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
 import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
 

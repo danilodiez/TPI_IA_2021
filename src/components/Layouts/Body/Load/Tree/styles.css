@@ -5,3 +5,6 @@
   color: var(--aqua);
   font-family: var(--roboto-black);
 }
+.tree {
+  border: 1px solid red;
+}

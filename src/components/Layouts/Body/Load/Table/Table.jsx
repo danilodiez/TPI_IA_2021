@@ -15,7 +15,6 @@ const Table = ({columns,data}) => {
         </thead>
         <tbody>
           {data && data.map((row, i) => {
-            
             return <tr key={`tbody_${i}`}>
               {row.map((element, i) => {
                 return <td key={`element_${i}`}>{element}</td>

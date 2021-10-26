@@ -2,3 +2,24 @@
   color: var(--aqua);
   font-family: var(--roboto-black);
 }
+.container-load h5 {
+  font-size: 16px;
+}
+.container-input-file {
+  width: 200px;
+  border: 1px solid var(--aqua);
+  border-radius: 10px;
+}
+#input-file {
+  display: none;
+}
+.input-file {
+  background-image: url(../../../../assets/images/fileImage.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 60px;
+  height: 50px;
+  margin: 10px 0;
+  cursor: pointer;
+}

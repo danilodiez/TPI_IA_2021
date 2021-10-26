@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import main from '../../../../scripts/tree.js';
+import main from '../../../../../scripts/tree.js';
 // import Graph from "react-graph-vis";
-import VisNetwork from '../../../TreeGraph.jsx';
-import Spinner from '../Load/Spinner/Spinner.jsx';
+import VisNetwork from '../../../../TreeGraph.jsx';
+import Spinner from '../Spinner/Spinner.jsx';
+import Button from '../../../../Basic/Button/Button';
+import { useLocation } from "react-router-dom";
+import { useHistory } from 'react-router';
 import './styles.css';
 
-const TreeScreen = ({ dataFrame }) => {
-  console.log('esto recibeee', dataFrame)
+const TreeScreen = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const [dataFrame, setdataFrame] = useState(undefined);
   const [treeNodes, setTreeNodes] = useState(undefined);
   const [treeBranches, setTreeBranches] = useState(undefined);
 
@@ -36,6 +41,14 @@ const TreeScreen = ({ dataFrame }) => {
     return branches;
   };
 
+  const redirect = () => {
+    history.push("/load")
+  }
+
+  useEffect(() => {
+    setdataFrame(location.state.dataFrame)
+  }, [location.state.dataFrame]);
+  
   useEffect(() => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame);
@@ -46,13 +59,19 @@ const TreeScreen = ({ dataFrame }) => {
 
   return (
     <div className="container-tree">
-      {(treeNodes && treeBranches) ? 
-        <VisNetwork nodes={treeNodes} edges={treeBranches}/>
-        :
-        <div className="d-flex justify-content-center">
-          <Spinner />
-        </div>
-      } 
+      <h1 className="text-center p-4 mt-4">Tree</h1>
+      <VisNetwork nodes={treeNodes} edges={treeBranches}/>
+      <div className="p-4 d-flex justify-content-center">
+        {(treeNodes && treeBranches) &&
+          <Button
+            text="Volver a la carga"
+            type="info"
+            size="lg"
+            style={{ color: 'black' }}
+            onClick={redirect}
+          />
+        }
+      </div>
     </div>
   );
 };
