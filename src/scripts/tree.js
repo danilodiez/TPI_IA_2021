@@ -345,7 +345,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         return currentNodes
     };
 
-const main = (csvData, method="gainRatio") => {
+const main = (csvData, method="gain") => {
 
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree()

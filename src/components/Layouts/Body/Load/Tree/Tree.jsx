@@ -12,8 +12,10 @@ const TreeScreen = () => {
   const location = useLocation();
   const history = useHistory();
   const [dataFrame, setdataFrame] = useState(undefined);
-  const [treeNodes, setTreeNodes] = useState(undefined);
-  const [treeBranches, setTreeBranches] = useState(undefined);
+  const [treeNodesGain, setTreeNodesGain] = useState(undefined);
+  const [treeBranchesGain, setTreeBranchesGain] = useState(undefined);
+    const [treeNodesGainRatio, setTreeNodesGainRatio] = useState(undefined);
+    const [treeBranchesGainRatio, setTreeBranchesGainRatio] = useState(undefined);
 
   const generateNodes = (tree) => {
     const nodes = [];
@@ -48,29 +50,35 @@ const TreeScreen = () => {
   useEffect(() => {
     setdataFrame(location.state.dataFrame)
   }, [location.state.dataFrame]);
-  
+
   useEffect(() => {
     if (dataFrame !== undefined) {
-      const resultTree = main(dataFrame);
-      setTreeNodes(generateNodes(resultTree));
-      setTreeBranches(generateBranches(resultTree));
+      const resultTreeGain = main(dataFrame);
+      setTreeNodesGain(generateNodes(resultTreeGain));
+      setTreeBranchesGain(generateBranches(resultTreeGain));
+      const resultTreeGainRatio = main(dataFrame, "gainRatio");
+      setTreeNodesGainRatio(generateNodes(resultTreeGainRatio));
+      setTreeBranchesGainRatio(generateBranches(resultTreeGainRatio));
     }
   }, [dataFrame]);
 
   return (
     <div className="container-tree">
-      <h1 className="text-center p-4 mt-4">Tree</h1>
-      <VisNetwork nodes={treeNodes} edges={treeBranches}/>
+      <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
+      <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
+      <VisNetwork nodes={treeNodesGain} edges={treeBranchesGain} />
+      <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
+      <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} />
       <div className="p-4 d-flex justify-content-center">
-        {(treeNodes && treeBranches) &&
+        {treeNodesGain && treeBranchesGain && (
           <Button
             text="Volver a la carga"
             type="info"
             size="lg"
-            style={{ color: 'black' }}
+            style={{ color: "black" }}
             onClick={redirect}
           />
-        }
+        )}
       </div>
     </div>
   );
