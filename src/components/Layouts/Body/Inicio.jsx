@@ -20,14 +20,14 @@ const Inicio = () => {
       <hr className="m-4"/>
       <div className="text-center p-4">
         <div className="pb-5">
-          <h5 className="p-2">Trabajo Practico Integrador - Inteligencia Artificial.</h5>
+          <h5 className="p-2">Trabajo Practico Integrador - Inteligencia Artificial</h5>
           <h5 className="p-2">Desarrollado con: React, Vite, Vis-Network y DanfoJS.</h5>
         </div>
         <div className="pt-5">
           <h5 className="text-center m-0">INTEGRANTES:</h5>
           <ul className="nav justify-content-center">
             <li className="nav-item">
-              Dias Duarte, Nicolas
+              Diaz Duarte, Nicolas
             </li>
             <li className="nav-item">
               Diez, Danilo
