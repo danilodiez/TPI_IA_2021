@@ -18,9 +18,18 @@ const TreeScreen = () => {
   const generateNodes = (tree) => {
     const nodes = [];
     tree.map((node) => {
+      let tooltipInfo = '';
+      //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja 
+      if (node.isLeaf){
+        tooltipInfo = `Confidence: ${node.leafConfidence}`;
+      }else{
+        tooltipInfo = node.calcMethod === 'gainRatio' ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}` : `Gain: ${node.gain} \n Entropy: ${node.entropy} ` 
+      };
+
       nodes.push({
         id: node.id,
         label: node.node === '' ? node.classValue : node.node,
+        title: tooltipInfo
       });
     });
     return nodes;
