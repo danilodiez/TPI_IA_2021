@@ -204,7 +204,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   var tree = new Tree();
   tree.calcMethod = calcMethod;
   tree.father = fatherNode;
-  // console.log("calcMethod", calcMethod)
+
   let indexOfClasses =
     dataFrame.col_data.length - 1 == -1
       ? dataFrame.columns.length - 1
@@ -217,14 +217,13 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
     let classes = countOccurrences(dataArray);
-
+    let ocurrences = Object.values(classes)[0];
     classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
     tree.classValue = Object.keys(classes[0])[0];
-    tree.leafConfidence = 1;
+    tree.leafConfidence = `${ocurrences}/${ocurrences}`;
     tree.isLeaf = true;
     tree.id = contId;
     contId += 1;
-    // console.log('Hoja en condicion de salida 1', tree);
     currentNodes.push(tree);
     return;
   } else if (attributesEmpty(attributes)) {
@@ -251,7 +250,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     tree.id = contId;
     contId += 1;
 
-    // console.log('Hoja en condicion de salida 2', tree);
+    console.log('Hoja en condicion de salida 2', tree);
     /*console.log('Hacer hoja por atributos vacio');*/
     currentNodes.push(tree);
     return;
@@ -289,9 +288,9 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             return b.gain - a.gain;
           });
           bestGain = gainsRatio[0];
-          // console.log('gainsRatio', gainsRatio);
+          console.log('gainsRatio', gainsRatio);
         } else {
-          // console.log('Metodo de calculo incorrecto');
+          console.log('Metodo de calculo incorrecto');
         }
       }
     });
@@ -311,12 +310,15 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       tree.isLeaf = true;
       tree.id = contId;
       contId += 1;
-      // console.log('Genero una hoja de T rotulada con Cj');
+      console.log('Genero una hoja de T rotulada con Cj');
       currentNodes.push(tree);
       return;
     } else {
-      tree.gain = bestGain.gain;
-      // console.log('Genero un nodo decision rotulado con Cj');
+      calcMethod == 'gain'
+        ? (tree.gain = bestGain.gain)
+        : (tree.gainRatio = bestGain.gain);
+
+      console.log('Genero un nodo decision rotulado con Cj');
 
       //valuesOfattr servira para la recursion
       const { subsets, valuesOfAttr } = partition(bestGain.index, dataFrame);
@@ -332,7 +334,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       tree.id = contId;
       contId += 1;
       currentNodes.push(tree);
-      // console.log('Nodo', tree);
+      console.log('Nodo', tree);
       //linea 17 del algoritmo
       subsets.forEach((subset) => {
         if (subset != []) {
