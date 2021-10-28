@@ -205,7 +205,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   var tree = new Tree();
   tree.calcMethod = calcMethod
   tree.father = fatherNode;
-  console.log("calcMethod", calcMethod)
+  
   let indexOfClasses = dataFrame.col_data.length - 1 == -1 ? dataFrame.columns.length - 1 : dataFrame.col_data.length - 1 ;
 
   const dataArray = dataFrame.col_data[indexOfClasses] || new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
@@ -213,14 +213,13 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
     let classes = countOccurrences(dataArray);
-
+    let ocurrences = Object.values(classes)[0];
     classes = Object.entries(classes).map((e) => ( { [e[0]]: e[1] } ));
     tree.classValue= Object.keys(classes[0])[0];
-    tree.leafConfidence = 1;
+    tree.leafConfidence = `${ocurrences}/${ocurrences}`;
     tree.isLeaf = true;
     tree.id = contId;
     contId += 1;
-    console.log("Hoja en condicion de salida 1",tree);
     currentNodes.push(tree);
     return
   } else if (attributesEmpty(attributes)) {
@@ -314,7 +313,8 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
         currentNodes.push(tree);
         return
       } else {
-        tree.gain = bestGain.gain
+        calcMethod == 'gain' ? tree.gain = bestGain.gain : tree.gainRatio = bestGain.gain;
+        
         console.log("Genero un nodo decision rotulado con Cj");
 
         //valuesOfattr servira para la recursion
