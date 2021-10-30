@@ -30,13 +30,12 @@ const impurityEval1 = (dataframe) => {
   var occurrencesOfClasses = countValuesOcurrences(dataframe.data, classIndex);
 
   let classesNames = Object.keys(occurrencesOfClasses);
-
   classesNames.forEach((eachClass) => {
     let className = eachClass;
     let probability = occurrencesOfClasses[className] / dataframe.data.length;
     entropy += probability * log2(probability);
   });
-
+  
   return -entropy;
 };
 
@@ -49,10 +48,12 @@ const partition = (indexOfSelectedAttr, dataframe) => {
   valuesOfAttr.forEach((value) => {
     let newSubset = [];
 
-    dataframe.data.forEach((row) => {
-      if (row[indexOfSelectedAttr] == value) {
-        row.splice(indexOfSelectedAttr, 1); //elimina el valor de ese atributo que al llamar recursivamente no se utiliza mas
-        newSubset.push(row);
+    dataframe.data.forEach((row,index) => {
+      let newRow = row;
+      
+      if(row[indexOfSelectedAttr] === value){
+        newRow = row.filter ((value,index) => index !== indexOfSelectedAttr  )
+        newSubset.push(newRow)
       }
     });
     subsets.push(newSubset);
@@ -77,16 +78,20 @@ const getValuesOfColumn = (array, index) =>
 const impurityEval2 = (attr, data) => {
   const { columns: attributes } = data;
 
-  const indexOfClass = attributes.length - 1;
-  const indexOfAttribute = attributes.indexOf(attr);
+  let indexOfClasses =
+    data.col_data.length - 1 == -1
+      ? data.columns.length - 1
+      : data.col_data.length - 1;
+  
+  const indexOfAttribute = attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr)  ;
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
 
-  const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)].sort();
+  const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)];
 
   // obtener la cantidad de ejemplos de cada subcojunto
   // retorna algo asi: { HIGH: 90, LOW: 81 }
-
+  
   const occurrences = countOccurrences(AllValuesOfAttribute);
 
   const { data: allExamples } = data;
@@ -113,7 +118,7 @@ const impurityEval2 = (attr, data) => {
     // arreglo, cuyos elementos son todos los valores de la clase de cada ejemplo en el subset
     const classValuesOfSubset = getValuesOfColumn(
       subset.examples,
-      indexOfClass
+      indexOfClasses
     );
 
     // mismo metodo que uso antes
@@ -177,22 +182,7 @@ const attributesEmpty = (attributes) => {
   return attributes.length === 1;
 };
 
-const checkForContinuesValues = (dataFrame) => {
-  const columnTypes = dataFrame.col_types;
-  const columnNames = dataFrame.columns;
 
-  /* Danfo tiene 3 tipos de datos (string, int32 o float32),
-  nos interesa eliminar aquellos del tipo float32 */
-
-  columnTypes.forEach((type, index) => {
-    if (type === 'float32') {
-      dataFrame.drop({ columns: [columnNames[index]], axis: 1, inplace: true });
-    }
-  });
-
-  //Retornamos el dataFrame sin valores continuos
-  return dataFrame;
-};
 var currentNodes = [];
 var contId = 0;
 const decisionTree = (dataFrame, attributes = [], tree) => {
@@ -206,9 +196,9 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   tree.father = fatherNode;
 
   let indexOfClasses =
-    dataFrame.col_data.length - 1 == -1
-      ? dataFrame.columns.length - 1
-      : dataFrame.col_data.length - 1;
+  dataFrame.col_data.length - 1 == -1
+    ? dataFrame.columns.length - 1
+    : dataFrame.col_data.length - 1;
 
   const dataArray =
     dataFrame.col_data[indexOfClasses] ||
@@ -216,7 +206,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
 
   if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
-    let classes = countOccurrences(dataArray);
+    let classes = countValuesOcurrences(dataFrame.data,indexOfClasses);
     let ocurrences = Object.values(classes)[0];
     classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
     tree.classValue = Object.keys(classes[0])[0];
@@ -224,6 +214,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     tree.isLeaf = true;
     tree.id = contId;
     contId += 1;
+    console.log("hoja en unique Class",tree)
     currentNodes.push(tree);
     return;
   } else if (attributesEmpty(attributes)) {
@@ -258,11 +249,14 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     //Entropia del conjunto
     let entropyD = impurityEval1(dataFrame);
 
-    const indexOfClass = attributes.length - 1;
+    let indexOfClass =
+    dataFrame.col_data.length - 1 == -1
+      ? dataFrame.columns.length - 1
+      : dataFrame.col_data.length - 1;
     // en c4.5, linea 8 sería
     attributes.forEach((attribute, index) => {
       if (index != indexOfClass) {
-        const entropyAttribute = impurityEval2(attribute, dataFrame);
+        const entropyAttribute = impurityEval2(index, dataFrame);
         tree.entropy = entropyAttribute;
         //todas las ganancias
         gains.push({
@@ -288,7 +282,6 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
             return b.gain - a.gain;
           });
           bestGain = gainsRatio[0];
-          console.log('gainsRatio', gainsRatio);
         } else {
           console.log('Metodo de calculo incorrecto');
         }
@@ -301,8 +294,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
     // Esto cambie solo para probar con atributos discretos
 
     if (bestGain.gain < threshold) {
-      let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
-
+      let classes = countValuesOcurrences(dataFrame.data,indexOfClasses);
       classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
 
       tree.classValue = Object.keys(classes[0])[0];
@@ -337,7 +329,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       console.log('Nodo', tree);
       //linea 17 del algoritmo
       subsets.forEach((subset) => {
-        if (subset != []) {
+        if (subset.length > 0 && subset[0].length > 0 ) {
           let df = new dfd.DataFrame(subset);
           df.columns = attributesWithoutSelected;
 
@@ -349,7 +341,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   return currentNodes;
 };
 
-const main = (csvData, method = 'gainRatio') => {
+const main = (csvData, method = 'gain') => {
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree();
   tree.calcMethod = method;

@@ -12,18 +12,20 @@ const TreeScreen = () => {
   const location = useLocation();
   const history = useHistory();
   const [dataFrame, setdataFrame] = useState(undefined);
-  const [treeNodes, setTreeNodes] = useState(undefined);
-  const [treeBranches, setTreeBranches] = useState(undefined);
+  const [treeNodesGain, setTreeNodesGain] = useState(undefined);
+  const [treeBranchesGain, setTreeBranchesGain] = useState(undefined);
+    const [treeNodesGainRatio, setTreeNodesGainRatio] = useState(undefined);
+    const [treeBranchesGainRatio, setTreeBranchesGainRatio] = useState(undefined);
 
   const generateNodes = (tree) => {
     const nodes = [];
     tree.map((node) => {
       let tooltipInfo = '';
-      //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja 
+      //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja
       if (node.isLeaf){
         tooltipInfo = `Confidence: ${node.leafConfidence}`;
       }else{
-        tooltipInfo = node.calcMethod === 'gainRatio' ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}` : `Gain: ${node.gain} \n Entropy: ${node.entropy} ` 
+        tooltipInfo = node.calcMethod === 'gainRatio' ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}` : `Gain: ${node.gain} \n Entropy: ${node.entropy} `
       };
 
       nodes.push({
@@ -113,14 +115,17 @@ const TreeScreen = () => {
   useEffect(() => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame);
+      const resultTreeGainRatio = main(dataFrame, 'gainRatio');
       const nodes = generateNodes(resultTree);
       const branches = generateBranches(resultTree);
-      // setTreeNodes(nodes);
-      // setTreeBranches(branches);
-      const steps = generateSteps([...nodes], [...branches]);
-      console.log(steps);
-      setTreeNodes(steps[3].nodes);
-      setTreeBranches(steps[3].branches);
+      const nodesGainRatio = generateNodes(resultTreeGainRatio);
+      const branchesGainRatio = generateBranches(resultTreeGainRatio);
+      // const steps = generateSteps([...nodes], [...branches]);
+      // console.log(steps);
+      setTreeNodesGain(nodes);
+      setTreeBranchesGain(branches);
+      setTreeNodesGainRatio(nodesGainRatio);
+      setTreeBranchesGainRatio(branchesGainRatio);
       // const newNodes = steps[3].nodes;
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
@@ -130,15 +135,18 @@ const TreeScreen = () => {
 
   return (
     <div className="container-tree">
-      <h1 className="text-center p-4 mt-4">Tree</h1>
-      <VisNetwork nodes={treeNodes} edges={treeBranches} />
+      <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
+      <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
+      <VisNetwork nodes={treeNodesGain} edges={treeBranchesGain} />
+      <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
+      <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} />
       <div className="p-4 d-flex justify-content-center">
-        {treeNodes && treeBranches && (
+        {treeNodesGain && treeBranchesGain && (
           <Button
             text="Volver a la carga"
             type="info"
             size="lg"
-            style={{ color: 'black' }}
+            style={{ color: "black" }}
             onClick={redirect}
           />
         )}
