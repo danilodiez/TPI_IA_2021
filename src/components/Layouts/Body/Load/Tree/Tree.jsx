@@ -115,14 +115,17 @@ const TreeScreen = () => {
   useEffect(() => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame);
+      const resultTreeGainRatio = main(dataFrame, 'gainRatio');
       const nodes = generateNodes(resultTree);
       const branches = generateBranches(resultTree);
-      // setTreeNodes(nodes);
-      // setTreeBranches(branches);
-      const steps = generateSteps([...nodes], [...branches]);
-      console.log(steps);
-      setTreeNodes(steps[3].nodes);
-      setTreeBranches(steps[3].branches);
+      const nodesGainRatio = generateNodes(resultTreeGainRatio);
+      const branchesGainRatio = generateBranches(resultTreeGainRatio);
+      // const steps = generateSteps([...nodes], [...branches]);
+      // console.log(steps);
+      setTreeNodesGain(nodes);
+      setTreeBranchesGain(branches);
+      setTreeNodesGainRatio(nodesGainRatio);
+      setTreeBranchesGainRatio(branchesGainRatio);
       // const newNodes = steps[3].nodes;
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
