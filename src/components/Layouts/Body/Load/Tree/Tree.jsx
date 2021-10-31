@@ -7,48 +7,64 @@ import Button from '../../../../Basic/Button/Button';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import './styles.css';
-
+import BaseModal from '../../../../Basic/Modal/Modal.jsx';
 const TreeScreen = () => {
   const location = useLocation();
   const history = useHistory();
   const [dataFrame, setdataFrame] = useState(undefined);
   const [treeNodesGain, setTreeNodesGain] = useState(undefined);
   const [treeBranchesGain, setTreeBranchesGain] = useState(undefined);
-    const [treeNodesGainRatio, setTreeNodesGainRatio] = useState(undefined);
-    const [treeBranchesGainRatio, setTreeBranchesGainRatio] = useState(undefined);
+  const [treeNodesGainRatio, setTreeNodesGainRatio] = useState(undefined);
+  const [treeBranchesGainRatio, setTreeBranchesGainRatio] = useState(undefined);
+  const [threshold, setThreshold] = useState(undefined)
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState(undefined);
+    const openModal = () => {
+      setIsOpen(true);
+    };
 
+    const closeModal = () => {
+      setIsOpen(false);
+    };
   const generateNodes = (tree) => {
     const nodes = [];
-    tree.map((node) => {
-      let tooltipInfo = '';
-      //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja
-      if (node.isLeaf){
-        tooltipInfo = `Confidence: ${node.leafConfidence}`;
-      }else{
-        tooltipInfo = node.calcMethod === 'gainRatio' ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}` : `Gain: ${node.gain} \n Entropy: ${node.entropy} `
-      };
+    if(tree){
+      tree.map((node) => {
+        let tooltipInfo = "";
+        //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja
+        if (node.isLeaf) {
+          tooltipInfo = `Confidence: ${node.leafConfidence}`;
+        } else {
+          tooltipInfo =
+            node.calcMethod === "gainRatio"
+              ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}`
+              : `Gain: ${node.gain} \n Entropy: ${node.entropy} `;
+        }
 
-      nodes.push({
-        id: node.id,
-        label: node.node === '' ? node.classValue : node.node,
-        title: tooltipInfo
+        nodes.push({
+          id: node.id,
+          label: node.node === "" ? node.classValue : node.node,
+          title: tooltipInfo,
+        });
       });
-    });
+    }
     return nodes;
   };
   const generateBranches = (tree) => {
     const branches = [];
-    tree.map((node) => {
-      if (node.father !== '') {
-        let father = tree.filter((n, index) => n.id === node.father);
-        const label = father[0]?.branches.shift();
-        branches.push({
-          from: node.father,
-          to: node.id,
-          label,
-        });
-      }
-    });
+    if(tree){
+      tree.map((node) => {
+        if (node.father !== "") {
+          let father = tree.filter((n, index) => n.id === node.father);
+          const label = father[0]?.branches.shift();
+          branches.push({
+            from: node.father,
+            to: node.id,
+            label,
+          });
+        }
+      });
+    }
     return branches;
   };
 
@@ -58,6 +74,8 @@ const TreeScreen = () => {
 
   useEffect(() => {
     setdataFrame(location.state.dataFrame);
+    setThreshold(location.state.threshold);
+
   }, [location.state.dataFrame]);
 
   const generateSteps = (nodes, branches) => {
@@ -114,22 +132,37 @@ const TreeScreen = () => {
 
   useEffect(() => {
     if (dataFrame !== undefined) {
-      const resultTree = main(dataFrame);
-      const resultTreeGainRatio = main(dataFrame, 'gainRatio');
+      const resultTree = main(dataFrame,'gain', threshold);
+      const resultTreeGainRatio = main(dataFrame, "gainRatio", threshold);
       const nodesGain = generateNodes(resultTree);
       const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
-      setTreeNodesGain(nodesGain);
-      setTreeBranchesGain(branchesGain);
-      setTreeNodesGainRatio(nodesGainRatio);
-      setTreeBranchesGainRatio(branchesGainRatio);
+      if(nodesGain.length > 0) {
+          setTreeNodesGain(nodesGain);
+          setTreeBranchesGain(branchesGain);
+      } else {
+        setModalMessage(`El Algoritmo no fue capaz de generar un arbol con un umbral de ${threshold}`);
+        openModal();
+      }
+      if (nodesGainRatio.length > 0) {
+        setTreeNodesGainRatio(nodesGainRatio);
+        setTreeBranchesGainRatio(branchesGainRatio);
+      } else {
+        setModalMessage(
+          `El Algoritmo no fue capaz de generar un arbol con un umbral de ${threshold}`
+        );
+        openModal();
+      }
+
+
       // const steps = generateSteps([...nodes], [...branches]);
       // console.log(steps);
       // const newNodes = steps[3].nodes;
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
       // console.log({ newBranches });
+
 
     }
   }, [dataFrame]);
@@ -151,6 +184,12 @@ const TreeScreen = () => {
           />
         )}
       </div>
+      <BaseModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        message={modalMessage}
+        showButtons
+      />
     </div>
   );
 };

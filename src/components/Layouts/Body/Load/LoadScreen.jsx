@@ -122,7 +122,6 @@ const LoadScreen = () => {
           axis: 1,
           inplace: true,
         });
-        setDataFrameHasIds(true);
         showToast(
           'El Dataset seleccionado posee un atributo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
         );
@@ -187,7 +186,7 @@ const LoadScreen = () => {
   const redirect = () => {
     history.push({
       pathname: "/tree",
-      state: { dataFrame }
+      state: { dataFrame, threshold }
     })
   }
   const handleThresholdChange = ( value) => {
