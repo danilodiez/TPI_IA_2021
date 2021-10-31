@@ -17,6 +17,9 @@ const Steps = () => {
   const [threshold, setThreshold] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
+  const [step, setStep] = useState(0);
+  const [treeSteps, setTreeSteps] = useState([]);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -141,12 +144,7 @@ const Steps = () => {
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
 
       const steps = generateSteps([...nodesGain], [...branchesGain]);
-      console.log('steps');
-      console.log(steps);
-      // const newNodes = steps[3].nodes;
-      // const newBranches = steps[3].branches;
-      // console.log({ newNodes });
-      // console.log({ newBranches });
+      setTreeSteps(steps);
 
       if (nodesGain.length > 0) {
         setTreeNodesGain(nodesGain);
@@ -168,11 +166,47 @@ const Steps = () => {
       }
     }
   }, [dataFrame]);
+
+  const handleNextStep = () => {
+    if (step + 1 < treeSteps.length) {
+      setStep(step + 1);
+    }
+  };
+  const handlePreviousStep = () => {
+    if (step - 1 > -1) {
+      setStep(step - 1);
+    }
+  };
+
   return (
     <div className="container-tree">
       <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
       <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
-      <VisNetwork nodes={treeNodesGain} edges={treeBranchesGain} />
+      <div
+        style={{
+          // border: '1px solid black',
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '0 1rem',
+        }}
+      >
+        <Button
+          text="Atras"
+          size="sm"
+          onClick={handlePreviousStep}
+          disabled={step === 0}
+        />
+        <Button
+          text="Siguiente"
+          size="sm"
+          onClick={handleNextStep}
+          disabled={step === treeSteps.length - 1}
+        />
+      </div>
+      <VisNetwork
+        nodes={treeSteps[step]?.nodes}
+        edges={treeSteps[step]?.branches}
+      />
       <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
       {/* <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} /> */}
       <div className="p-4 d-flex justify-content-center">
