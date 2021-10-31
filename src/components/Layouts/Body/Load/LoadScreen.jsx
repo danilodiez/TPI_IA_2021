@@ -108,7 +108,6 @@ const LoadScreen = () => {
         );
       }
     });
-    console.log(df)
     return df;
   };
 

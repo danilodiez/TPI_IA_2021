@@ -130,10 +130,6 @@ const TreeScreen = () => {
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
       // console.log({ newBranches });
-      console.log('arbol de ganancia')
-      console.log(resultTree)
-      console.log("arbol de TASA de ganancia");
-      console.log(resultTreeGainRatio);
 
     }
   }, [dataFrame]);
