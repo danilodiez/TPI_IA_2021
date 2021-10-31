@@ -38,7 +38,7 @@ const TreeScreen = () => {
   };
   const generateBranches = (tree) => {
     const branches = [];
-    tree.reverse().map((node) => {
+    tree.map((node) => {
       if (node.father !== '') {
         let father = tree.filter((n, index) => n.id === node.father);
         const label = father[0]?.branches.shift();
