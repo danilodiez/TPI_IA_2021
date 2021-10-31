@@ -67,7 +67,7 @@ const LoadScreen = () => {
   const accceptedFileTypes = ['text/csv', 'text/plain'];
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    if(accceptedFileTypes.includes(file.type)){
+    if (accceptedFileTypes.includes(file.type)) {
       const reader = new FileReader();
       reader.onload = (evt) => {
         /* Parse data */
@@ -82,8 +82,8 @@ const LoadScreen = () => {
       };
       reader.readAsBinaryString(file);
     } else {
-        setModalMessage("El archivo no es de formato csv ni txt");
-        openModal();
+      setModalMessage('El archivo no es de formato csv ni txt');
+      openModal();
     }
   };
 
@@ -144,54 +144,51 @@ const LoadScreen = () => {
       );
       if (rowHasSpecialCharacter) {
         indexesToRemove.push(rowIndex);
-
       }
     });
-    if (indexesToRemove.length> 0) {
+    if (indexesToRemove.length > 0) {
       let newDf = df.drop({
         index: indexesToRemove,
         axis: 0,
         inplace: false,
       });
-      return newDf
+      return newDf;
     }
 
     showToast(
-      "El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso"
+      'El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso'
     );
     return df;
   };
 
   const validateDataFrame = (df) => {
-      let validDataFrame = removeContinuesValues(df);
-      validDataFrame = removeIds(validDataFrame);
-      validDataFrame = removeSpecialCharacters(validDataFrame);
-      setDataFrame(validDataFrame);
-
+    let validDataFrame = removeContinuesValues(df);
+    validDataFrame = removeIds(validDataFrame);
+    validDataFrame = removeSpecialCharacters(validDataFrame);
+    setDataFrame(validDataFrame);
   };
 
   useEffect(() => {
     if (file !== undefined) {
       setDataFrame(new dfd.DataFrame(file));
-
     }
   }, [file]);
 
-  useEffect(()=>{
-    if(dataFrame) {
+  useEffect(() => {
+    if (dataFrame) {
       validateDataFrame(dataFrame);
     }
-  },[dataFrame])
+  }, [dataFrame]);
 
-  const redirect = () => {
+  const redirect = (pathname) => {
     history.push({
-      pathname: "/tree",
-      state: { dataFrame, threshold }
-    })
-  }
-  const handleThresholdChange = ( value) => {
+      pathname,
+      state: { dataFrame, threshold },
+    });
+  };
+  const handleThresholdChange = (value) => {
     setThreshold(value);
-  }
+  };
   return (
     <div className="container-load">
       <ToastContainer
@@ -231,13 +228,22 @@ const LoadScreen = () => {
 
       <div className="p-4 d-flex justify-content-center">
         {dataFrame?.columns && dataFrame?.data && (
-          <Button
-            text="Generar árbol"
-            type="info"
-            size="lg"
-            style={{ color: "black" }}
-            onClick={redirect}
-          />
+          <>
+            <Button
+              text="Generar árbol"
+              type="info"
+              size="lg"
+              style={{ color: 'black' }}
+              onClick={() => redirect('/tree')}
+            />
+            <Button
+              text="Generar árbol paso a paso"
+              type="info"
+              size="lg"
+              style={{ color: 'black', marginLeft: '1rem' }}
+              onClick={() => redirect('/steps')}
+            />
+          </>
         )}
       </div>
       <BaseModal

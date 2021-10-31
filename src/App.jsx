@@ -18,8 +18,6 @@ import Modal from './components/Basic/Modal/Modal';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
 
 function App() {
-
-
   return (
     <Router>
       <div className="container-fluid m-0 p-0 row">
@@ -39,6 +37,9 @@ function App() {
             </Route>
             <Route path="/tree">
               <TreeScreen />
+            </Route>
+            <Route path="/steps">
+              <div>steps pa</div>
             </Route>
             <Route path="/samples">
               <Samples />

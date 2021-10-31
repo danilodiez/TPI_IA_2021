@@ -16,34 +16,34 @@ const TreeScreen = () => {
   const [treeBranchesGain, setTreeBranchesGain] = useState(undefined);
   const [treeNodesGainRatio, setTreeNodesGainRatio] = useState(undefined);
   const [treeBranchesGainRatio, setTreeBranchesGainRatio] = useState(undefined);
-  const [threshold, setThreshold] = useState(undefined)
+  const [threshold, setThreshold] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
-    const openModal = () => {
-      setIsOpen(true);
-    };
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
-    const closeModal = () => {
-      setIsOpen(false);
-    };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   const generateNodes = (tree) => {
     const nodes = [];
-    if(tree){
+    if (tree) {
       tree.map((node) => {
-        let tooltipInfo = "";
+        let tooltipInfo = '';
         //Se agrega la info del nodo dependiendo si es nodo de decision o nodo hoja
         if (node.isLeaf) {
           tooltipInfo = `Confidence: ${node.leafConfidence}`;
         } else {
           tooltipInfo =
-            node.calcMethod === "gainRatio"
+            node.calcMethod === 'gainRatio'
               ? `GainRatio: ${node.gainRatio} \n Entropy: ${node.entropy}`
               : `Gain: ${node.gain} \n Entropy: ${node.entropy} `;
         }
 
         nodes.push({
           id: node.id,
-          label: node.node === "" ? node.classValue : node.node,
+          label: node.node === '' ? node.classValue : node.node,
           title: tooltipInfo,
         });
       });
@@ -52,9 +52,9 @@ const TreeScreen = () => {
   };
   const generateBranches = (tree) => {
     const branches = [];
-    if(tree){
+    if (tree) {
       tree.map((node) => {
-        if (node.father !== "") {
+        if (node.father !== '') {
           let father = tree.filter((n, index) => n.id === node.father);
           const label = father[0]?.branches.shift();
           branches.push({
@@ -75,7 +75,6 @@ const TreeScreen = () => {
   useEffect(() => {
     setdataFrame(location.state.dataFrame);
     setThreshold(location.state.threshold);
-
   }, [location.state.dataFrame]);
 
   const generateSteps = (nodes, branches) => {
@@ -132,17 +131,19 @@ const TreeScreen = () => {
 
   useEffect(() => {
     if (dataFrame !== undefined) {
-      const resultTree = main(dataFrame,'gain', threshold);
-      const resultTreeGainRatio = main(dataFrame, "gainRatio", threshold);
+      const resultTree = main(dataFrame, 'gain', threshold);
+      const resultTreeGainRatio = main(dataFrame, 'gainRatio', threshold);
       const nodesGain = generateNodes(resultTree);
       const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
-      if(nodesGain.length > 0) {
-          setTreeNodesGain(nodesGain);
-          setTreeBranchesGain(branchesGain);
+      if (nodesGain.length > 0) {
+        setTreeNodesGain(nodesGain);
+        setTreeBranchesGain(branchesGain);
       } else {
-        setModalMessage(`El Algoritmo no fue capaz de generar un arbol con un umbral de ${threshold}`);
+        setModalMessage(
+          `El Algoritmo no fue capaz de generar un arbol con un umbral de ${threshold}`
+        );
         openModal();
       }
       if (nodesGainRatio.length > 0) {
@@ -154,16 +155,6 @@ const TreeScreen = () => {
         );
         openModal();
       }
-
-
-      // const steps = generateSteps([...nodes], [...branches]);
-      // console.log(steps);
-      // const newNodes = steps[3].nodes;
-      // const newBranches = steps[3].branches;
-      // console.log({ newNodes });
-      // console.log({ newBranches });
-
-
     }
   }, [dataFrame]);
   return (
@@ -179,7 +170,7 @@ const TreeScreen = () => {
             text="Volver a la carga"
             type="info"
             size="lg"
-            style={{ color: "black" }}
+            style={{ color: 'black' }}
             onClick={redirect}
           />
         )}
