@@ -137,7 +137,6 @@ const TreeScreen = () => {
 
     }
   }, [dataFrame]);
-
   return (
     <div className="container-tree">
       <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>

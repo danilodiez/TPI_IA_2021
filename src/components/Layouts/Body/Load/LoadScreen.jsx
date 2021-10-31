@@ -9,15 +9,22 @@ import './styles-load.css';
 import * as XLSX from 'xlsx';
 import * as dfd from 'danfojs/src/index';
 import RangeInput from '../../../Basic/RangeInput/RangeInput';
+import BaseModal from '../../../Basic/Modal/Modal';
+
 const LoadScreen = () => {
   const history = useHistory();
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null);
-  const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
-  const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false);
-  const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false);
   const [threshold, setThreshold] = useState(0.01);
-  const [rows, setRows] = useState(undefined)
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState(undefined);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     const headers = dataStringLines[0].split(
@@ -75,8 +82,8 @@ const LoadScreen = () => {
       };
       reader.readAsBinaryString(file);
     } else {
-      //TODO DESPLEGAR MODAL
-      console.log("TIPO DE ARCHIVO INCORRECTO")
+        setModalMessage("El archivo no es de formato csv ni txt");
+        openModal();
     }
   };
 
@@ -96,7 +103,6 @@ const LoadScreen = () => {
           axis: 1,
           inplace: true,
         });
-        setDataFrameHasContinuesValues(true);
         showToast(
           'El Dataset seleccionado posee una columna con atributos continuos, la misma no se tendrá en cuenta en el proceso'
         );
@@ -130,7 +136,7 @@ const LoadScreen = () => {
     const data = df.data;
 
     // los caracteres con los cuales no trabajamos son: ` ! @ # $ % ^ & * ( ) _ + \ = [ ] { } ; ' : " | , . / ? ~
-    const specialCharacterRegex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.\/?~]/;
+    const specialCharacterRegex = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.\/?~]/;
 
     const indexesToRemove = [];
 
@@ -143,15 +149,14 @@ const LoadScreen = () => {
 
       }
     });
-    df.drop({
-      index: [indexesToRemove],
-      axis: 0,
-      inplace: true,
-    });
-        console.log("indexes to remove");
-        console.log(indexesToRemove);
-        console.log('dataframe')
-        console.log(df)
+    if (indexesToRemove.length> 0) {
+      let newDf = df.drop({
+        index: indexesToRemove,
+        axis: 0,
+        inplace: false,
+      });
+      return newDf
+    }
 
     showToast(
       "El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso"
@@ -160,10 +165,11 @@ const LoadScreen = () => {
   };
 
   const validateDataFrame = (df) => {
-    let validDataFrame = removeContinuesValues(df);
-    validDataFrame = removeIds(validDataFrame);
-    // validDataFrame = removeSpecialCharacters(validDataFrame);
-    setDataFrame(validDataFrame);
+      let validDataFrame = removeContinuesValues(df);
+      validDataFrame = removeIds(validDataFrame);
+      validDataFrame = removeSpecialCharacters(validDataFrame);
+      setDataFrame(validDataFrame);
+
   };
 
   useEffect(() => {
@@ -185,7 +191,6 @@ const LoadScreen = () => {
       state: { dataFrame }
     })
   }
-
   const handleThresholdChange = ( value) => {
     setThreshold(value);
   }
@@ -216,7 +221,10 @@ const LoadScreen = () => {
         {dataFrame?.columns ? (
           <div className="col-12">
             <Table columns={dataFrame.columns} data={dataFrame?.data} />
-            <RangeInput handleThresholdChange={handleThresholdChange} threshold={threshold}/>
+            <RangeInput
+              handleThresholdChange={handleThresholdChange}
+              threshold={threshold}
+            />
           </div>
         ) : (
           file && <Spinner />
@@ -234,6 +242,12 @@ const LoadScreen = () => {
           />
         )}
       </div>
+      <BaseModal
+        isOpen={modalIsOpen}
+        closeModal={closeModal}
+        message={modalMessage}
+        showButtons
+      />
     </div>
   );
 };
