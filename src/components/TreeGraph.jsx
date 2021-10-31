@@ -46,6 +46,7 @@ const VisNetwork = ({ nodes, edges }) => {
     network.current.on('stabilizationIterationsDone', function () {
       setShowSpinner(false);
     });
+
   }, [domNode, network, data, options]);
 
   return (

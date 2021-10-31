@@ -38,7 +38,7 @@ const TreeScreen = () => {
   };
   const generateBranches = (tree) => {
     const branches = [];
-    tree.reverse().map((node) => {
+    tree.map((node) => {
       if (node.father !== '') {
         let father = tree.filter((n, index) => n.id === node.father);
         const label = father[0]?.branches.shift();
@@ -116,23 +116,23 @@ const TreeScreen = () => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame);
       const resultTreeGainRatio = main(dataFrame, 'gainRatio');
-      const nodes = generateNodes(resultTree);
-      const branches = generateBranches(resultTree);
+      const nodesGain = generateNodes(resultTree);
+      const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
-      // const steps = generateSteps([...nodes], [...branches]);
-      // console.log(steps);
-      setTreeNodesGain(nodes);
-      setTreeBranchesGain(branches);
+      setTreeNodesGain(nodesGain);
+      setTreeBranchesGain(branchesGain);
       setTreeNodesGainRatio(nodesGainRatio);
       setTreeBranchesGainRatio(branchesGainRatio);
+      // const steps = generateSteps([...nodes], [...branches]);
+      // console.log(steps);
       // const newNodes = steps[3].nodes;
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
       // console.log({ newBranches });
+
     }
   }, [dataFrame]);
-
   return (
     <div className="container-tree">
       <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
