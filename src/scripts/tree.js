@@ -1,10 +1,9 @@
 import * as dfd from 'danfojs/src/index';
-const threshold = 0.1;
 import lodash from 'lodash';
 
 // const csvFilePath = '../data/drug200.csv';
 import Tree from '../classes/Tree.js';
-
+const threshold = 0.11
 var dataFrame;
 
 // const getData = async (csvUrl) => {
@@ -183,9 +182,8 @@ const attributesEmpty = (attributes) => {
 };
 
 
-var currentNodes = [];
 var contId = 0;
-const decisionTree = (dataFrame, attributes = [], tree) => {
+const decisionTree = (dataFrame, attributes = [], tree, currentNodes) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
@@ -255,7 +253,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
       : dataFrame.col_data.length - 1;
     // en c4.5, linea 8 sería
     attributes.forEach((attribute, index) => {
-      if (index != indexOfClass) {
+      if (index !== indexOfClass) {
         const entropyAttribute = impurityEval2(index, dataFrame);
         tree.entropy = entropyAttribute;
         //todas las ganancias
@@ -333,7 +331,7 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
           let df = new dfd.DataFrame(subset);
           df.columns = attributesWithoutSelected;
 
-          return decisionTree(df, attributesWithoutSelected, tree);
+          return decisionTree(df, attributesWithoutSelected, tree, currentNodes);
         }
       });
     }
@@ -341,13 +339,14 @@ const decisionTree = (dataFrame, attributes = [], tree) => {
   return currentNodes;
 };
 
-const main = (csvData, method = 'gain') => {
+const main = (dataFrame, method = 'gain', thresholdCal=0.01) => {
   //Ya estan seteados los valores por defecto en la primer instanciacion
+  // const threshold = thresholdCal;
   var tree = new Tree();
   tree.calcMethod = method;
-  let dataFrame = new dfd.DataFrame(csvData);
   const { columns: attributes } = dataFrame;
-  return decisionTree(dataFrame, attributes, tree);
+  var currentNodes = [];
+  return decisionTree(dataFrame, attributes, tree, currentNodes);
 };
 
 export default main;

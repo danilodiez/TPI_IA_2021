@@ -8,8 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles-load.css';
 import * as XLSX from 'xlsx';
 import * as dfd from 'danfojs/src/index';
-
-
+import RangeInput from '../../../Basic/RangeInput/RangeInput';
 const LoadScreen = () => {
   const history = useHistory();
   const [file, setFile] = useState(undefined);
@@ -17,7 +16,8 @@ const LoadScreen = () => {
   const [dataFrameHasIds, setDataFrameHasIds] = useState(false);
   const [dataFrameHasContinuesValues, setDataFrameHasContinuesValues] = useState(false);
   const [dataFrameHasSpecialCharacters, setDataFrameHasSpecialCharacters] = useState(false);
-
+  const [threshold, setThreshold] = useState(0.01);
+  const [rows, setRows] = useState(undefined)
   const processData = (dataString) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     const headers = dataStringLines[0].split(
@@ -82,16 +82,16 @@ const LoadScreen = () => {
 
   const showToast = (message) => toast.warn(message);
 
-  const removeContinuesValues = (dataFrame) => {
-    const columnTypes = dataFrame.col_types;
-    const columnNames = dataFrame.columns;
+  const removeContinuesValues = (df) => {
+    const columnTypes = df.col_types;
+    const columnNames = df.columns;
 
     /* Danfo tiene 3 tipos de datos (string, int32 o float32),
     nos interesa eliminar aquellos del tipo float32 */
 
     columnTypes.forEach((type, index) => {
       if (type === 'float32') {
-        dataFrame.drop({
+        df.drop({
           columns: [columnNames[index]],
           axis: 1,
           inplace: true,
@@ -102,16 +102,17 @@ const LoadScreen = () => {
         );
       }
     });
-    return dataFrame;
+    console.log(df)
+    return df;
   };
 
-  const removeIds = () => {
-    const columnNames = dataFrame.columns;
+  const removeIds = (df) => {
+    const columnNames = df.columns;
 
     columnNames.forEach((column, index) => {
       const posibleIdsCases = ['id', 'ids', '"id"', '"ids"'];
       if (posibleIdsCases.includes(column.toLowerCase().trim())) {
-        dataFrame.drop({
+        df.drop({
           columns: [columnNames[index]],
           axis: 1,
           inplace: true,
@@ -122,11 +123,11 @@ const LoadScreen = () => {
         );
       }
     });
-    return dataFrame;
+    return df;
   };
 
-  const removeSpecialCharacters = () => {
-    const data = dataFrame.data;
+  const removeSpecialCharacters = (df) => {
+    const data = df.data;
 
     // los caracteres con los cuales no trabajamos son: ` ! @ # $ % ^ & * ( ) _ + \ = [ ] { } ; ' : " | , . / ? ~
     const specialCharacterRegex = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.\/?~]/;
@@ -141,37 +142,45 @@ const LoadScreen = () => {
         indexesToRemove.push(rowIndex);
       }
     });
-
-    dataFrame.drop({
+    df.drop({
       index: indexesToRemove,
-      axis: 0,
       inplace: true,
     });
 
-    return dataFrame;
+    return df;
   };
 
-  const validDataFrame = (dataFrame) => {
-    let validDataFrame = removeContinuesValues(dataFrame);
-    validDataFrame = removeIds(validDataFrame);
-    validDataFrame = removeSpecialCharacters(validDataFrame);
+  const validateDataFrame = (df) => {
+    let validDataFrame = removeContinuesValues(df);
+    // validDataFrame = removeIds(validDataFrame);
+    // validDataFrame = removeSpecialCharacters(validDataFrame);
+    console.log()
     setDataFrame(validDataFrame);
   };
 
   useEffect(() => {
     if (file !== undefined) {
       setDataFrame(new dfd.DataFrame(file));
-      dataFrame && validDataFrame(dataFrame);
+
     }
-  }, [file, dataFrame]);
+  }, [file]);
+
+  useEffect(()=>{
+    if(dataFrame) {
+      validateDataFrame(dataFrame);
+    }
+  },[dataFrame])
 
   const redirect = () => {
     history.push({
       pathname: "/tree",
-      state: { dataFrame: file}
+      state: { dataFrame }
     })
   }
 
+  const handleThresholdChange = ( value) => {
+    setThreshold(value);
+  }
   return (
     <div className="container-load">
       <ToastContainer
@@ -196,22 +205,26 @@ const LoadScreen = () => {
         </div>
       </div>
       <div className="p-4 d-flex justify-content-center">
-        {(dataFrame?.columns && dataFrame?.data) ?
-          <Table columns={dataFrame.columns} data={dataFrame.data} />
-          :
+        {dataFrame?.columns ? (
+          <div className="col-12">
+            <Table columns={dataFrame.columns} data={dataFrame?.data} />
+            <RangeInput handleThresholdChange={handleThresholdChange} threshold={threshold}/>
+          </div>
+        ) : (
           file && <Spinner />
-        }
+        )}
       </div>
+
       <div className="p-4 d-flex justify-content-center">
-        {(dataFrame?.columns && dataFrame?.data) &&
+        {dataFrame?.columns && dataFrame?.data && (
           <Button
             text="Generar árbol"
             type="info"
             size="lg"
-            style={{ color: 'black' }}
+            style={{ color: "black" }}
             onClick={redirect}
           />
-        }
+        )}
       </div>
     </div>
   );

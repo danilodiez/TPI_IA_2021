@@ -1,11 +1,9 @@
 import React from 'react';
 import './styles-table.css';
-
 const Table = ({columns,data}) => {
-
   return (
     <div className="container-table">
-      <table className="table table-striped">
+      <table className="table table-striped table-wrapper">
         <thead>
           <tr>
             {columns && columns.map((element, i) => {

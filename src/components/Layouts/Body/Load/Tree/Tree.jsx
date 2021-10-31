@@ -116,20 +116,25 @@ const TreeScreen = () => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame);
       const resultTreeGainRatio = main(dataFrame, 'gainRatio');
-      const nodes = generateNodes(resultTree);
-      const branches = generateBranches(resultTree);
+      const nodesGain = generateNodes(resultTree);
+      const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
-      // const steps = generateSteps([...nodes], [...branches]);
-      // console.log(steps);
-      setTreeNodesGain(nodes);
-      setTreeBranchesGain(branches);
+      setTreeNodesGain(nodesGain);
+      setTreeBranchesGain(branchesGain);
       setTreeNodesGainRatio(nodesGainRatio);
       setTreeBranchesGainRatio(branchesGainRatio);
+      // const steps = generateSteps([...nodes], [...branches]);
+      // console.log(steps);
       // const newNodes = steps[3].nodes;
       // const newBranches = steps[3].branches;
       // console.log({ newNodes });
       // console.log({ newBranches });
+      console.log('arbol de ganancia')
+      console.log(resultTree)
+      console.log("arbol de TASA de ganancia");
+      console.log(resultTreeGainRatio);
+
     }
   }, [dataFrame]);
 
