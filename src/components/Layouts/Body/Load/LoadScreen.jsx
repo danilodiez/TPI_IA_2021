@@ -98,7 +98,7 @@ const LoadScreen = () => {
         });
         setDataFrameHasContinuesValues(true);
         showToast(
-          'El Dataset seleccionado posee un campo con atributos continuos, el mismo no se tendrá en cuenta en el proceso'
+          'El Dataset seleccionado posee una columna con atributos continuos, la misma no se tendrá en cuenta en el proceso'
         );
       }
     });
@@ -119,7 +119,7 @@ const LoadScreen = () => {
         });
         setDataFrameHasIds(true);
         showToast(
-          'El Dataset seleccionado posee un campo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
+          'El Dataset seleccionado posee un atributo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
         );
       }
     });
@@ -140,21 +140,29 @@ const LoadScreen = () => {
       );
       if (rowHasSpecialCharacter) {
         indexesToRemove.push(rowIndex);
+
       }
     });
     df.drop({
-      index: indexesToRemove,
+      index: [indexesToRemove],
+      axis: 0,
       inplace: true,
     });
+        console.log("indexes to remove");
+        console.log(indexesToRemove);
+        console.log('dataframe')
+        console.log(df)
 
+    showToast(
+      "El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso"
+    );
     return df;
   };
 
   const validateDataFrame = (df) => {
     let validDataFrame = removeContinuesValues(df);
-    // validDataFrame = removeIds(validDataFrame);
+    validDataFrame = removeIds(validDataFrame);
     // validDataFrame = removeSpecialCharacters(validDataFrame);
-    console.log()
     setDataFrame(validDataFrame);
   };
 
