@@ -2,6 +2,7 @@
   background-color: var(--blue-dark);
   height: 100vh;
   font-family: var(--roboto-regular);
+  position: fixed;
 }
 
 h4 {
