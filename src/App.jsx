@@ -16,6 +16,7 @@ import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
 import Button from './components/Basic/Button/Button';
 import Modal from './components/Basic/Modal/Modal';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
+import Steps from './components/Layouts/Body/Load/Steps/Steps';
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
               <TreeScreen />
             </Route>
             <Route path="/steps">
-              <div>steps pa</div>
+              <Steps />
             </Route>
             <Route path="/samples">
               <Samples />
