@@ -17,8 +17,12 @@ const Steps = () => {
   const [threshold, setThreshold] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
-  const [step, setStep] = useState(0);
-  const [treeSteps, setTreeSteps] = useState([]);
+
+  const [gainStep, setGainStep] = useState(0);
+  const [gainTreeSteps, setGainTreeSteps] = useState([]);
+
+  const [gainRatioStep, setGainRatioStep] = useState(0);
+  const [gainRatioTreeSteps, setGainRatioTreeSteps] = useState([]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -143,8 +147,10 @@ const Steps = () => {
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
 
-      const steps = generateSteps([...nodesGain], [...branchesGain]);
-      setTreeSteps(steps);
+      setGainTreeSteps(generateSteps([...nodesGain], [...branchesGain]));
+      setGainRatioTreeSteps(
+        generateSteps([...nodesGainRatio], [...branchesGainRatio])
+      );
 
       if (nodesGain.length > 0) {
         setTreeNodesGain(nodesGain);
@@ -167,14 +173,27 @@ const Steps = () => {
     }
   }, [dataFrame]);
 
-  const handleNextStep = () => {
-    if (step + 1 < treeSteps.length) {
-      setStep(step + 1);
+  // ganancia
+  const handleNextGainStep = () => {
+    if (gainStep + 1 < gainTreeSteps.length) {
+      setGainStep(gainStep + 1);
     }
   };
-  const handlePreviousStep = () => {
-    if (step - 1 > -1) {
-      setStep(step - 1);
+  const handlePreviousGainStep = () => {
+    if (gainStep - 1 > -1) {
+      setGainStep(gainStep - 1);
+    }
+  };
+
+  // tasa de ganancia
+  const handleNextGainRatioStep = () => {
+    if (gainRatioStep + 1 < gainRatioTreeSteps.length) {
+      setGainRatioStep(gainRatioStep + 1);
+    }
+  };
+  const handlePreviousGainRatioStep = () => {
+    if (gainRatioStep - 1 > -1) {
+      setGainRatioStep(gainRatioStep - 1);
     }
   };
 
@@ -184,7 +203,6 @@ const Steps = () => {
       <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
       <div
         style={{
-          // border: '1px solid black',
           display: 'flex',
           justifyContent: 'space-between',
           padding: '0 1rem',
@@ -193,22 +211,45 @@ const Steps = () => {
         <Button
           text="Atras"
           size="sm"
-          onClick={handlePreviousStep}
-          disabled={step === 0}
+          onClick={handlePreviousGainStep}
+          disabled={gainStep === 0}
         />
         <Button
           text="Siguiente"
           size="sm"
-          onClick={handleNextStep}
-          disabled={step === treeSteps.length - 1}
+          onClick={handleNextGainStep}
+          disabled={gainStep === gainTreeSteps.length - 1}
         />
       </div>
       <VisNetwork
-        nodes={treeSteps[step]?.nodes}
-        edges={treeSteps[step]?.branches}
+        nodes={gainTreeSteps[gainStep]?.nodes}
+        edges={gainTreeSteps[gainStep]?.branches}
       />
       <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
-      {/* <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} /> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '0 1rem',
+        }}
+      >
+        <Button
+          text="Atras"
+          size="sm"
+          onClick={handlePreviousGainRatioStep}
+          disabled={gainRatioStep === 0}
+        />
+        <Button
+          text="Siguiente"
+          size="sm"
+          onClick={handleNextGainRatioStep}
+          disabled={gainRatioStep === gainRatioTreeSteps.length - 1}
+        />
+      </div>
+      <VisNetwork
+        nodes={gainRatioTreeSteps[gainRatioStep]?.nodes}
+        edges={gainRatioTreeSteps[gainRatioStep]?.branches}
+      />
       <div className="p-4 d-flex justify-content-center">
         {treeNodesGain && treeBranchesGain && (
           <Button
