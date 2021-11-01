@@ -82,7 +82,7 @@ const LoadScreen = () => {
       };
       reader.readAsBinaryString(file);
     } else {
-      setModalMessage('El archivo no es de formato csv ni txt');
+      setModalMessage('El archivo seleccionado no es de tipo .csv ni .txt');
       openModal();
     }
   };
@@ -157,7 +157,7 @@ const LoadScreen = () => {
       );
       return newDf;
     }
-    df.dropna({axis:0, inplace: true})
+    df.dropna({ axis: 0, inplace: true })
 
     return df;
   };
@@ -231,14 +231,14 @@ const LoadScreen = () => {
         {dataFrame?.columns && dataFrame?.data && (
           <>
             <Button
-              text="Generar árbol"
+              text="Generar árboles"
               type="info"
               size="lg"
               style={{ color: 'black' }}
               onClick={() => redirect('/tree')}
             />
             <Button
-              text="Generar árbol paso a paso"
+              text="Generar árboles paso a paso"
               type="info"
               size="lg"
               style={{ color: 'black', marginLeft: '1rem' }}

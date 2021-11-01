@@ -108,9 +108,9 @@ const TreeScreen = () => {
   return (
     <div className="container-tree">
       <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
-      <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
+      <h4 className="text-center p-4">Generación con ganancia </h4>
       <VisNetwork nodes={treeNodesGain} edges={treeBranchesGain} />
-      <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
+      <h4 className="text-center p-4">Generación con tasa de ganancia </h4>
       <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} />
       <div className="p-4 d-flex justify-content-center">
         {treeNodesGain && treeBranchesGain && (

@@ -57,9 +57,9 @@ const VisNetwork = ({ nodes, edges }) => {
       )}
       <div
         style={{
-          height: '70vh',
-          border: '2px solid #09f',
-          marginTop: '1rem',
+          height: '50vh',
+          border: '1px solid #09f',
+          marginTop: '0.5em',
           borderRadius: '5px',
         }}
         ref={domNode}
