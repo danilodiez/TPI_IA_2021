@@ -152,12 +152,13 @@ const LoadScreen = () => {
         axis: 0,
         inplace: false,
       });
+      showToast(
+        "El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso"
+      );
       return newDf;
     }
+    df.dropna({axis:0, inplace: true})
 
-    showToast(
-      'El Dataset seleccionado posee campos con caracteres especiales, la misma no se tendrá en cuenta en el proceso'
-    );
     return df;
   };
 
