@@ -1,6 +1,5 @@
 import React from 'react';
 import './styles.css';
-import animals from '../../../../data/animals.txt'
 
 const Datasets = () => {
 
