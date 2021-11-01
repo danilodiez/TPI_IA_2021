@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import Button from '../Button/Button';
+import error from '../../../assets/images/error.png';
 
 const styles = {
   modal: {
@@ -11,16 +11,16 @@ const styles = {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      width: '18rem',
-      fontFamily: 'Roboto-Black',
+      padding: '2rem ',
     },
   },
   messageWrapper: {
-    padding: '2rem 1rem',
+    padding: '2rem',
     textAlign: 'center',
     fontSize: '1.4rem',
-    fontWeight: 'bold',
-    color: 'red',
+    whiteSpace: 'nowrap',
+    display: 'flex',
+    justifyContent: 'center',
   },
   footer: {
     display: 'flex',
@@ -62,6 +62,14 @@ const BaseModal = ({
         </svg>
       </div>
       <div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <img src={error} />
+        </div>
         <div style={styles.messageWrapper}>{message}</div>
       </div>
     </Modal>

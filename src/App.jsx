@@ -11,10 +11,6 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import TreeScreen from './components/Layouts/Body/Load/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
-import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
-
-import Button from './components/Basic/Button/Button';
-import Modal from './components/Basic/Modal/Modal';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
 import Steps from './components/Layouts/Body/Load/Steps/Steps';
 

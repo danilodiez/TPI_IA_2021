@@ -50,7 +50,7 @@ const DragAndDrop = () => {
         }}
       />
       <Modal
-        isOpen={modalIsOpen}
+        isOpen={true}
         closeModal={closeModal}
         message={modalMessage}
         showButtons
