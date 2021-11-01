@@ -46,7 +46,6 @@ const VisNetwork = ({ nodes, edges }) => {
     network.current.on('stabilizationIterationsDone', function () {
       setShowSpinner(false);
     });
-
   }, [domNode, network, data, options]);
 
   return (
@@ -56,7 +55,15 @@ const VisNetwork = ({ nodes, edges }) => {
           <Spinner />
         </div>
       )}
-      <div style={{ height: '70vh' }} ref={domNode} />
+      <div
+        style={{
+          height: '70vh',
+          border: '2px solid #09f',
+          marginTop: '1rem',
+          borderRadius: '5px',
+        }}
+        ref={domNode}
+      />
     </>
   );
 };

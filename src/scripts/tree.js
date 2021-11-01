@@ -3,7 +3,6 @@ import lodash from 'lodash';
 
 // const csvFilePath = '../data/drug200.csv';
 import Tree from '../classes/Tree.js';
-const threshold = 0.11
 var dataFrame;
 
 // const getData = async (csvUrl) => {
@@ -183,7 +182,7 @@ const attributesEmpty = (attributes) => {
 
 
 var contId = 0;
-const decisionTree = (dataFrame, attributes = [], tree, currentNodes) => {
+const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
@@ -330,8 +329,7 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes) => {
         if (subset.length > 0 && subset[0].length > 0 ) {
           let df = new dfd.DataFrame(subset);
           df.columns = attributesWithoutSelected;
-
-          return decisionTree(df, attributesWithoutSelected, tree, currentNodes);
+          return decisionTree(df, attributesWithoutSelected, tree, currentNodes, threshold);
         }
       });
     }
@@ -339,14 +337,13 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes) => {
   return currentNodes;
 };
 
-const main = (dataFrame, method = 'gain', thresholdCal=0.01) => {
+const main = (dataFrame, method, thresholdCal = 0.01) => {
   //Ya estan seteados los valores por defecto en la primer instanciacion
-  // const threshold = thresholdCal;
   var tree = new Tree();
   tree.calcMethod = method;
   const { columns: attributes } = dataFrame;
   var currentNodes = [];
-  return decisionTree(dataFrame, attributes, tree, currentNodes);
+  return decisionTree(dataFrame, attributes, tree, currentNodes, thresholdCal);
 };
 
 export default main;

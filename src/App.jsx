@@ -11,15 +11,10 @@ import Inicio from './components/Layouts/Body/Inicio';
 import Tutorial from './components/Layouts/Body/Tutorial/Tutorial';
 import TreeScreen from './components/Layouts/Body/Load/Tree/Tree';
 import Samples from './components/Layouts/Body/Samples/Samples';
-import DragAndDrop from './components/Layouts/Body/Load/DragAndDrop';
-
-import Button from './components/Basic/Button/Button';
-import Modal from './components/Basic/Modal/Modal';
 import LoadScreen from './components/Layouts/Body/Load/LoadScreen';
+import Steps from './components/Layouts/Body/Load/Steps/Steps';
 
 function App() {
-
-
   return (
     <Router>
       <div className="container-fluid m-0 p-0 row">
@@ -39,6 +34,9 @@ function App() {
             </Route>
             <Route path="/tree">
               <TreeScreen />
+            </Route>
+            <Route path="/steps">
+              <Steps />
             </Route>
             <Route path="/samples">
               <Samples />
