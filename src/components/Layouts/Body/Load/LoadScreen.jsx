@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import Table from './Table/Table';
-import { ToastContainer, toast } from 'react-toastify';
-import Button from '../../../Basic/Button/Button';
-import Spinner from './Spinner/Spinner';
-import 'react-toastify/dist/ReactToastify.css';
-import './styles-load.css';
-import * as XLSX from 'xlsx';
-import * as dfd from 'danfojs/src/index';
-import RangeInput from '../../../Basic/RangeInput/RangeInput';
-import BaseModal from '../../../Basic/Modal/Modal';
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router";
+import Table from "./Table/Table";
+import { ToastContainer, toast } from "react-toastify";
+import Button from "../../../Basic/Button/Button";
+import Spinner from "./Spinner/Spinner";
+import "react-toastify/dist/ReactToastify.css";
+import "./styles-load.css";
+import * as XLSX from "xlsx";
+import * as dfd from "danfojs/src/index";
+import RangeInput from "../../../Basic/RangeInput/RangeInput";
+import BaseModal from "../../../Basic/Modal/Modal";
+import Papa from "papaparse";
 
 const LoadScreen = () => {
   const history = useHistory();
+  const location = useLocation();
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null);
   const [threshold, setThreshold] = useState(0.01);
@@ -64,7 +66,7 @@ const LoadScreen = () => {
 
     setFile(list);
   };
-  const accceptedFileTypes = ['text/csv', 'text/plain'];
+  const accceptedFileTypes = ["text/csv", "text/plain"];
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (accceptedFileTypes.includes(file.type)) {
@@ -72,7 +74,7 @@ const LoadScreen = () => {
       reader.onload = (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wb = XLSX.read(bstr, { type: "binary" });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
@@ -82,7 +84,7 @@ const LoadScreen = () => {
       };
       reader.readAsBinaryString(file);
     } else {
-      setModalMessage('El archivo seleccionado no es de tipo .csv ni .txt');
+      setModalMessage("El archivo seleccionado no es de tipo .csv ni .txt");
       openModal();
     }
   };
@@ -97,14 +99,14 @@ const LoadScreen = () => {
     nos interesa eliminar aquellos del tipo float32 */
 
     columnTypes.forEach((type, index) => {
-      if (type === 'float32') {
+      if (type === "float32") {
         df.drop({
           columns: [columnNames[index]],
           axis: 1,
           inplace: true,
         });
         showToast(
-          'El Dataset seleccionado posee una columna con atributos continuos, la misma no se tendrá en cuenta en el proceso'
+          "El Dataset seleccionado posee una columna con atributos continuos, la misma no se tendrá en cuenta en el proceso"
         );
       }
     });
@@ -115,7 +117,7 @@ const LoadScreen = () => {
     const columnNames = df.columns;
 
     columnNames.forEach((column, index) => {
-      const posibleIdsCases = ['id', 'ids', '"id"', '"ids"'];
+      const posibleIdsCases = ["id", "ids", '"id"', '"ids"'];
       if (posibleIdsCases.includes(column.toLowerCase().trim())) {
         df.drop({
           columns: [columnNames[index]],
@@ -123,7 +125,7 @@ const LoadScreen = () => {
           inplace: true,
         });
         showToast(
-          'El Dataset seleccionado posee un atributo del tipo ID, el mismo no se tendrá en cuenta en el proceso'
+          "El Dataset seleccionado posee un atributo del tipo ID, el mismo no se tendrá en cuenta en el proceso"
         );
       }
     });
@@ -157,7 +159,7 @@ const LoadScreen = () => {
       );
       return newDf;
     }
-    df.dropna({ axis: 0, inplace: true })
+    df.dropna({ axis: 0, inplace: true });
 
     return df;
   };
@@ -190,6 +192,24 @@ const LoadScreen = () => {
   const handleThresholdChange = (value) => {
     setThreshold(value);
   };
+
+  useEffect(() => {
+    console.log(location);
+    if (location.state?.method === "preload") {
+      async function getData(locationUrl) {
+        const response = await fetch(locationUrl);
+        const reader = response.body.getReader();
+        const result = await reader.read(); // raw array
+        const decoder = new TextDecoder("utf-8");
+        const csv = decoder.decode(result.value); // the csv text
+        const results = Papa.parse(csv, { header: true, delimiter: "," }); // object with { data, errors, meta }
+        console.log(results);
+        const rows = results.data; // array of objects
+        setDataFrame(new dfd.DataFrame(rows));
+      }
+      getData(location.state.fileUrl);
+    }
+  }, [location]);
   return (
     <div className="container-load">
       <ToastContainer
@@ -234,15 +254,15 @@ const LoadScreen = () => {
               text="Generar árboles"
               type="info"
               size="lg"
-              style={{ color: 'black' }}
-              onClick={() => redirect('/tree')}
+              style={{ color: "black" }}
+              onClick={() => redirect("/tree")}
             />
             <Button
               text="Generar árboles paso a paso"
               type="info"
               size="lg"
-              style={{ color: 'black', marginLeft: '1rem' }}
-              onClick={() => redirect('/steps')}
+              style={{ color: "black", marginLeft: "1rem" }}
+              onClick={() => redirect("/steps")}
             />
           </>
         )}
