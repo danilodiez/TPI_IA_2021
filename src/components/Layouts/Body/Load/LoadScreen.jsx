@@ -208,6 +208,7 @@ const LoadScreen = () => {
       getData(location.state.fileUrl);
     }
   }, [location]);
+
   return (
     <div className="container-load">
       <ToastContainer
