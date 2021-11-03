@@ -1,14 +1,6 @@
 import * as dfd from 'danfojs/src/index';
 import lodash from 'lodash';
-
-// const csvFilePath = '../data/drug200.csv';
 import Tree from '../classes/Tree.js';
-var dataFrame;
-
-// const getData = async (csvUrl) => {
-//   let dataFrame = await dfd.read_csv(csvUrl);
-//   return dataFrame;
-// };
 
 const log2 = (x) => {
   return Math.log(x) / Math.log(2);
@@ -50,8 +42,8 @@ const partition = (indexOfSelectedAttr, dataframe) => {
       let newRow = row;
 
       if (row[indexOfSelectedAttr] === value) {
-        newRow = row.filter((value, index) => index !== indexOfSelectedAttr)
-        newSubset.push(newRow)
+        newRow = row.filter((value, index) => index !== indexOfSelectedAttr);
+        newSubset.push(newRow);
       }
     });
     subsets.push(newSubset);
@@ -81,7 +73,8 @@ const impurityEval2 = (attr, data) => {
       ? data.columns.length - 1
       : data.col_data.length - 1;
 
-  const indexOfAttribute = attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr);
+  const indexOfAttribute =
+    attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr);
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
 
@@ -180,9 +173,14 @@ const attributesEmpty = (attributes) => {
   return attributes.length === 1;
 };
 
-
 var contId = 0;
-const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold) => {
+const decisionTree = (
+  dataFrame,
+  attributes = [],
+  tree,
+  currentNodes,
+  threshold
+) => {
   var bestGain = {};
   const gains = [];
   const gainsRatio = [];
@@ -322,7 +320,13 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
         if (subset.length > 0 && subset[0].length > 0) {
           let df = new dfd.DataFrame(subset);
           df.columns = attributesWithoutSelected;
-          return decisionTree(df, attributesWithoutSelected, tree, currentNodes, threshold);
+          return decisionTree(
+            df,
+            attributesWithoutSelected,
+            tree,
+            currentNodes,
+            threshold
+          );
         }
       });
     }

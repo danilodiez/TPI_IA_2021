@@ -1,4 +1,3 @@
-// Vista donde es posible ejecutar el algoritmo con datasets pre-cargados
 import React from 'react';
 import './styles.css';
 import { useHistory } from 'react-router';

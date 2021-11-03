@@ -3,6 +3,7 @@
 ## Resumén
 
 Esta aplicación fue desarrollada para la asignatura **Inteligencia Artificial** de la Universidad Tecnolóica Nacional FRRe. La misma consiste en replicar el funcionamiento de **algoritmo C4.5** desarrollado por Quinlan para la generación de árboles de decisión, utilizando la ganancia de la información y la tasa de ganancia como métodos de cálculo.
+La lógica principal implementada para la generacion del arbol de decisión se encuentra en el archivo `src/scripts/tree.js`
 
 ## Integrantes
 
