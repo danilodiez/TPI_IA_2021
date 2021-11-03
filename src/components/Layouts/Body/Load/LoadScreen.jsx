@@ -190,6 +190,7 @@ const LoadScreen = () => {
   const handleThresholdChange = (value) => {
     setThreshold(value);
   };
+
   return (
     <div className="container-load">
       <ToastContainer
