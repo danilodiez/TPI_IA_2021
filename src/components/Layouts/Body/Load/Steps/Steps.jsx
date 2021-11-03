@@ -4,7 +4,6 @@ import VisNetwork from '../../../../TreeGraph.jsx';
 import Button from '../../../../Basic/Button/Button';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
-// import './styles.css';
 import BaseModal from '../../../../Basic/Modal/Modal.jsx';
 const Steps = () => {
   const location = useLocation();
@@ -104,7 +103,6 @@ const Steps = () => {
     branches.splice(branches.length - 1, 1);
 
     while (branches.length > 0) {
-
       steps[currentLevel].branches.forEach((branch) => {
         fathersOfNextLevelNodes.push(branch.to);
       });
