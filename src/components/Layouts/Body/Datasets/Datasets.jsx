@@ -33,31 +33,31 @@ const Datasets = () => {
           </button>
         </div>
         <div className="col-4 text-center download">
-          <a href="../../../../data/ej3.txt" download>
-            Ej3 Cátedra
-          </a>
+          <button onClick={() => redirect("src/data/ej3.txt")}>
+            Ej4 Cátedra
+          </button>
         </div>
         <div className="col-4 text-center download">
-          <a href="../../../../data/animals.txt" download>
+          <button onClick={() => redirect("src/data/animals.txt")}>
             Animals
-          </a>
+          </button>
         </div>
       </div>
       <div className="col-12 row mt-4 pt-4">
         <div className="col-4 text-center download">
-          <a href="../../../../data/grud200.txt" download>
-            Drug
-          </a>
+          <button onClick={() => redirect("src/data/drug200.txt")}>
+            Drugs
+          </button>
         </div>
         <div className="col-4 text-center download">
-          <a href="../../../../data/students.txt" download>
+          <button onClick={() => redirect("src/data/students.txt")}>
             Students
-          </a>
+          </button>
         </div>
         <div className="col-4 text-center download">
-          <a href="../../../../data/mushrooms.txt" download>
+          <button onClick={() => redirect("src/data/mushrooms.txt")}>
             Mushrooms
-          </a>
+          </button>
         </div>
       </div>
     </div>
