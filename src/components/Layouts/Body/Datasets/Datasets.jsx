@@ -18,12 +18,12 @@ const Datasets = () => {
       </div>
       <div className="p-4 text-center">
         <h5>
-          A continuacion dejaremos algunos datasets descargables que pueden
-          utilizar para realizar pruebas.
+          A continuación dejamos algunos datasets que pueden utilizar para realizar pruebas. Sólo basta con hacer
+          click en algunos de los botones y la aplicación automáticamente los redireccionará a la sección de carga con
+          los datos precargados.
         </h5>
         <h5>
-          Los mismos poseen diferentes variantes, los cuales sirven para ver el
-          comportamiento del algoritmo en diferentes casos.
+          Los mismos poseen diferentes variantes, los cuales sirven para ver el comportamiento del algoritmo en diferentes casos.
         </h5>
       </div>
       <div className="col-12 row mt-4">
