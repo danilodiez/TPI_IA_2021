@@ -6,8 +6,6 @@ const Button = ({
   size = 'lg',
   disabled = false,
   onClick = () => {},
-  // TODO: validate this way of passing styles
-  style = {},
 }) => {
   return (
     <button
