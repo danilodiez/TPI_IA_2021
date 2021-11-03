@@ -6,6 +6,7 @@ const Button = ({
   size = 'lg',
   disabled = false,
   onClick = () => {},
+  style = {},
 }) => {
   return (
     <button
