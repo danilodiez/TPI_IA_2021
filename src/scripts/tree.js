@@ -330,7 +330,7 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
   return currentNodes;
 };
 
-const main = (dataFrame, method, thresholdCal = 0.01) => {
+const main = (dataFrame, method, thresholdCal = 0.1) => {
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree();
   tree.calcMethod = method;

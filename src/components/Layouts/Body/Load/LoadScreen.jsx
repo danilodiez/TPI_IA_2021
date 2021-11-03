@@ -17,7 +17,7 @@ const LoadScreen = () => {
   const location = useLocation();
   const [file, setFile] = useState(undefined);
   const [dataFrame, setDataFrame] = useState(null);
-  const [threshold, setThreshold] = useState(0.01);
+  const [threshold, setThreshold] = useState(0.1);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
   const openModal = () => {

@@ -34,7 +34,7 @@ const Datasets = () => {
         </div>
         <div className="col-4 text-center download">
           <button onClick={() => redirect("src/data/ej3.txt")}>
-            Ej4 Cátedra
+            Ej3 Cátedra
           </button>
         </div>
         <div className="col-4 text-center download">
