@@ -1,0 +1,1001 @@
+gender,race/ethnicity,parental level of education,lunch,test preparation course,is math approved
+female,group B,bachelor's degree,standard,none,YES
+female,group C,some college,standard,completed,YES
+female,group B,master's degree,standard,none,YES
+male,group A,associate's degree,free/reduced,none,NO
+male,group C,some college,standard,none,YES
+female,group B,associate's degree,standard,none,YES
+female,group B,some college,standard,completed,YES
+male,group B,some college,free/reduced,none,NO
+male,group D,high school,free/reduced,completed,YES
+female,group B,high school,free/reduced,none,NO
+male,group C,associate's degree,standard,none,NO
+male,group D,associate's degree,standard,none,NO
+female,group B,high school,standard,none,YES
+male,group A,some college,standard,completed,YES
+female,group A,master's degree,standard,none,NO
+female,group C,some high school,standard,none,YES
+male,group C,high school,standard,none,YES
+female,group B,some high school,free/reduced,none,NO
+male,group C,master's degree,free/reduced,completed,NO
+female,group C,associate's degree,free/reduced,none,NO
+male,group D,high school,standard,none,YES
+female,group B,some college,free/reduced,completed,YES
+male,group D,some college,standard,none,NO
+female,group C,some high school,standard,none,YES
+male,group D,bachelor's degree,free/reduced,completed,YES
+male,group A,master's degree,free/reduced,none,YES
+male,group B,some college,standard,none,YES
+female,group C,bachelor's degree,standard,none,YES
+male,group C,high school,standard,none,YES
+female,group D,master's degree,standard,none,YES
+female,group D,some college,standard,none,YES
+female,group B,some college,standard,none,YES
+female,group E,master's degree,free/reduced,none,NO
+male,group D,some college,standard,none,NO
+male,group E,some college,standard,none,YES
+male,group E,associate's degree,standard,completed,YES
+female,group D,associate's degree,standard,none,YES
+female,group D,some high school,free/reduced,none,NO
+female,group D,associate's degree,free/reduced,completed,YES
+male,group B,associate's degree,free/reduced,none,NO
+male,group C,associate's degree,free/reduced,none,NO
+female,group C,associate's degree,standard,none,NO
+female,group B,associate's degree,standard,none,NO
+male,group B,some college,free/reduced,completed,NO
+female,group E,associate's degree,free/reduced,none,NO
+male,group B,associate's degree,standard,none,YES
+female,group A,associate's degree,standard,completed,NO
+female,group C,high school,standard,none,YES
+female,group D,associate's degree,free/reduced,completed,NO
+male,group C,high school,standard,completed,YES
+male,group E,some college,standard,none,NO
+male,group E,associate's degree,free/reduced,completed,YES
+male,group C,some college,standard,none,NO
+male,group D,high school,standard,none,YES
+female,group C,some high school,free/reduced,completed,YES
+female,group C,high school,free/reduced,none,NO
+female,group E,associate's degree,standard,completed,YES
+male,group D,associate's degree,standard,none,NO
+male,group D,some college,standard,completed,NO
+female,group C,some high school,free/reduced,none,NO
+male,group E,bachelor's degree,free/reduced,completed,YES
+male,group A,some high school,free/reduced,none,NO
+male,group A,associate's degree,free/reduced,none,YES
+female,group C,associate's degree,standard,none,YES
+female,group D,some high school,standard,none,NO
+male,group B,some high school,standard,none,YES
+male,group D,some high school,free/reduced,none,NO
+female,group C,some college,standard,none,YES
+male,group B,associate's degree,free/reduced,none,YES
+female,group C,associate's degree,standard,none,NO
+female,group D,some college,free/reduced,completed,NO
+male,group D,some college,standard,completed,YES
+female,group A,associate's degree,free/reduced,none,NO
+male,group C,some high school,free/reduced,none,YES
+male,group C,some high school,standard,none,NO
+male,group B,associate's degree,free/reduced,none,NO
+male,group E,some high school,standard,none,NO
+male,group A,bachelor's degree,standard,completed,YES
+female,group D,some high school,standard,completed,YES
+female,group E,master's degree,standard,none,YES
+female,group B,associate's degree,standard,none,NO
+male,group B,high school,free/reduced,none,NO
+male,group A,some college,free/reduced,completed,NO
+male,group E,associate's degree,standard,none,YES
+male,group D,high school,free/reduced,none,NO
+female,group C,some college,standard,none,YES
+female,group C,some college,free/reduced,none,YES
+female,group D,associate's degree,standard,none,YES
+female,group A,some college,standard,none,NO
+female,group D,some high school,standard,none,YES
+female,group C,bachelor's degree,standard,none,YES
+male,group C,high school,free/reduced,none,NO
+male,group C,high school,standard,none,YES
+male,group C,associate's degree,free/reduced,completed,NO
+female,group B,some college,standard,none,YES
+male,group C,associate's degree,free/reduced,completed,YES
+male,group B,some high school,standard,completed,YES
+female,group E,some college,standard,completed,YES
+female,group D,some college,free/reduced,none,NO
+female,group D,bachelor's degree,standard,none,YES
+male,group B,some college,standard,none,YES
+male,group D,bachelor's degree,standard,completed,YES
+female,group D,associate's degree,standard,none,YES
+male,group B,high school,standard,completed,YES
+male,group C,some college,standard,completed,YES
+female,group C,some college,standard,none,NO
+female,group D,master's degree,standard,none,YES
+male,group E,associate's degree,standard,completed,YES
+female,group B,associate's degree,free/reduced,none,NO
+female,group B,some high school,standard,none,YES
+female,group D,associate's degree,free/reduced,completed,YES
+male,group C,high school,standard,none,YES
+male,group A,associate's degree,standard,none,NO
+female,group D,some college,standard,none,NO
+female,group E,bachelor's degree,standard,completed,YES
+male,group C,high school,standard,none,YES
+female,group B,bachelor's degree,free/reduced,none,YES
+female,group D,bachelor's degree,standard,none,YES
+female,group D,some high school,standard,none,NO
+female,group C,some college,standard,none,NO
+female,group C,bachelor's degree,standard,completed,YES
+male,group B,associate's degree,standard,completed,YES
+female,group C,some college,standard,completed,YES
+male,group D,high school,free/reduced,none,YES
+male,group E,some college,standard,none,YES
+female,group B,high school,standard,none,YES
+male,group B,some high school,standard,none,YES
+male,group D,some college,standard,completed,YES
+male,group D,master's degree,standard,none,YES
+female,group A,bachelor's degree,standard,none,NO
+male,group D,master's degree,standard,none,YES
+male,group C,some high school,free/reduced,completed,NO
+male,group E,some college,free/reduced,completed,YES
+female,group C,some college,standard,completed,YES
+male,group D,bachelor's degree,free/reduced,completed,YES
+male,group C,bachelor's degree,standard,none,NO
+male,group B,some high school,standard,completed,NO
+male,group E,high school,standard,none,YES
+female,group C,associate's degree,standard,none,NO
+male,group D,some college,standard,completed,YES
+female,group D,some high school,standard,none,YES
+female,group C,some college,free/reduced,none,NO
+female,group E,some college,free/reduced,completed,NO
+male,group A,high school,standard,none,NO
+male,group D,some college,standard,none,YES
+female,group C,some college,free/reduced,none,NO
+male,group B,some high school,standard,none,YES
+male,group C,associate's degree,free/reduced,none,YES
+female,group D,bachelor's degree,standard,completed,YES
+male,group E,associate's degree,free/reduced,completed,YES
+male,group A,some high school,standard,completed,YES
+male,group A,bachelor's degree,standard,none,YES
+female,group B,associate's degree,standard,completed,NO
+male,group D,bachelor's degree,standard,none,NO
+male,group D,some high school,standard,none,YES
+female,group C,some college,standard,completed,YES
+female,group E,high school,free/reduced,completed,YES
+male,group B,some college,free/reduced,none,YES
+female,group B,associate's degree,standard,completed,YES
+male,group D,associate's degree,free/reduced,none,YES
+male,group B,associate's degree,free/reduced,completed,YES
+female,group E,some college,free/reduced,completed,YES
+male,group B,master's degree,free/reduced,none,NO
+male,group C,high school,standard,none,NO
+female,group E,master's degree,standard,none,YES
+female,group C,bachelor's degree,standard,completed,YES
+male,group C,high school,free/reduced,completed,NO
+female,group B,master's degree,free/reduced,completed,NO
+female,group B,high school,standard,completed,YES
+female,group C,some college,free/reduced,completed,YES
+male,group A,high school,standard,completed,YES
+male,group E,some high school,standard,none,YES
+female,group D,some college,standard,none,YES
+female,group C,associate's degree,standard,none,YES
+female,group C,bachelor's degree,free/reduced,completed,NO
+female,group C,master's degree,standard,completed,YES
+female,group B,high school,free/reduced,completed,NO
+female,group C,associate's degree,standard,completed,YES
+female,group B,master's degree,free/reduced,completed,NO
+female,group D,some high school,standard,completed,YES
+male,group C,master's degree,free/reduced,completed,YES
+female,group C,some college,free/reduced,none,NO
+female,group E,high school,standard,none,NO
+female,group D,associate's degree,standard,none,YES
+male,group C,some high school,free/reduced,completed,NO
+male,group C,associate's degree,free/reduced,completed,YES
+male,group E,high school,standard,none,YES
+male,group D,some high school,standard,completed,YES
+male,group B,some high school,free/reduced,none,NO
+female,group C,bachelor's degree,standard,none,YES
+female,group E,associate's degree,standard,none,YES
+male,group D,some college,standard,completed,YES
+female,group B,some high school,standard,none,YES
+male,group D,some college,standard,completed,YES
+female,group C,master's degree,standard,completed,YES
+male,group D,associate's degree,standard,none,YES
+male,group C,some high school,free/reduced,completed,NO
+male,group E,high school,free/reduced,none,NO
+female,group B,some college,free/reduced,none,NO
+female,group B,bachelor's degree,free/reduced,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group D,some college,free/reduced,none,YES
+male,group C,associate's degree,standard,none,YES
+female,group B,associate's degree,standard,none,NO
+male,group C,some college,standard,none,NO
+male,group D,some high school,standard,completed,YES
+male,group E,bachelor's degree,standard,none,YES
+male,group E,high school,standard,completed,YES
+female,group B,some college,free/reduced,none,YES
+female,group B,some college,free/reduced,none,NO
+male,group D,some high school,free/reduced,completed,YES
+male,group C,some college,free/reduced,none,NO
+female,group C,high school,free/reduced,none,NO
+male,group C,associate's degree,free/reduced,completed,YES
+male,group E,high school,standard,completed,YES
+male,group B,some high school,standard,completed,YES
+female,group E,associate's degree,free/reduced,completed,YES
+female,group C,high school,free/reduced,none,NO
+male,group B,high school,free/reduced,none,YES
+male,group B,some high school,standard,completed,YES
+female,group D,high school,standard,completed,NO
+male,group B,associate's degree,standard,none,YES
+female,group C,some high school,free/reduced,none,NO
+male,group D,some high school,standard,none,YES
+female,group B,associate's degree,standard,completed,NO
+female,group E,master's degree,free/reduced,none,NO
+female,group C,some college,standard,none,YES
+male,group D,high school,standard,none,NO
+male,group A,some high school,free/reduced,none,YES
+female,group C,some college,standard,completed,YES
+male,group D,some college,standard,none,YES
+male,group C,associate's degree,standard,none,NO
+female,group B,bachelor's degree,standard,none,YES
+male,group E,some high school,standard,none,YES
+male,group C,bachelor's degree,standard,completed,YES
+male,group D,associate's degree,standard,none,YES
+male,group D,bachelor's degree,free/reduced,none,YES
+female,group D,some high school,standard,completed,YES
+male,group B,some college,standard,none,NO
+male,group C,associate's degree,standard,none,YES
+male,group D,high school,free/reduced,completed,YES
+female,group E,bachelor's degree,standard,none,YES
+female,group D,high school,standard,none,NO
+male,group E,some college,standard,none,NO
+male,group D,some high school,standard,none,YES
+male,group C,associate's degree,standard,none,YES
+male,group E,associate's degree,standard,none,YES
+female,group B,high school,standard,completed,NO
+female,group B,high school,standard,none,YES
+male,group C,high school,standard,none,YES
+male,group A,some high school,standard,completed,NO
+female,group D,some college,free/reduced,none,YES
+female,group B,some high school,standard,completed,YES
+male,group D,master's degree,standard,none,YES
+male,group D,high school,standard,none,NO
+female,group E,some college,standard,none,YES
+female,group C,associate's degree,free/reduced,none,YES
+male,group C,associate's degree,standard,completed,YES
+female,group B,some college,standard,none,YES
+female,group C,master's degree,free/reduced,completed,YES
+female,group C,some high school,free/reduced,completed,YES
+male,group C,some college,standard,completed,YES
+female,group C,some high school,free/reduced,none,NO
+female,group E,high school,standard,none,YES
+male,group D,high school,standard,none,YES
+male,group D,some high school,free/reduced,none,NO
+female,group C,bachelor's degree,standard,none,YES
+female,group D,high school,standard,none,YES
+female,group D,associate's degree,standard,completed,YES
+female,group E,some college,free/reduced,none,YES
+male,group C,bachelor's degree,standard,none,YES
+male,group C,some college,standard,none,NO
+female,group D,associate's degree,free/reduced,none,NO
+female,group D,some college,standard,none,YES
+male,group B,some college,standard,completed,YES
+male,group C,bachelor's degree,standard,none,YES
+female,group C,some high school,standard,completed,YES
+female,group E,high school,standard,completed,NO
+female,group C,some high school,free/reduced,none,YES
+male,group B,bachelor's degree,free/reduced,none,YES
+male,group D,high school,standard,none,NO
+male,group D,high school,standard,none,NO
+female,group D,bachelor's degree,free/reduced,none,YES
+female,group D,some college,free/reduced,completed,YES
+female,group B,some high school,standard,none,NO
+male,group B,associate's degree,standard,completed,YES
+male,group E,associate's degree,standard,completed,YES
+female,group B,some high school,standard,none,YES
+male,group B,bachelor's degree,free/reduced,none,YES
+male,group E,some high school,standard,completed,YES
+male,group C,associate's degree,standard,none,YES
+male,group D,some high school,standard,none,YES
+male,group C,some high school,standard,completed,YES
+female,group E,bachelor's degree,standard,none,YES
+male,group D,high school,free/reduced,completed,YES
+male,group B,associate's degree,free/reduced,none,YES
+male,group A,some high school,standard,completed,NO
+male,group E,associate's degree,standard,completed,YES
+male,group C,high school,free/reduced,completed,NO
+male,group D,associate's degree,free/reduced,none,YES
+male,group A,some college,free/reduced,completed,YES
+male,group D,some high school,free/reduced,none,NO
+female,group C,associate's degree,standard,completed,YES
+male,group B,associate's degree,standard,none,YES
+female,group C,associate's degree,standard,completed,YES
+male,group A,some college,standard,none,YES
+male,group E,some college,standard,completed,YES
+male,group C,some high school,standard,none,NO
+female,group B,associate's degree,free/reduced,none,NO
+female,group D,high school,free/reduced,none,NO
+female,group B,associate's degree,standard,none,YES
+male,group B,bachelor's degree,standard,none,YES
+male,group D,bachelor's degree,standard,completed,YES
+female,group C,associate's degree,free/reduced,completed,YES
+female,group C,bachelor's degree,standard,completed,NO
+male,group C,high school,standard,none,YES
+female,group D,master's degree,standard,completed,YES
+male,group C,associate's degree,standard,none,YES
+male,group B,bachelor's degree,standard,none,YES
+female,group D,associate's degree,free/reduced,none,NO
+female,group C,high school,free/reduced,completed,YES
+female,group E,high school,standard,none,YES
+female,group C,some college,standard,none,YES
+female,group C,some high school,free/reduced,none,NO
+female,group C,high school,free/reduced,none,NO
+female,group C,some college,standard,none,YES
+male,group C,some college,standard,none,YES
+male,group A,some college,free/reduced,none,NO
+male,group C,associate's degree,standard,completed,YES
+female,group B,some high school,standard,none,NO
+male,group C,high school,standard,none,YES
+male,group C,associate's degree,standard,none,NO
+male,group E,associate's degree,standard,completed,YES
+male,group B,associate's degree,standard,none,YES
+female,group C,bachelor's degree,standard,none,YES
+female,group B,some college,free/reduced,none,YES
+male,group D,some high school,standard,completed,YES
+male,group C,associate's degree,standard,none,NO
+female,group B,some high school,free/reduced,none,NO
+female,group D,some high school,free/reduced,completed,NO
+male,group C,high school,free/reduced,none,NO
+female,group C,high school,standard,none,YES
+female,group B,high school,standard,completed,YES
+male,group D,associate's degree,standard,completed,YES
+male,group D,some college,standard,none,YES
+female,group C,high school,standard,none,YES
+male,group B,some college,standard,none,YES
+female,group C,bachelor's degree,standard,completed,YES
+male,group D,high school,free/reduced,none,YES
+male,group E,associate's degree,standard,none,YES
+female,group B,bachelor's degree,standard,none,NO
+male,group E,some college,standard,none,YES
+female,group C,some college,standard,completed,YES
+female,group C,associate's degree,standard,none,NO
+female,group C,some college,standard,none,NO
+female,group B,bachelor's degree,standard,none,YES
+male,group A,associate's degree,standard,none,YES
+female,group C,some college,free/reduced,completed,NO
+male,group D,some college,free/reduced,none,NO
+female,group D,some college,standard,none,YES
+female,group B,high school,standard,none,NO
+male,group B,some high school,standard,completed,YES
+female,group C,some college,standard,none,NO
+female,group D,some high school,free/reduced,none,NO
+male,group C,some college,standard,none,NO
+male,group A,bachelor's degree,free/reduced,completed,NO
+male,group C,high school,standard,completed,YES
+male,group C,bachelor's degree,free/reduced,none,YES
+female,group A,some high school,free/reduced,none,NO
+female,group D,some high school,standard,none,YES
+male,group E,some college,standard,none,YES
+female,group C,some college,free/reduced,completed,NO
+male,group D,some high school,standard,none,YES
+female,group D,some college,standard,completed,YES
+female,group D,bachelor's degree,standard,none,NO
+male,group E,associate's degree,free/reduced,none,NO
+female,group D,some high school,standard,none,YES
+female,group D,master's degree,free/reduced,completed,YES
+female,group A,some high school,standard,none,YES
+male,group A,bachelor's degree,standard,none,YES
+female,group B,associate's degree,standard,none,YES
+male,group C,associate's degree,standard,completed,YES
+male,group C,master's degree,free/reduced,none,YES
+female,group E,some high school,free/reduced,none,NO
+female,group A,some high school,free/reduced,none,NO
+female,group E,some college,standard,none,YES
+female,group E,bachelor's degree,standard,none,YES
+female,group C,associate's degree,free/reduced,none,NO
+female,group D,high school,standard,none,YES
+male,group D,master's degree,standard,none,YES
+male,group E,some high school,free/reduced,completed,YES
+female,group D,some college,standard,none,YES
+male,group E,some college,standard,none,YES
+male,group C,associate's degree,standard,completed,NO
+female,group C,some high school,standard,completed,YES
+male,group A,high school,free/reduced,none,NO
+female,group B,high school,free/reduced,none,NO
+female,group C,associate's degree,standard,none,YES
+male,group B,some high school,standard,none,YES
+male,group D,some high school,standard,none,YES
+female,group C,some high school,standard,completed,NO
+male,group A,some college,standard,none,NO
+female,group A,some college,free/reduced,none,NO
+female,group D,high school,standard,completed,YES
+female,group C,high school,standard,none,NO
+female,group C,some high school,standard,none,YES
+male,group B,associate's degree,standard,completed,YES
+female,group B,associate's degree,standard,none,YES
+female,group D,high school,free/reduced,completed,NO
+male,group D,associate's degree,standard,completed,YES
+female,group D,master's degree,standard,completed,YES
+male,group E,some college,standard,completed,YES
+male,group D,associate's degree,standard,none,YES
+male,group B,some high school,standard,completed,YES
+female,group C,bachelor's degree,free/reduced,completed,NO
+male,group E,high school,standard,none,YES
+male,group C,bachelor's degree,standard,completed,YES
+male,group C,associate's degree,standard,none,YES
+male,group D,some college,standard,none,YES
+male,group E,high school,free/reduced,completed,NO
+female,group C,associate's degree,free/reduced,completed,YES
+female,group D,high school,standard,completed,NO
+female,group D,master's degree,free/reduced,completed,NO
+female,group A,some high school,standard,completed,NO
+male,group B,some college,free/reduced,none,NO
+female,group C,some college,free/reduced,none,YES
+male,group C,bachelor's degree,standard,none,YES
+male,group C,some high school,free/reduced,none,YES
+male,group A,some high school,free/reduced,none,YES
+male,group C,some high school,free/reduced,none,YES
+male,group C,associate's degree,free/reduced,none,YES
+female,group C,high school,standard,none,YES
+male,group C,high school,standard,none,YES
+female,group A,some high school,free/reduced,none,NO
+male,group C,some high school,standard,none,YES
+male,group C,some college,free/reduced,completed,NO
+male,group D,associate's degree,standard,none,YES
+male,group D,associate's degree,free/reduced,none,YES
+male,group C,high school,standard,none,YES
+male,group D,some high school,standard,completed,YES
+female,group C,some college,standard,completed,YES
+female,group D,high school,standard,none,YES
+female,group A,some high school,free/reduced,none,NO
+female,group B,associate's degree,standard,none,YES
+male,group A,some high school,free/reduced,none,YES
+female,group C,some high school,standard,completed,YES
+male,group D,some college,free/reduced,none,YES
+male,group C,high school,standard,completed,YES
+male,group B,high school,standard,none,NO
+male,group B,associate's degree,standard,none,YES
+female,group C,some college,free/reduced,completed,YES
+female,group E,some college,standard,none,YES
+female,group C,associate's degree,free/reduced,none,YES
+male,group C,some college,free/reduced,none,YES
+female,group C,associate's degree,free/reduced,none,NO
+male,group C,bachelor's degree,free/reduced,none,NO
+female,group D,bachelor's degree,standard,none,YES
+male,group D,associate's degree,free/reduced,none,NO
+female,group E,bachelor's degree,standard,none,YES
+male,group B,high school,standard,completed,YES
+male,group C,bachelor's degree,free/reduced,none,NO
+male,group B,some college,free/reduced,none,NO
+female,group E,some college,standard,none,YES
+female,group C,some college,free/reduced,none,YES
+male,group A,bachelor's degree,standard,completed,YES
+female,group C,some college,standard,none,YES
+female,group D,associate's degree,free/reduced,none,NO
+male,group A,high school,free/reduced,completed,YES
+female,group A,high school,free/reduced,completed,YES
+male,group C,some college,standard,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group C,high school,standard,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group D,some high school,standard,none,NO
+female,group B,associate's degree,standard,completed,YES
+female,group D,bachelor's degree,standard,completed,YES
+male,group E,bachelor's degree,standard,completed,YES
+male,group D,associate's degree,standard,none,YES
+female,group D,master's degree,standard,none,NO
+male,group E,associate's degree,standard,none,YES
+male,group B,high school,standard,completed,YES
+female,group D,associate's degree,free/reduced,none,NO
+male,group C,some college,free/reduced,none,YES
+male,group A,high school,standard,none,NO
+female,group B,associate's degree,standard,none,NO
+male,group C,high school,standard,none,YES
+male,group D,some college,free/reduced,none,YES
+female,group C,associate's degree,free/reduced,none,YES
+male,group B,some high school,standard,completed,YES
+male,group A,associate's degree,free/reduced,completed,YES
+female,group A,associate's degree,free/reduced,none,YES
+female,group C,associate's degree,standard,none,YES
+female,group C,some college,standard,none,YES
+female,group C,bachelor's degree,standard,none,YES
+female,group B,high school,standard,none,NO
+male,group D,high school,standard,completed,YES
+female,group C,some college,standard,none,NO
+female,group D,some college,free/reduced,completed,NO
+female,group B,some high school,standard,none,YES
+male,group E,some college,standard,none,YES
+female,group D,master's degree,standard,none,YES
+female,group B,associate's degree,standard,completed,YES
+male,group C,some college,free/reduced,none,YES
+female,group E,associate's degree,standard,completed,YES
+female,group D,master's degree,free/reduced,none,NO
+female,group B,some high school,standard,none,YES
+male,group A,high school,standard,none,YES
+male,group B,bachelor's degree,free/reduced,none,NO
+male,group C,master's degree,standard,none,YES
+female,group C,bachelor's degree,standard,none,YES
+male,group D,some college,standard,none,YES
+male,group A,some high school,standard,none,YES
+male,group D,some high school,free/reduced,none,YES
+female,group B,some high school,standard,completed,NO
+female,group B,master's degree,free/reduced,completed,YES
+female,group C,some high school,standard,completed,YES
+female,group D,some college,standard,none,YES
+female,group E,some college,standard,completed,YES
+female,group D,some high school,standard,completed,YES
+female,group B,high school,free/reduced,completed,YES
+male,group D,some college,standard,none,YES
+female,group C,associate's degree,standard,none,YES
+male,group D,bachelor's degree,standard,none,YES
+male,group C,master's degree,free/reduced,none,NO
+male,group C,high school,standard,completed,NO
+male,group E,some college,standard,none,YES
+male,group C,some high school,free/reduced,completed,NO
+female,group C,high school,free/reduced,none,NO
+female,group D,bachelor's degree,free/reduced,none,NO
+female,group C,associate's degree,standard,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group C,some high school,standard,none,NO
+male,group E,associate's degree,standard,completed,YES
+female,group E,associate's degree,standard,completed,YES
+male,group B,high school,standard,completed,YES
+female,group C,bachelor's degree,free/reduced,completed,YES
+male,group C,associate's degree,standard,completed,NO
+female,group D,high school,standard,none,NO
+male,group E,bachelor's degree,standard,completed,YES
+male,group A,associate's degree,standard,completed,YES
+male,group C,high school,standard,completed,YES
+male,group D,associate's degree,free/reduced,completed,YES
+female,group C,associate's degree,standard,none,YES
+female,group D,associate's degree,standard,none,YES
+female,group D,master's degree,standard,none,YES
+male,group E,some high school,free/reduced,completed,YES
+female,group A,some high school,standard,completed,YES
+male,group C,high school,standard,completed,YES
+female,group C,high school,free/reduced,none,YES
+male,group C,master's degree,standard,none,YES
+male,group C,some high school,free/reduced,none,YES
+male,group B,bachelor's degree,free/reduced,completed,YES
+female,group B,associate's degree,standard,none,NO
+male,group D,some college,free/reduced,none,YES
+male,group E,associate's degree,standard,none,NO
+female,group C,some college,free/reduced,none,NO
+female,group C,associate's degree,standard,completed,NO
+male,group C,master's degree,free/reduced,none,YES
+female,group B,associate's degree,free/reduced,none,NO
+male,group D,some high school,standard,none,YES
+female,group D,some college,standard,completed,YES
+female,group C,some college,standard,none,YES
+male,group C,bachelor's degree,standard,completed,YES
+female,group D,some college,free/reduced,completed,YES
+male,group B,bachelor's degree,free/reduced,none,NO
+male,group B,associate's degree,standard,none,NO
+female,group E,bachelor's degree,free/reduced,completed,YES
+female,group D,master's degree,free/reduced,completed,YES
+male,group B,high school,free/reduced,none,YES
+male,group D,bachelor's degree,free/reduced,none,YES
+male,group B,some college,standard,completed,YES
+male,group A,bachelor's degree,standard,none,YES
+female,group C,some college,standard,none,NO
+female,group C,high school,free/reduced,completed,NO
+female,group E,high school,standard,none,YES
+male,group A,associate's degree,free/reduced,completed,NO
+male,group A,some college,standard,completed,YES
+female,group B,high school,standard,none,YES
+female,group B,some college,free/reduced,completed,NO
+female,group D,master's degree,standard,none,NO
+female,group D,some high school,standard,none,YES
+female,group E,some high school,standard,none,YES
+female,group D,bachelor's degree,free/reduced,none,YES
+female,group D,associate's degree,standard,completed,YES
+female,group D,some college,standard,none,YES
+female,group C,associate's degree,standard,none,YES
+female,group A,high school,standard,none,NO
+female,group C,bachelor's degree,free/reduced,none,NO
+female,group C,some college,standard,none,NO
+female,group A,some high school,standard,none,NO
+male,group C,some college,free/reduced,none,NO
+male,group A,some high school,standard,none,YES
+male,group E,bachelor's degree,standard,none,YES
+female,group E,high school,standard,none,YES
+female,group C,bachelor's degree,standard,completed,YES
+female,group C,bachelor's degree,standard,completed,NO
+male,group B,high school,free/reduced,none,NO
+male,group A,some high school,standard,none,NO
+female,group D,high school,standard,none,YES
+female,group D,some high school,standard,none,YES
+female,group D,master's degree,standard,none,NO
+female,group C,high school,standard,none,NO
+female,group E,some college,standard,none,YES
+male,group D,high school,free/reduced,none,YES
+male,group D,master's degree,free/reduced,completed,YES
+male,group C,some high school,standard,none,YES
+female,group C,associate's degree,standard,none,YES
+female,group C,master's degree,free/reduced,none,NO
+female,group E,some college,standard,none,YES
+female,group B,associate's degree,standard,none,NO
+male,group D,some college,free/reduced,completed,YES
+female,group C,some college,standard,none,NO
+male,group C,bachelor's degree,standard,completed,YES
+female,group C,associate's degree,standard,none,YES
+female,group A,associate's degree,standard,none,YES
+female,group C,high school,standard,none,YES
+female,group E,bachelor's degree,standard,none,NO
+male,group D,bachelor's degree,standard,none,YES
+male,group D,master's degree,standard,none,YES
+male,group C,associate's degree,free/reduced,completed,YES
+female,group C,high school,free/reduced,none,NO
+male,group B,bachelor's degree,free/reduced,none,YES
+male,group C,high school,free/reduced,completed,NO
+male,group A,some college,standard,completed,YES
+female,group E,bachelor's degree,free/reduced,none,YES
+male,group D,some college,standard,completed,YES
+male,group B,associate's degree,free/reduced,completed,YES
+male,group D,associate's degree,standard,none,YES
+male,group D,some college,free/reduced,none,NO
+female,group C,some high school,standard,completed,NO
+male,group D,some college,standard,none,YES
+male,group B,high school,standard,none,YES
+female,group B,bachelor's degree,standard,completed,YES
+female,group C,high school,standard,none,YES
+male,group D,some high school,standard,none,YES
+male,group A,high school,standard,none,YES
+female,group B,high school,free/reduced,completed,YES
+female,group D,some high school,standard,completed,YES
+male,group E,some college,standard,none,YES
+female,group D,associate's degree,standard,none,YES
+male,group D,high school,standard,none,NO
+female,group D,associate's degree,free/reduced,completed,YES
+female,group B,some high school,free/reduced,none,YES
+female,group E,high school,standard,completed,YES
+male,group B,high school,standard,none,YES
+female,group B,bachelor's degree,standard,completed,YES
+female,group D,associate's degree,standard,none,NO
+female,group E,high school,free/reduced,none,YES
+female,group B,high school,standard,none,NO
+female,group D,some college,standard,completed,YES
+male,group C,some high school,free/reduced,completed,NO
+female,group A,high school,standard,completed,YES
+female,group D,some college,standard,completed,YES
+female,group A,associate's degree,standard,completed,YES
+female,group B,some high school,standard,none,YES
+female,group B,some college,standard,none,YES
+male,group C,associate's degree,free/reduced,none,YES
+male,group D,some high school,standard,none,YES
+female,group D,associate's degree,free/reduced,none,NO
+male,group D,associate's degree,standard,none,YES
+male,group C,some college,free/reduced,none,YES
+male,group C,some high school,standard,none,YES
+female,group D,some college,free/reduced,none,NO
+female,group C,high school,standard,none,YES
+male,group D,associate's degree,standard,none,YES
+female,group C,some high school,free/reduced,completed,NO
+female,group C,some college,free/reduced,completed,YES
+female,group B,bachelor's degree,free/reduced,none,YES
+male,group C,some college,standard,none,YES
+male,group D,associate's degree,standard,completed,YES
+female,group C,high school,free/reduced,none,YES
+male,group D,associate's degree,free/reduced,none,NO
+female,group C,some college,standard,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group D,high school,standard,completed,YES
+female,group B,some college,standard,completed,NO
+female,group E,some college,standard,completed,YES
+female,group C,some high school,standard,completed,YES
+male,group D,associate's degree,free/reduced,none,YES
+male,group D,some college,free/reduced,none,YES
+female,group D,high school,standard,none,YES
+male,group B,high school,standard,none,YES
+male,group B,high school,standard,none,YES
+female,group C,some high school,free/reduced,completed,NO
+male,group B,some college,standard,completed,YES
+female,group E,master's degree,standard,completed,YES
+male,group E,some college,standard,completed,YES
+male,group D,associate's degree,free/reduced,none,YES
+male,group A,high school,free/reduced,none,NO
+male,group E,some college,free/reduced,none,YES
+female,group C,associate's degree,standard,none,NO
+female,group E,associate's degree,free/reduced,none,YES
+female,group C,bachelor's degree,free/reduced,completed,YES
+female,group D,associate's degree,standard,none,YES
+female,group C,some high school,standard,none,NO
+female,group D,some college,free/reduced,none,YES
+female,group C,associate's degree,standard,completed,YES
+female,group A,bachelor's degree,standard,none,NO
+female,group D,associate's degree,standard,completed,NO
+male,group C,high school,free/reduced,none,YES
+female,group E,bachelor's degree,standard,completed,YES
+female,group B,some high school,standard,none,NO
+male,group A,bachelor's degree,standard,completed,YES
+female,group D,some college,standard,none,YES
+female,group B,some high school,free/reduced,completed,NO
+male,group A,bachelor's degree,free/reduced,none,YES
+male,group D,high school,standard,none,NO
+male,group C,some college,standard,none,YES
+male,group D,high school,standard,none,YES
+female,group D,associate's degree,free/reduced,completed,NO
+male,group C,some college,standard,completed,YES
+female,group E,some high school,standard,completed,YES
+female,group D,some college,standard,none,YES
+male,group D,master's degree,standard,none,YES
+female,group B,some high school,standard,completed,YES
+female,group B,associate's degree,free/reduced,completed,YES
+male,group C,associate's degree,standard,completed,YES
+female,group C,associate's degree,standard,completed,YES
+female,group C,high school,standard,none,YES
+male,group E,associate's degree,free/reduced,completed,YES
+female,group C,some college,free/reduced,none,YES
+male,group D,some high school,free/reduced,completed,NO
+female,group B,some high school,free/reduced,completed,YES
+male,group C,high school,standard,none,NO
+male,group B,some college,standard,none,NO
+male,group E,some college,standard,completed,YES
+female,group E,associate's degree,standard,completed,YES
+male,group E,some high school,standard,completed,YES
+female,group D,high school,free/reduced,none,YES
+male,group C,some college,standard,none,NO
+female,group B,associate's degree,free/reduced,completed,YES
+male,group A,some high school,free/reduced,none,NO
+female,group C,some college,standard,completed,YES
+male,group D,some high school,standard,none,NO
+female,group E,some college,free/reduced,none,NO
+male,group C,master's degree,standard,none,YES
+male,group C,associate's degree,standard,none,YES
+female,group B,some college,free/reduced,completed,NO
+male,group D,associate's degree,standard,none,YES
+male,group C,high school,free/reduced,none,YES
+male,group D,bachelor's degree,standard,none,YES
+female,group A,associate's degree,free/reduced,none,NO
+female,group C,high school,standard,none,YES
+female,group C,associate's degree,standard,completed,NO
+male,group B,some college,free/reduced,none,NO
+male,group D,associate's degree,standard,none,YES
+male,group D,high school,standard,none,YES
+male,group C,some college,standard,none,YES
+female,group C,bachelor's degree,free/reduced,none,NO
+male,group B,some college,standard,completed,YES
+male,group D,some high school,standard,completed,YES
+male,group E,some college,standard,none,YES
+male,group C,master's degree,free/reduced,completed,YES
+female,group C,some high school,standard,completed,YES
+male,group C,associate's degree,free/reduced,none,NO
+female,group E,associate's degree,standard,none,YES
+male,group D,some college,standard,none,NO
+male,group E,bachelor's degree,free/reduced,completed,YES
+female,group D,some college,free/reduced,completed,NO
+male,group B,some college,standard,completed,YES
+female,group C,high school,free/reduced,none,NO
+female,group D,some high school,standard,none,NO
+male,group D,some high school,standard,completed,YES
+female,group B,high school,standard,none,YES
+male,group D,some college,standard,none,YES
+female,group B,high school,standard,none,YES
+female,group C,high school,standard,completed,NO
+male,group B,high school,standard,completed,YES
+female,group D,some high school,standard,none,YES
+male,group A,some college,free/reduced,none,NO
+male,group B,high school,standard,none,NO
+male,group D,bachelor's degree,standard,none,YES
+female,group B,some high school,free/reduced,completed,NO
+female,group C,bachelor's degree,free/reduced,none,YES
+male,group B,some college,standard,none,YES
+female,group B,some high school,free/reduced,none,NO
+female,group B,high school,standard,none,YES
+female,group C,some college,free/reduced,none,NO
+female,group A,some college,standard,completed,YES
+male,group E,associate's degree,standard,completed,YES
+female,group D,associate's degree,free/reduced,none,NO
+female,group B,master's degree,standard,none,YES
+female,group B,high school,free/reduced,completed,YES
+female,group C,associate's degree,standard,completed,NO
+male,group C,bachelor's degree,standard,completed,YES
+female,group B,some high school,standard,completed,NO
+female,group E,some high school,free/reduced,none,YES
+female,group B,some college,standard,none,NO
+male,group C,associate's degree,free/reduced,none,YES
+female,group C,master's degree,free/reduced,none,NO
+female,group B,high school,standard,none,NO
+female,group D,some college,free/reduced,none,YES
+male,group D,high school,free/reduced,none,YES
+male,group E,some high school,standard,completed,YES
+female,group B,high school,standard,none,NO
+female,group E,associate's degree,free/reduced,completed,NO
+male,group D,high school,standard,none,YES
+female,group E,associate's degree,free/reduced,none,YES
+male,group E,some college,standard,none,YES
+female,group C,associate's degree,standard,none,NO
+male,group C,some high school,standard,completed,YES
+male,group C,some high school,standard,completed,YES
+female,group E,associate's degree,standard,none,YES
+female,group B,some college,standard,none,YES
+female,group C,some college,standard,none,YES
+male,group A,some college,free/reduced,none,YES
+female,group D,some college,free/reduced,none,YES
+female,group E,high school,free/reduced,none,NO
+male,group C,high school,standard,none,YES
+male,group B,bachelor's degree,standard,none,NO
+male,group A,some high school,standard,none,NO
+male,group A,high school,free/reduced,none,NO
+female,group C,master's degree,standard,completed,NO
+male,group E,some high school,standard,completed,YES
+female,group C,high school,standard,none,YES
+male,group B,some high school,standard,completed,YES
+female,group A,bachelor's degree,standard,none,NO
+male,group D,bachelor's degree,free/reduced,completed,YES
+female,group B,high school,free/reduced,none,YES
+female,group C,some high school,standard,none,YES
+female,group A,some high school,standard,completed,YES
+female,group D,bachelor's degree,free/reduced,none,YES
+male,group E,some college,free/reduced,completed,NO
+female,group B,high school,free/reduced,none,YES
+female,group C,some high school,free/reduced,none,NO
+male,group C,high school,standard,none,YES
+female,group C,associate's degree,free/reduced,completed,NO
+female,group C,some high school,standard,none,YES
+female,group D,some high school,free/reduced,completed,YES
+male,group B,some high school,standard,none,YES
+female,group A,some college,free/reduced,none,YES
+female,group C,bachelor's degree,free/reduced,completed,YES
+male,group A,bachelor's degree,standard,none,YES
+female,group B,high school,standard,completed,YES
+male,group B,some college,standard,none,NO
+female,group C,high school,standard,completed,YES
+male,group E,high school,standard,none,YES
+female,group A,high school,standard,completed,YES
+male,group B,associate's degree,free/reduced,completed,NO
+female,group C,associate's degree,standard,none,YES
+female,group D,high school,free/reduced,none,NO
+male,group C,some high school,standard,none,YES
+female,group B,high school,free/reduced,completed,NO
+male,group B,some college,free/reduced,completed,YES
+female,group D,some high school,free/reduced,completed,NO
+male,group E,master's degree,standard,none,YES
+male,group C,master's degree,standard,completed,YES
+male,group D,high school,standard,none,YES
+female,group C,high school,standard,none,NO
+male,group D,associate's degree,standard,none,YES
+male,group C,master's degree,standard,none,YES
+female,group A,high school,standard,none,YES
+female,group E,some college,standard,none,YES
+male,group E,some high school,standard,none,YES
+male,group C,some high school,standard,none,YES
+female,group B,bachelor's degree,standard,none,YES
+male,group B,some college,free/reduced,none,YES
+female,group C,bachelor's degree,standard,none,YES
+male,group B,high school,standard,completed,NO
+male,group C,associate's degree,free/reduced,none,YES
+female,group C,associate's degree,standard,none,NO
+female,group E,master's degree,free/reduced,none,YES
+male,group D,bachelor's degree,free/reduced,completed,NO
+female,group C,some college,standard,completed,YES
+male,group C,associate's degree,standard,none,YES
+male,group D,some college,standard,completed,YES
+male,group C,high school,free/reduced,none,NO
+male,group B,associate's degree,standard,none,YES
+male,group E,associate's degree,free/reduced,completed,YES
+male,group C,associate's degree,free/reduced,none,NO
+male,group B,high school,standard,none,NO
+female,group C,some college,standard,completed,YES
+male,group B,associate's degree,standard,completed,YES
+male,group E,associate's degree,free/reduced,none,YES
+female,group C,bachelor's degree,free/reduced,none,NO
+male,group C,some college,free/reduced,none,YES
+male,group D,some college,standard,none,YES
+male,group C,some high school,standard,none,NO
+female,group D,some high school,standard,none,NO
+female,group D,associate's degree,standard,none,YES
+male,group C,bachelor's degree,standard,completed,YES
+female,group E,bachelor's degree,standard,completed,YES
+female,group B,high school,free/reduced,none,YES
+male,group D,bachelor's degree,free/reduced,none,NO
+female,group E,associate's degree,standard,none,NO
+female,group C,associate's degree,standard,completed,YES
+female,group E,associate's degree,standard,completed,YES
+male,group C,high school,free/reduced,none,NO
+female,group D,some college,free/reduced,none,YES
+male,group D,high school,free/reduced,none,NO
+female,group E,some college,standard,completed,YES
+female,group E,associate's degree,standard,none,YES
+female,group A,master's degree,free/reduced,none,NO
+male,group D,some high school,standard,completed,YES
+female,group E,associate's degree,standard,none,NO
+female,group E,some high school,free/reduced,none,NO
+male,group B,high school,free/reduced,none,NO
+female,group B,some high school,free/reduced,completed,YES
+male,group D,associate's degree,standard,completed,YES
+female,group D,some high school,standard,completed,YES
+male,group D,master's degree,standard,none,YES
+female,group C,master's degree,standard,none,YES
+female,group A,high school,free/reduced,completed,NO
+female,group D,bachelor's degree,free/reduced,completed,YES
+female,group D,some high school,free/reduced,none,YES
+male,group D,some college,standard,none,YES
+male,group B,high school,standard,none,NO
+female,group D,some college,standard,completed,YES
+female,group C,bachelor's degree,free/reduced,none,YES
+male,group E,bachelor's degree,standard,completed,YES
+male,group D,bachelor's degree,free/reduced,none,NO
+female,group A,some college,standard,none,YES
+female,group C,bachelor's degree,standard,completed,NO
+female,group C,bachelor's degree,free/reduced,completed,NO
+female,group B,associate's degree,free/reduced,none,NO
+female,group E,some college,standard,none,YES
+male,group E,bachelor's degree,standard,completed,YES
+female,group C,high school,standard,none,NO
+female,group C,associate's degree,standard,completed,NO
+male,group B,some college,standard,completed,YES
+male,group D,high school,free/reduced,none,YES
+female,group C,high school,free/reduced,none,NO
+male,group D,high school,standard,none,YES
+female,group B,associate's degree,free/reduced,none,NO
+male,group D,high school,free/reduced,none,YES
+male,group E,some high school,standard,completed,YES
+male,group E,associate's degree,free/reduced,none,YES
+female,group D,high school,free/reduced,completed,YES
+male,group E,associate's degree,free/reduced,completed,NO
+female,group C,some high school,free/reduced,none,NO
+male,group C,some college,free/reduced,completed,YES
+male,group D,some college,free/reduced,none,YES
+male,group D,associate's degree,free/reduced,completed,YES
+male,group C,bachelor's degree,free/reduced,completed,YES
+male,group C,associate's degree,standard,completed,YES
+male,group D,some college,free/reduced,none,YES
+male,group A,associate's degree,standard,none,YES
+female,group E,high school,free/reduced,none,NO
+male,group D,some college,standard,completed,YES
+male,group D,some high school,standard,completed,YES
+male,group C,master's degree,free/reduced,completed,YES
+female,group D,master's degree,standard,none,YES
+male,group C,high school,standard,none,YES
+male,group A,some high school,free/reduced,completed,YES
+female,group B,high school,standard,none,NO
+female,group C,associate's degree,standard,none,NO
+male,group B,high school,standard,none,YES
+female,group D,some college,free/reduced,none,NO
+male,group B,some high school,free/reduced,completed,NO
+female,group E,high school,free/reduced,completed,NO
+male,group E,high school,standard,none,YES
+female,group D,some college,standard,completed,YES
+female,group E,some high school,free/reduced,none,YES
+male,group C,high school,standard,completed,NO
+female,group C,some college,standard,none,YES
+male,group E,associate's degree,standard,none,YES
+male,group C,some college,standard,none,YES
+female,group D,master's degree,standard,none,YES
+female,group D,high school,standard,none,NO
+male,group C,high school,standard,none,YES
+female,group A,some college,standard,none,NO
+female,group D,some high school,free/reduced,none,NO
+female,group E,associate's degree,standard,none,YES
+female,group C,some high school,free/reduced,completed,YES
+male,group D,some college,standard,none,YES
+female,group D,some college,standard,none,YES
+male,group A,some high school,standard,completed,YES
+male,group C,some college,standard,none,YES
+female,group E,associate's degree,standard,none,YES
+female,group B,bachelor's degree,standard,none,YES
+female,group D,bachelor's degree,standard,none,YES
+male,group C,some high school,standard,completed,YES
+female,group A,high school,free/reduced,completed,NO
+female,group D,some college,free/reduced,none,NO
+female,group A,some college,standard,none,NO
+female,group C,some college,standard,completed,YES
+male,group B,some college,free/reduced,completed,YES
+male,group C,associate's degree,standard,none,YES
+male,group D,high school,standard,completed,NO
+female,group C,associate's degree,standard,none,YES
+female,group B,high school,free/reduced,none,NO
+male,group D,some high school,standard,none,YES
+male,group B,some high school,standard,completed,YES
+female,group A,some college,standard,completed,YES
+female,group C,some high school,standard,none,YES
+male,group A,high school,standard,none,NO
+female,group C,associate's degree,standard,none,NO
+male,group E,some high school,standard,completed,YES
+female,group A,some high school,free/reduced,none,NO
+female,group D,some college,free/reduced,completed,YES
+male,group E,high school,free/reduced,completed,YES
+female,group B,some high school,standard,completed,YES
+female,group D,associate's degree,free/reduced,none,NO
+female,group D,bachelor's degree,free/reduced,none,YES
+male,group A,high school,standard,none,YES
+female,group E,master's degree,standard,completed,YES
+male,group C,high school,free/reduced,none,YES
+female,group C,high school,free/reduced,completed,NO
+female,group D,some college,standard,completed,YES
+female,group D,some college,free/reduced,none,YES
