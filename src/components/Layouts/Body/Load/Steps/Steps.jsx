@@ -104,7 +104,6 @@ const Steps = () => {
     branches.splice(branches.length - 1, 1);
 
     while (branches.length > 0) {
-      // console.log(`NIVEL ACTUAL: ${currentLevel}`);
 
       steps[currentLevel].branches.forEach((branch) => {
         fathersOfNextLevelNodes.push(branch.to);
@@ -200,7 +199,7 @@ const Steps = () => {
   return (
     <div className="container-tree">
       <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
-      <h2 className="text-center p-4 mt-4">Generación con ganancia </h2>
+      <h4 className="text-center p-4">Generación con ganancia </h4>
       <div
         style={{
           display: 'flex',
@@ -225,7 +224,7 @@ const Steps = () => {
         nodes={gainTreeSteps[gainStep]?.nodes}
         edges={gainTreeSteps[gainStep]?.branches}
       />
-      <h2 className="text-center p-4 mt-4">Generación con tasa de ganancia </h2>
+      <h4 className="text-center p-4">Generación con tasa de ganancia </h4>
       <div
         style={{
           display: 'flex',

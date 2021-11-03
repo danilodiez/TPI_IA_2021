@@ -44,7 +44,7 @@ const DragAndDrop = () => {
           setSuccess(false);
         }}
         onTypeError={() => {
-          setModalMessage('El archivo no es de tipo csv ni txt');
+          setModalMessage('El archivo seleccionado no es de tipo .csv ni .txt');
           openModal();
           setSuccess(false);
         }}

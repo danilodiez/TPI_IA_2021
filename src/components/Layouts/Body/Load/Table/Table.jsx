@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles-table.css';
-const Table = ({columns,data}) => {
+const Table = ({ columns, data }) => {
+
   return (
     <div className="container-table">
       <table className="table table-striped table-wrapper">

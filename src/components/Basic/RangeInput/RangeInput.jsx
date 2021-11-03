@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 
-const RangeInput = ({handleThresholdChange, threshold}) => {
+const RangeInput = ({ handleThresholdChange, threshold }) => {
   return (
-    <div>
-      <label htmlFor="customRange2" className="form-label">
-        Ingrese threshold para el cálculo
-      </label>
+    <div className="col-8 mx-auto">
+      <label htmlFor="customRange2" className="form-label d-flex justify-content-center">
+        Seleccione el threshold para el cálculo:
+      </label >
       <input
         id="customRange2"
         onChange={(e) => handleThresholdChange(e.target.value)}
@@ -17,8 +17,8 @@ const RangeInput = ({handleThresholdChange, threshold}) => {
         max="1"
         step="0.01"
       />
-      {threshold}
-    </div>
+      <h5 className="d-flex justify-content-center">{threshold}</h5>
+    </div >
   );
 };
 

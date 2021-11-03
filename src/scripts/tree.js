@@ -46,11 +46,11 @@ const partition = (indexOfSelectedAttr, dataframe) => {
   valuesOfAttr.forEach((value) => {
     let newSubset = [];
 
-    dataframe.data.forEach((row,index) => {
+    dataframe.data.forEach((row, index) => {
       let newRow = row;
 
-      if(row[indexOfSelectedAttr] === value){
-        newRow = row.filter ((value,index) => index !== indexOfSelectedAttr  )
+      if (row[indexOfSelectedAttr] === value) {
+        newRow = row.filter((value, index) => index !== indexOfSelectedAttr)
         newSubset.push(newRow)
       }
     });
@@ -81,7 +81,7 @@ const impurityEval2 = (attr, data) => {
       ? data.columns.length - 1
       : data.col_data.length - 1;
 
-  const indexOfAttribute = attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr)  ;
+  const indexOfAttribute = attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr);
   // TODO: remove class attribute for this
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
 
@@ -193,9 +193,9 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
   tree.father = fatherNode;
 
   let indexOfClasses =
-  dataFrame.col_data.length - 1 == -1
-    ? dataFrame.columns.length - 1
-    : dataFrame.col_data.length - 1;
+    dataFrame.col_data.length - 1 == -1
+      ? dataFrame.columns.length - 1
+      : dataFrame.col_data.length - 1;
 
   const dataArray =
     dataFrame.col_data[indexOfClasses] ||
@@ -203,7 +203,7 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
 
   if (uniqueClass(dataArray)) {
     //todo Hacer una leaf en treee
-    let classes = countValuesOcurrences(dataFrame.data,indexOfClasses);
+    let classes = countValuesOcurrences(dataFrame.data, indexOfClasses);
     let ocurrences = Object.values(classes)[0];
     classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
     tree.classValue = Object.keys(classes[0])[0];
@@ -211,7 +211,6 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
     tree.isLeaf = true;
     tree.id = contId;
     contId += 1;
-    console.log("hoja en unique Class",tree)
     currentNodes.push(tree);
     return;
   } else if (attributesEmpty(attributes)) {
@@ -237,9 +236,6 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
     tree.isLeaf = true;
     tree.id = contId;
     contId += 1;
-
-    console.log('Hoja en condicion de salida 2', tree);
-    /*console.log('Hacer hoja por atributos vacio');*/
     currentNodes.push(tree);
     return;
   } else {
@@ -247,9 +243,9 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
     let entropyD = impurityEval1(dataFrame);
 
     let indexOfClass =
-    dataFrame.col_data.length - 1 == -1
-      ? dataFrame.columns.length - 1
-      : dataFrame.col_data.length - 1;
+      dataFrame.col_data.length - 1 == -1
+        ? dataFrame.columns.length - 1
+        : dataFrame.col_data.length - 1;
     // en c4.5, linea 8 sería
     attributes.forEach((attribute, index) => {
       if (index !== indexOfClass) {
@@ -291,23 +287,21 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
     // Esto cambie solo para probar con atributos discretos
 
     if (bestGain.gain < threshold) {
-      let classes = countValuesOcurrences(dataFrame.data,indexOfClasses);
-      classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
+      let classes = countValuesOcurrences(dataFrame.data, indexOfClasses);
 
+      classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
+      let ocurrences = Object.values(classes[0])[0];
       tree.classValue = Object.keys(classes[0])[0];
-      tree.leafConfidence = 1;
+      tree.leafConfidence = `${ocurrences}/${ocurrences}`;
       tree.isLeaf = true;
       tree.id = contId;
       contId += 1;
-      console.log('Genero una hoja de T rotulada con Cj');
       currentNodes.push(tree);
       return;
     } else {
       calcMethod == 'gain'
         ? (tree.gain = bestGain.gain)
         : (tree.gainRatio = bestGain.gain);
-
-      console.log('Genero un nodo decision rotulado con Cj');
 
       //valuesOfattr servira para la recursion
       const { subsets, valuesOfAttr } = partition(bestGain.index, dataFrame);
@@ -323,10 +317,9 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
       tree.id = contId;
       contId += 1;
       currentNodes.push(tree);
-      console.log('Nodo', tree);
       //linea 17 del algoritmo
       subsets.forEach((subset) => {
-        if (subset.length > 0 && subset[0].length > 0 ) {
+        if (subset.length > 0 && subset[0].length > 0) {
           let df = new dfd.DataFrame(subset);
           df.columns = attributesWithoutSelected;
           return decisionTree(df, attributesWithoutSelected, tree, currentNodes, threshold);
@@ -337,7 +330,7 @@ const decisionTree = (dataFrame, attributes = [], tree, currentNodes, threshold)
   return currentNodes;
 };
 
-const main = (dataFrame, method, thresholdCal = 0.01) => {
+const main = (dataFrame, method, thresholdCal = 0.1) => {
   //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree();
   tree.calcMethod = method;

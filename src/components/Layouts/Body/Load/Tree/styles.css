@@ -1,9 +1,13 @@
 .container-tree {
-  width: 95%;
+  padding: 0 25px;
 }
 .container-tree h1 {
   color: var(--aqua);
   font-family: var(--roboto-black);
+  margin-bottom: 0;
+}
+.container-tree h4 {
+  margin-bottom: 0;
 }
 .tree {
   border: 1px solid red;
