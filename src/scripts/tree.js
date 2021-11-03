@@ -6,6 +6,7 @@ const log2 = (x) => {
   return Math.log(x) / Math.log(2);
 };
 
+// retorna la cantidad de ocurrencias de cada clase
 const countValuesOcurrences = function (data, index) {
   var countValuesOcurrences = lodash.countBy(data, (data) => {
     return data[index];
@@ -13,6 +14,7 @@ const countValuesOcurrences = function (data, index) {
   return countValuesOcurrences;
 };
 
+// retorna la entropia del conjunto de datos
 const impurityEval1 = (dataframe) => {
   var entropy = 0;
   var classIndex = dataframe.data[0].length - 1;
@@ -29,6 +31,7 @@ const impurityEval1 = (dataframe) => {
   return -entropy;
 };
 
+// retorna la particion en subconjuntos de los valores del atributo elegido para implementar la recursion
 const partition = (indexOfSelectedAttr, dataframe) => {
   let valuesOfAttr = Object.keys(
     countValuesOcurrences(dataframe.data, indexOfSelectedAttr)
@@ -50,7 +53,9 @@ const partition = (indexOfSelectedAttr, dataframe) => {
   });
   return { subsets, valuesOfAttr };
 };
+
 // dado un arreglo, retorna un objeto formado con cada valor posible del arreglo y la cantidad de veces que aparece en el mismo
+// es similar a countValuesOcurrences, pero esta se usa solamente para los atributos (y no las clases)
 const countOccurrences = (array) =>
   array.reduce(
     (previous, current) => (
@@ -64,7 +69,7 @@ const countOccurrences = (array) =>
 const getValuesOfColumn = (array, index) =>
   array.map((element) => element[index]);
 
-//? Aca se deberia cambiar data por dataframe como hacemos en todas las funciones
+// calcula la entropia del conjunto "data" con respecto a cada atributo "attr"
 const impurityEval2 = (attr, data) => {
   const { columns: attributes } = data;
 
@@ -75,13 +80,10 @@ const impurityEval2 = (attr, data) => {
 
   const indexOfAttribute =
     attributes.indexOf(attr) === -1 ? attr : attributes.indexOf(attr);
-  // TODO: remove class attribute for this
+
   const AllValuesOfAttribute = data.col_data[indexOfAttribute];
 
   const possibleValuesOfAttr = [...new Set(AllValuesOfAttribute)];
-
-  // obtener la cantidad de ejemplos de cada subcojunto
-  // retorna algo asi: { HIGH: 90, LOW: 81 }
 
   const occurrences = countOccurrences(AllValuesOfAttribute);
 
@@ -89,13 +91,11 @@ const impurityEval2 = (attr, data) => {
 
   const n = allExamples.length;
 
-  // formar los subconjuntos
   const subsets = [];
 
   possibleValuesOfAttr.forEach((value) => {
     subsets.push({
       value,
-      // cantidad de elementos del subconjunto
       occurrences: occurrences[value],
       examples: allExamples.filter(
         (example) => example[indexOfAttribute] === value
@@ -104,32 +104,31 @@ const impurityEval2 = (attr, data) => {
     });
   });
 
-  // para cada subset calculo la entropia
+  // para cada subset se calcula la entropia
   subsets.forEach((subset) => {
-    // arreglo, cuyos elementos son todos los valores de la clase de cada ejemplo en el subset
     const classValuesOfSubset = getValuesOfColumn(
       subset.examples,
       indexOfClasses
     );
 
-    // mismo metodo que uso antes
     const occurrencesOfClassesForSubset = countOccurrences(classValuesOfSubset);
 
     let subsetEntropy = 0;
 
     Object.values(occurrencesOfClassesForSubset).forEach(
       (occurrencesOfClass) => {
-        // TODO: replace for entropy() function
-        // Pcj: misma "nomenclatura" que usa c4.5
         const Pcj = occurrencesOfClass / subset.occurrences;
         subsetEntropy += -(Pcj * log2(Pcj));
       }
     );
+
     subset.entropy = subsetEntropy;
   });
 
-  // entropia de data, si tomamos el atributo attr (data y attr son parametros)
+  // entropia del conjunto
+
   let entropy = 0;
+
   subsets.forEach((subset) => {
     const { entropy: subsetEntropy, occurrences } = subset;
 
@@ -139,16 +138,19 @@ const impurityEval2 = (attr, data) => {
   return entropy;
 };
 
-// dada la entropia del conjunto y las entropias de los diferentes atributos se calcula la ganancia
-
+// ganancia de informacion
 const gain = (entropyD, entropyOfAttr) => entropyD - entropyOfAttr;
 
+// tasa de ganancia
 const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
+  // denominador en la formula para el calculo
   let splitInfo = 0;
+
   let occurrencesOfValues = countValuesOcurrences(
     dataframe.data,
     indexOfAttribute
   );
+
   let valuesNames = Object.keys(occurrencesOfValues);
 
   valuesNames.forEach((eachValue) => {
@@ -161,19 +163,30 @@ const gainRatio = (gainValue, dataframe, indexOfAttribute) => {
   return gainValue / Math.abs(splitInfo);
 };
 
+// control por 1er caso base: todos los ejemplos percetenecen a la misma clase
 const uniqueClass = (data) => {
-  //La ultima columna siempre sera la de decision
-  // let decisionColumn = data[data.columns[data.columns.length - 1]];
-  // si contiene una sola clase retornar true
-  // return data.nunique() === 1;
+  // La ultima columna siempre sera la clase
   return data.every((val, i, arr) => val === arr[0]);
 };
 
+// control por 2do caso base: el conjunto de atributos es vacio
 const attributesEmpty = (attributes) => {
   return attributes.length === 1;
 };
 
+// id de cada nodo
 var contId = 0;
+
+// Algoritmo C4.5
+/**
+ *
+ * @param {*} dataFrame: conjunto de datos en cada llamada de la recursion
+ * @param {*} attributes: conjunto de atributos en cada llamada de la recursion
+ * @param {*} tree: arbol de decision generado hasta el momento
+ * @param {*} currentNodes: arreglo de nodos para generar la estructura (grafica) del arbol
+ * @param {*} threshold: valor de umbral
+ * @returns
+ */
 const decisionTree = (
   dataFrame,
   attributes = [],
@@ -195,12 +208,14 @@ const decisionTree = (
       ? dataFrame.columns.length - 1
       : dataFrame.col_data.length - 1;
 
+  // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
+  // valores de las clases
   const dataArray =
     dataFrame.col_data[indexOfClasses] ||
-    new Array(dataFrame.columns[indexOfClasses]); // Cuando llega al ultimo attributo , el segundo termino lo convierte a array
+    new Array(dataFrame.columns[indexOfClasses]);
 
   if (uniqueClass(dataArray)) {
-    //todo Hacer una leaf en treee
+    // 1er caso base del algoritmo C4.5
     let classes = countValuesOcurrences(dataFrame.data, indexOfClasses);
     let ocurrences = Object.values(classes)[0];
     classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
@@ -212,10 +227,12 @@ const decisionTree = (
     currentNodes.push(tree);
     return;
   } else if (attributesEmpty(attributes)) {
+    // 2do caso base del algoritmo C4.5
     let classes = countOccurrences(dataFrame.col_data[indexOfClasses]);
 
     classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
 
+    // se ordenan las clases segun ganancia en forma descendente
     classes.sort(function (a, b) {
       return b.gain - a.gain;
     });
@@ -237,19 +254,21 @@ const decisionTree = (
     currentNodes.push(tree);
     return;
   } else {
-    //Entropia del conjunto
+    // Entropia del conjunto
     let entropyD = impurityEval1(dataFrame);
 
     let indexOfClass =
       dataFrame.col_data.length - 1 == -1
         ? dataFrame.columns.length - 1
         : dataFrame.col_data.length - 1;
-    // en c4.5, linea 8 sería
+
+    // Iteracion para calcular la entropia de cada atributo
     attributes.forEach((attribute, index) => {
       if (index !== indexOfClass) {
         const entropyAttribute = impurityEval2(index, dataFrame);
         tree.entropy = entropyAttribute;
-        //todas las ganancias
+
+        // se setean todas las ganancias
         gains.push({
           attribute: attribute,
           gain: gain(entropyD, entropyAttribute),
@@ -257,21 +276,30 @@ const decisionTree = (
         });
 
         let attributeGain = gains[index].gain;
+
         if (tree.calcMethod === 'gain') {
+          // ganancia de informacion
+
+          // se ordenan las ganancias en forma descendente
           gains.sort(function (a, b) {
             return b.gain - a.gain;
           });
+
           bestGain = gains[0];
         } else if (tree.calcMethod === 'gainRatio') {
-          //todas las tasas de ganancia
+          // tasa de ganancia
+
           gainsRatio.push({
             index: index,
             attribute: attribute,
             gain: gainRatio(attributeGain, dataFrame, index),
           });
+
+          // se ordenan las tasas de ganancia en forma descendente
           gainsRatio.sort(function (a, b) {
             return b.gain - a.gain;
           });
+
           bestGain = gainsRatio[0];
         } else {
           console.log('Metodo de calculo incorrecto');
@@ -279,12 +307,9 @@ const decisionTree = (
       }
     });
 
-    // Pongo en la primera posicion el atributo con la mejor ganancia o mejor reduccion de impureza
-
-    // obtengo el atributo con la mejor ganancia
-    // Esto cambie solo para probar con atributos discretos
-
     if (bestGain.gain < threshold) {
+      // 3er caso base del algoritmo C4.5
+      // la mejor ganancia no supera el valor threshold
       let classes = countValuesOcurrences(dataFrame.data, indexOfClasses);
 
       classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
@@ -301,11 +326,9 @@ const decisionTree = (
         ? (tree.gain = bestGain.gain)
         : (tree.gainRatio = bestGain.gain);
 
-      //valuesOfattr servira para la recursion
       const { subsets, valuesOfAttr } = partition(bestGain.index, dataFrame);
 
-      //attributes.splice(bestGain.index, 1); // elimina el atributo elegido ( A - {Ag})
-
+      // se obtienen las particiones y se elimina el atributo con la mejor ganancia/tasa de ganancia
       let attributesWithoutSelected = attributes.filter(
         (att, index) => index != bestGain.index
       );
@@ -315,7 +338,8 @@ const decisionTree = (
       tree.id = contId;
       contId += 1;
       currentNodes.push(tree);
-      //linea 17 del algoritmo
+
+      // se iteran las particiones de los subconjuntos para llamar a la recursion
       subsets.forEach((subset) => {
         if (subset.length > 0 && subset[0].length > 0) {
           let df = new dfd.DataFrame(subset);
@@ -331,11 +355,18 @@ const decisionTree = (
       });
     }
   }
+  // array con todos los nodos del arbol
   return currentNodes;
 };
 
+/**
+ *
+ * @param {*} dataFrame: dataset que se obtiene desde el frontend
+ * @param {*} method: metodo de calculo, el cual puede ser "gain" o "gainRatio"
+ * @param {*} thresholdCal: valor de umbral o threshold [0.01; 1]
+ * @returns el array currentNodes que se obtiene desde decisionTree() cuando finaliza la recursion
+ */
 const main = (dataFrame, method, thresholdCal = 0.1) => {
-  //Ya estan seteados los valores por defecto en la primer instanciacion
   var tree = new Tree();
   tree.calcMethod = method;
   const { columns: attributes } = dataFrame;
