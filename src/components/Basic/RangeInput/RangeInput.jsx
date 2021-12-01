@@ -12,7 +12,7 @@ const RangeInput = ({ handleThresholdChange, threshold }) => {
         onChange={(e) => handleThresholdChange(e.target.value)}
         type="range"
         className="form-range"
-        min="0.01"
+        min="0"
         value={threshold}
         max="1"
         step="0.01"
