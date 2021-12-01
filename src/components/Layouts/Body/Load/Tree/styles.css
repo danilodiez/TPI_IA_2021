@@ -1,7 +1,7 @@
 .container-tree {
   padding: 0 25px;
 }
-.container-tree h1 {
+.container-tree h2 {
   color: var(--aqua);
   font-family: var(--roboto-black);
   margin-bottom: 0;

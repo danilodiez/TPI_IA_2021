@@ -35,7 +35,6 @@ const VisNetwork = ({ nodes, edges }) => {
       color: '#3CDDC5',
     },
     edges: {
-      // arrow: "to",
       shadow: true,
       color: 'grey',
     },
@@ -57,7 +56,8 @@ const VisNetwork = ({ nodes, edges }) => {
       )}
       <div
         style={{
-          height: '50vh',
+          width: '100%',
+          height: '42vh',
           border: '1px solid #09f',
           marginTop: '0.5em',
           borderRadius: '5px',
