@@ -217,7 +217,7 @@ const LoadScreen = () => {
         hideProgressBar={true}
         closeOnClick={false}
       />
-      <h1 className="text-center p-4 mt-4">Decision Tree</h1>
+      <h1 className="text-center">Decision Tree</h1>
       <div className="d-flex justify-content-center">
         <h5>Haga click en el recuadro y seleccione su archivo</h5>
       </div>
