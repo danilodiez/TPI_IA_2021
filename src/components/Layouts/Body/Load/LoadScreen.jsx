@@ -202,7 +202,7 @@ const LoadScreen = () => {
       resp => {
         setDataFrame(resp.trainSet);
         
-        // console.log(resp.testSet);
+        //TODO: console.log(resp.testSet);
       })
       setValidated(true)
   };
