@@ -22,7 +22,7 @@ const LoadScreen = () => {
   const [modalMessage, setModalMessage] = useState(undefined);
   const [testSet, setTestSet] = useState(undefined);
   const [validated, setValidated] = useState(false);
-  
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -184,13 +184,13 @@ const LoadScreen = () => {
     })
     // Sacamos de train las filas que estan en test
     let trainSet = df.drop({
-        index: indexesToRemove,
-        axis: 0,
-        inplace: false,
-      });
+      index: indexesToRemove,
+      axis: 0,
+      inplace: false,
+    });
 
     //Retornamos los sets de entrenamiento y de testeo
-    return {trainSet, testSet}
+    return { trainSet, testSet }
   }
 
   const validateDataFrame = (df) => {
@@ -201,10 +201,10 @@ const LoadScreen = () => {
     splitTestData(validDataFrame).then(
       resp => {
         setDataFrame(resp.trainSet);
-        
+
         //TODO: console.log(resp.testSet);
       })
-      setValidated(true)
+    setValidated(true)
   };
 
   useEffect(() => {
@@ -282,7 +282,7 @@ const LoadScreen = () => {
         )}
       </div>
 
-      <div className="p-4 d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         {dataFrame?.columns && dataFrame?.data && (
           <>
             <Button

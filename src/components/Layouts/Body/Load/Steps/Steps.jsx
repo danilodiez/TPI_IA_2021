@@ -196,7 +196,6 @@ const Steps = () => {
 
   return (
     <div className="container-tree">
-      <h2 className="text-center">Árbol de decisión</h2>
       <h4 className="text-center">Generación con ganancia </h4>
       <div
         style={{
