@@ -20,6 +20,9 @@ const LoadScreen = () => {
   const [threshold, setThreshold] = useState(0.1);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
+  const [testSet, setTestSet] = useState(undefined);
+  const [validated, setValidated] = useState(false);
+  
   const openModal = () => {
     setIsOpen(true);
   };
@@ -118,7 +121,7 @@ const LoadScreen = () => {
 
     columnNames.forEach((column, index) => {
       const posibleIdsCases = ["id", "ids", '"id"', '"ids"'];
-      if (posibleIdsCases.includes(column.toLowerCase().trim())) {
+      if (posibleIdsCases.includes(column.toString().toLowerCase().trim())) {
         df.drop({
           columns: [columnNames[index]],
           axis: 1,
@@ -164,11 +167,44 @@ const LoadScreen = () => {
     return df;
   };
 
+  //Dividimos el dataframe en un conjunto de entrenamiento 85% y un conjunto de test 15%
+  const splitTestData = async (df) => {
+    let fullDataframeLength = df.data.length;
+    let testRowsLength = Math.ceil(fullDataframeLength * 0.15);
+    let testSet = await df.sample(testRowsLength);
+    let indexesToRemove = [];
+    df.data.map((row, index) => {
+      // convertimos a un string porque los arrays al ser objetos [a,b] es != [a, b]
+      let arrayOfTest = JSON.stringify(testSet.data);
+      let eachRow = JSON.stringify(row);
+      let isIncluded = arrayOfTest.indexOf(eachRow);
+      if (isIncluded != -1) {
+        indexesToRemove.push(index)
+      }
+    })
+    // Sacamos de train las filas que estan en test
+    let trainSet = df.drop({
+        index: indexesToRemove,
+        axis: 0,
+        inplace: false,
+      });
+
+    //Retornamos los sets de entrenamiento y de testeo
+    return {trainSet, testSet}
+  }
+
   const validateDataFrame = (df) => {
     let validDataFrame = removeContinuesValues(df);
     validDataFrame = removeIds(validDataFrame);
     validDataFrame = removeSpecialCharacters(validDataFrame);
-    setDataFrame(validDataFrame);
+    //Dividimos el dataset en train y test
+    splitTestData(validDataFrame).then(
+      resp => {
+        setDataFrame(resp.trainSet);
+        
+        // console.log(resp.testSet);
+      })
+      setValidated(true)
   };
 
   useEffect(() => {
@@ -178,7 +214,7 @@ const LoadScreen = () => {
   }, [file]);
 
   useEffect(() => {
-    if (dataFrame) {
+    if (dataFrame && !validated) {
       validateDataFrame(dataFrame);
     }
   }, [dataFrame]);
