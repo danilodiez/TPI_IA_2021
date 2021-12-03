@@ -235,7 +235,7 @@ const decisionTree = (
     // se ordenan las clases segun ganancia en forma descendente
     classes.sort(function (a, b) {
       // return b.gain - a.gain;
-      return Object.values(b) - Object.values(a)
+      return Object.values(b) - Object.values(a);
     });
 
     let mostCommonClass = Object.values(classes[0])[0];
@@ -312,15 +312,15 @@ const decisionTree = (
       // 3er caso base del algoritmo C4.5
       // la mejor ganancia no supera el valor threshold
       let classes = countValuesOcurrences(dataFrame.data, indexOfClasses);
-      
+
       classes = Object.entries(classes).map((e) => ({ [e[0]]: e[1] }));
 
       // se ordenan las clases segun valores para obtener la mas frecuente
       classes.sort(function (a, b) {
         // return b.gain - a.gain;
-        return Object.values(b) - Object.values(a)
+        return Object.values(b) - Object.values(a);
       });
-      
+
       let ocurrences = Object.values(classes[0])[0];
       tree.classValue = Object.keys(classes[0])[0];
       tree.leafConfidence = `${ocurrences}/${ocurrences}`;

@@ -77,6 +77,31 @@ const TreeScreen = () => {
     setThreshold(location.state.threshold);
   }, [location.state.dataFrame]);
 
+  const generateRootForPrediction = (branches) => {
+    const root = { id: '', children: [] };
+
+    const rootId = branches[0].to;
+
+    root.id = rootId;
+
+    const generateChildren = (branches, father) => {
+      const children = [];
+      branches.forEach((branch) => {
+        if (branch.from == father) {
+          children.push({
+            id: branch.to,
+            children: generateChildren(branches, branch.to),
+          });
+        }
+      });
+      return children;
+    };
+
+    root.children = generateChildren(branches, rootId);
+
+    console.log({ root });
+  };
+
   useEffect(() => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame, 'gain', threshold);
@@ -85,6 +110,8 @@ const TreeScreen = () => {
       const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
+      generateRootForPrediction(branchesGain);
+
       if (nodesGain.length > 0) {
         setTreeNodesGain(nodesGain);
         setTreeBranchesGain(branchesGain);
@@ -105,6 +132,7 @@ const TreeScreen = () => {
       }
     }
   }, [dataFrame]);
+
   return (
     <div className="container-tree">
       <h4 className="text-center">Generación con ganancia </h4>
