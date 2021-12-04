@@ -8,6 +8,9 @@ import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import './styles.css';
 import BaseModal from '../../../../Basic/Modal/Modal.jsx';
+import TreeModel from 'tree-model';
+
+
 const TreeScreen = () => {
   const location = useLocation();
   const history = useHistory();
@@ -19,6 +22,8 @@ const TreeScreen = () => {
   const [threshold, setThreshold] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState(undefined);
+  var tree = new TreeModel();
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -77,20 +82,27 @@ const TreeScreen = () => {
     setThreshold(location.state.threshold);
   }, [location.state.dataFrame]);
 
-  const generateRootForPrediction = (branches) => {
+  const generateRootForPrediction = (branches,nodes) => {
     const root = { id: '', children: [] };
 
     const rootId = branches[0].to;
 
     root.id = rootId;
+    root.node = nodes[0].label
 
     const generateChildren = (branches, father) => {
       const children = [];
       branches.forEach((branch) => {
         if (branch.from == father) {
+          let nextNode = nodes.filter(node => {
+            return node.id == branch.to
+          });
+
           children.push({
             id: branch.to,
             children: generateChildren(branches, branch.to),
+            branch: branch.label,
+            node: nextNode[0].label
           });
         }
       });
@@ -98,10 +110,14 @@ const TreeScreen = () => {
     };
 
     root.children = generateChildren(branches, rootId);
-
-    console.log({ root });
+    return root
   };
+  /*
+  const classification = (path,root) =>{
 
+    //tiene que retornar verdadero o falso
+  }
+  */
   useEffect(() => {
     if (dataFrame !== undefined) {
       const resultTree = main(dataFrame, 'gain', threshold);
@@ -110,7 +126,18 @@ const TreeScreen = () => {
       const branchesGain = generateBranches(resultTree);
       const nodesGainRatio = generateNodes(resultTreeGainRatio);
       const branchesGainRatio = generateBranches(resultTreeGainRatio);
-      generateRootForPrediction(branchesGain);
+      let root = generateRootForPrediction(branchesGain,nodesGain);
+      root = tree.parse(root)
+      let cont = 0; //servira para contar la cantidad de veces que se clasifico bien 
+
+      /*hay que hacer un for con el set de prueba */ 
+
+      /*obtenemos el nodo de la clase para obtener luego el camino*/
+      var nextNode = root.first(function (node) {
+        return node.model.node == " 6"; // aca en vez de 6 iria el nodo.clase que se saca en la ultima columnda de cada fila que se va a iterar
+      });
+      console.log(nextNode.getPath())
+      /*if (classification(path,root)) cont++;*/
 
       if (nodesGain.length > 0) {
         setTreeNodesGain(nodesGain);
