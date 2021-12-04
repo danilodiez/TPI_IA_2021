@@ -107,8 +107,7 @@ const TreeScreen = () => {
   }, [dataFrame]);
   return (
     <div className="container-tree">
-      <h2 className="text-center">Árbol de decisión</h2>
-      <h4 className="text-center">Generación con ganancia </h4>
+      <h4 className="text-center mt-2">Generación con ganancia </h4>
       <VisNetwork nodes={treeNodesGain} edges={treeBranchesGain} />
       <h4 className="text-center mt-2">Generación con tasa de ganancia </h4>
       <VisNetwork nodes={treeNodesGainRatio} edges={treeBranchesGainRatio} />

@@ -1,16 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import "./styles.css";
+import './styles.css';
 
 const Menu = () => {
-
   const history = useHistory();
 
   return (
     <div className="container-menu">
       <div className="pt-4">
         <h4 className="text-center p-4">
-          <button onClick={() => { history.push("/index") }}>
+          <button
+            onClick={() => {
+              history.push('/index');
+            }}
+          >
             Menu Principal
           </button>
         </h4>
@@ -18,17 +21,29 @@ const Menu = () => {
       <div className="p-4">
         <ul className="list-menu">
           <li className="m-2 color-white">
-            <button onClick={() => { history.push("/tutorial") }}>
+            <button
+              onClick={() => {
+                history.push('/tutorial');
+              }}
+            >
               Tutorial
             </button>
           </li>
           <li className="m-2">
-            <button onClick={() => { history.push("/load") }}>
+            <button
+              onClick={() => {
+                history.push('/load');
+              }}
+            >
               Arbol de decisión
             </button>
           </li>
           <li className="m-2">
-            <button onClick={() => { history.push("/datasets") }}>
+            <button
+              onClick={() => {
+                history.push('/datasets');
+              }}
+            >
               Datasets
             </button>
           </li>
