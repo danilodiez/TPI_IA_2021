@@ -7,7 +7,7 @@ const Menu = () => {
 
   return (
     <div className="container-menu">
-      <div className="pt-4">
+      <div className="pt-3">
         <h4 className="text-center p-4">
           <button
             onClick={() => {
@@ -18,7 +18,7 @@ const Menu = () => {
           </button>
         </h4>
       </div>
-      <div className="p-4">
+      <div className="p-3">
         <ul className="list-menu">
           <li className="m-2 color-white">
             <button
