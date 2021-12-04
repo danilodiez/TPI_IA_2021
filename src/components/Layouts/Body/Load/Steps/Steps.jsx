@@ -196,8 +196,7 @@ const Steps = () => {
 
   return (
     <div className="container-tree">
-      <h1 className="text-center p-4 mt-4">Árbol de decisión</h1>
-      <h4 className="text-center p-4">Generación con ganancia </h4>
+      <h4 className="text-center">Generación con ganancia </h4>
       <div
         style={{
           display: 'flex',
@@ -222,7 +221,7 @@ const Steps = () => {
         nodes={gainTreeSteps[gainStep]?.nodes}
         edges={gainTreeSteps[gainStep]?.branches}
       />
-      <h4 className="text-center p-4">Generación con tasa de ganancia </h4>
+      <h4 className="text-center mt-2">Generación con tasa de ganancia </h4>
       <div
         style={{
           display: 'flex',
